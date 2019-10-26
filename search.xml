@@ -3,7 +3,9 @@
   <entry>
     <title>Docker 容器数据卷挂载小结</title>
     <url>/2019/10/26/Docker-%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%8C%82%E8%BD%BD%E5%B0%8F%E7%BB%93/</url>
-    <content><![CDATA[<p>为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。</p>
+    <content><![CDATA[<blockquote>
+<p>为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。</p>
+</blockquote>
 <p><strong>情况一、本地不存在文件挂载到容器存在文件</strong></p>
 <p>首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 本地目录不存在 test 文件。</span><br><span class="line">$ docker run --name=test -v ~/test.txt:/etc/hosts -d volume_test</span><br><span class="line">0cba2e50229df7508c616bd456c4ab131f2fe1a88385c34f8a5876fbc577b176</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting</span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs/etc/hosts&quot; to rootfs</span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动容器失败。</span><br></pre></td></tr></table></figure>
@@ -128,7 +130,10 @@
   <entry>
     <title>CentOS7安装Python3.8.0</title>
     <url>/2019/10/26/CentOS7%E5%AE%89%E8%A3%85Python3-8/</url>
-    <content><![CDATA[<h4 id="安装支持库"><a href="#安装支持库" class="headerlink" title="安装支持库"></a>安装支持库</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -y</span><br><span class="line">yum install sqlite-devel readline-devel tk-devel libffi-devel -y</span><br><span class="line">yum install gcc make -y</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<blockquote>
+<p>测试在CentOS7上安装Python3.8.0版</p>
+</blockquote>
+<h4 id="安装支持库"><a href="#安装支持库" class="headerlink" title="安装支持库"></a>安装支持库</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -y</span><br><span class="line">yum install sqlite-devel readline-devel tk-devel libffi-devel -y</span><br><span class="line">yum install gcc make -y</span><br></pre></td></tr></table></figure>
 
 <h4 id="安装Python3"><a href="#安装Python3" class="headerlink" title="安装Python3"></a>安装Python3</h4><p><strong>下载安装包</strong><br>以3.8.0为例，需要下载其它版本请访问：<a href="https://www.python.org/ftp/python" target="_blank" rel="noopener">https://www.python.org/ftp/python</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget --no-check-certificate https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
