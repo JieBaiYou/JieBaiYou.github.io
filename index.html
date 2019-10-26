@@ -423,7 +423,65 @@
 <p>最后一种情况，宿主机存在文件 test.txt，而容器内部存在一个 test 的文件夹，现在把 文件挂载到文件夹中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test.txt:/test -d volume_test </span><br><span class="line">59b5fd74a1e9e17aa2a6a9be7900b16c7dd4b3c424a4fa72a7671fa1c51bdf69</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs/home&quot; to rootfs </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动失败。</span><br></pre></td></tr></table></figure>
 
-<p><strong>小结：</strong><br>| <strong>宿主机文件</strong> | <strong>容器内文件</strong> | <strong>启动参数(加粗为不存在)</strong> | <strong>容器启动情况</strong> |<br>| —- | —– | ——————————- | ——– |<br>| 不存在| 文件  | -v <strong>~/test.txt</strong>:/etc/hosts    | 启动错误 |<br>| 不存在| 文件夹| -v <strong>~/srv</strong>:/srv               | 启动正常 |<br>| 文件  | 不存在| -v ~/test.txt:<strong>/srv/test.txt</strong> | 启动正常 |<br>| 文件夹| 不存在| ~/test:<strong>/srv/test</strong>            | 启动正常 |<br>| 文件夹| 文件  | ~/test:/srv/test                | 启动错误 |<br>| 文件夹| 文件夹| -v ~/srv:/srv                   | 启动正常 |<br>| 文件  | 文件  | -v ~/test.txt:/srv/test.txt     | 启动正常 |<br>| 文件  | 文件夹| -v ~/test.txt:/test             | 启动错误 |</p>
+<p><strong>小结：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>宿主机文件</strong></th>
+<th align="left"><strong>容器内文件</strong></th>
+<th align="left"><strong>启动参数(加粗为不存在)</strong></th>
+<th align="left"><strong>容器启动情况</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">不存在</td>
+<td align="left">文件</td>
+<td align="left">-v <strong>~/test.txt</strong>:/etc/hosts</td>
+<td align="left">启动错误</td>
+</tr>
+<tr>
+<td align="left">不存在</td>
+<td align="left">文件夹</td>
+<td align="left">-v <strong>~/srv</strong>:/srv</td>
+<td align="left">启动正常</td>
+</tr>
+<tr>
+<td align="left">文件</td>
+<td align="left">不存在</td>
+<td align="left">-v ~/test.txt:<strong>/srv/test.txt</strong></td>
+<td align="left">启动正常</td>
+</tr>
+<tr>
+<td align="left">文件夹</td>
+<td align="left">不存在</td>
+<td align="left">~/test:<strong>/srv/test</strong></td>
+<td align="left">启动正常</td>
+</tr>
+<tr>
+<td align="left">文件夹</td>
+<td align="left">文件</td>
+<td align="left">~/test:/srv/test</td>
+<td align="left">启动错误</td>
+</tr>
+<tr>
+<td align="left">文件夹</td>
+<td align="left">文件夹</td>
+<td align="left">-v ~/srv:/srv</td>
+<td align="left">启动正常</td>
+</tr>
+<tr>
+<td align="left">文件</td>
+<td align="left">文件</td>
+<td align="left">-v ~/test.txt:/srv/test.txt</td>
+<td align="left">启动正常</td>
+</tr>
+<tr>
+<td align="left">文件</td>
+<td align="left">文件夹</td>
+<td align="left">-v ~/test.txt:/test</td>
+<td align="left">启动错误</td>
+</tr>
+</tbody></table>
 
           
         
