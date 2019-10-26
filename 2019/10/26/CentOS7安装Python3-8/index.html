@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="1.安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  2.安装python3下载安装包以3.8.0为例，需要下载其它版本请访">
+<meta name="description" content="安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  安装python3下载安装包以3.8.0为例，需要下载其它版本请访问：ht">
 <meta name="keywords" content="python,centos">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS7安装Python3.8.0">
 <meta property="og:url" content="https:&#x2F;&#x2F;www.jiebaiyou.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;CentOS7%E5%AE%89%E8%A3%85Python3-8&#x2F;index.html">
 <meta property="og:site_name" content="解百忧 - 随记">
-<meta property="og:description" content="1.安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  2.安装python3下载安装包以3.8.0为例，需要下载其它版本请访">
+<meta property="og:description" content="安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  安装python3下载安装包以3.8.0为例，需要下载其它版本请访问：ht">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-26T10:09:40.988Z">
+<meta property="og:updated_time" content="2019-10-26T10:20:25.498Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -350,9 +350,9 @@
       
 
       
-        <h4 id="1-安装第三方库"><a href="#1-安装第三方库" class="headerlink" title="1.安装第三方库"></a>1.安装第三方库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -y</span><br><span class="line">yum install sqlite-devel readline-devel tk-devel libffi-devel -y</span><br><span class="line">yum install gcc make -y</span><br></pre></td></tr></table></figure>
+        <h4 id="安装第三方库"><a href="#安装第三方库" class="headerlink" title="安装第三方库"></a>安装第三方库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -y</span><br><span class="line">yum install sqlite-devel readline-devel tk-devel libffi-devel -y</span><br><span class="line">yum install gcc make -y</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-安装python3"><a href="#2-安装python3" class="headerlink" title="2.安装python3"></a>2.安装python3</h4><p><strong>下载安装包</strong><br>以3.8.0为例，需要下载其它版本请访问：<a href="https://www.python.org/ftp/python" target="_blank" rel="noopener">https://www.python.org/ftp/python</a></p>
+<h4 id="安装python3"><a href="#安装python3" class="headerlink" title="安装python3"></a>安装python3</h4><p><strong>下载安装包</strong><br>以3.8.0为例，需要下载其它版本请访问：<a href="https://www.python.org/ftp/python" target="_blank" rel="noopener">https://www.python.org/ftp/python</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
 <p><strong>解压安装包</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar xzvf Python-3.8.0.tgz</span><br><span class="line">cd Python-3.8.0</span><br></pre></td></tr></table></figure>
@@ -361,9 +361,9 @@
 <p><em>优化选项（可选）执行完上一步后会提示执行以下的代码对Python解释器进行优化，执行该代码后，会编译安装到 /usr/local/bin/ 下，且不用添加软连接或环境变量</em></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --enable-optimizations</span><br></pre></td></tr></table></figure>
 
-<h4 id="3-创建软链接"><a href="#3-创建软链接" class="headerlink" title="3.创建软链接"></a>3.创建软链接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/python3/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
+<h4 id="创建软链接"><a href="#创建软链接" class="headerlink" title="创建软链接"></a>创建软链接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/python3/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
 
-<h4 id="4-验证python安装"><a href="#4-验证python安装" class="headerlink" title="4.验证python安装"></a>4.验证python安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -V</span><br></pre></td></tr></table></figure>
+<h4 id="验证python安装"><a href="#验证python安装" class="headerlink" title="验证python安装"></a>验证python安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -V</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -535,7 +535,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-安装第三方库"><span class="nav-number">1.</span> <span class="nav-text">1.安装第三方库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-安装python3"><span class="nav-number">2.</span> <span class="nav-text">2.安装python3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-创建软链接"><span class="nav-number">3.</span> <span class="nav-text">3.创建软链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-验证python安装"><span class="nav-number">4.</span> <span class="nav-text">4.验证python安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装第三方库"><span class="nav-number">1.</span> <span class="nav-text">安装第三方库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装python3"><span class="nav-number">2.</span> <span class="nav-text">安装python3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建软链接"><span class="nav-number">3.</span> <span class="nav-text">创建软链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证python安装"><span class="nav-number">4.</span> <span class="nav-text">验证python安装</span></a></li></ol></div>
             
 
           </div>
