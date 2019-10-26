@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="1.安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  2.安装python3** 下载安装包 **以3.8.0为例，需要下载">
+<meta name="description" content="1.安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  2.安装python3下载安装包以3.8.0为例，需要下载高版本请访问">
 <meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS7安装Python3.8.0">
 <meta property="og:url" content="https:&#x2F;&#x2F;www.jiebaiyou.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;CentOS7%E5%AE%89%E8%A3%85Python3-8&#x2F;index.html">
 <meta property="og:site_name" content="解百忧 - 随记">
-<meta property="og:description" content="1.安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  2.安装python3** 下载安装包 **以3.8.0为例，需要下载">
+<meta property="og:description" content="1.安装第三方库123yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -yyum install sqlite-devel readline-devel tk-devel libffi-devel -yyum install gcc make -y  2.安装python3下载安装包以3.8.0为例，需要下载高版本请访问">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-26T08:29:30.354Z">
+<meta property="og:updated_time" content="2019-10-26T08:31:59.309Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -338,18 +338,18 @@
       
 
       
-        <h1 id="1-安装第三方库"><a href="#1-安装第三方库" class="headerlink" title="1.安装第三方库"></a>1.安装第三方库</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -y</span><br><span class="line">yum install sqlite-devel readline-devel tk-devel libffi-devel -y</span><br><span class="line">yum install gcc make -y</span><br></pre></td></tr></table></figure>
+        <h1 id="1-安装第三方库"><a href="#1-安装第三方库" class="headerlink" title="1.安装第三方库"></a>1.安装第三方库</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel -y</span><br><span class="line">yum install sqlite-devel readline-devel tk-devel libffi-devel -y</span><br><span class="line">yum install gcc make -y</span><br></pre></td></tr></table></figure>
 
-<h1 id="2-安装python3"><a href="#2-安装python3" class="headerlink" title="2.安装python3"></a>2.安装python3</h1><p>** 下载安装包 **<br>以3.8.0为例，需要下载高版本请访问：<a href="https://www.python.org/ftp/python" target="_blank" rel="noopener">https://www.python.org/ftp/python</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
-<p>** 解压安装包 **</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar xzvf Python-3.8.0.tgz</span><br><span class="line"><span class="built_in">cd</span> Python-3.8.0</span><br></pre></td></tr></table></figure>
-<p>** 编译安装 **</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ./conigure --prefix=/usr/<span class="built_in">local</span>/python3</span><br><span class="line">sudo make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<h1 id="2-安装python3"><a href="#2-安装python3" class="headerlink" title="2.安装python3"></a>2.安装python3</h1><p><strong>下载安装包</strong><br>以3.8.0为例，需要下载高版本请访问：<a href="https://www.python.org/ftp/python" target="_blank" rel="noopener">https://www.python.org/ftp/python</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz</span><br></pre></td></tr></table></figure>
+<p><strong>解压安装包</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar xzvf Python-3.8.0.tgz</span><br><span class="line">cd Python-3.8.0</span><br></pre></td></tr></table></figure>
+<p><strong>编译安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ./conigure --prefix=/usr/local/python3</span><br><span class="line">sudo make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
 
-<h1 id="3-创建软链接"><a href="#3-创建软链接" class="headerlink" title="3.创建软链接"></a>3.创建软链接</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/<span class="built_in">local</span>/python3/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
+<h1 id="3-创建软链接"><a href="#3-创建软链接" class="headerlink" title="3.创建软链接"></a>3.创建软链接</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/local/python3/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
 
-<h1 id="4-验证python安装"><a href="#4-验证python安装" class="headerlink" title="4.验证python安装"></a>4.验证python安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -V</span><br></pre></td></tr></table></figure>
+<h1 id="4-验证python安装"><a href="#4-验证python安装" class="headerlink" title="4.验证python安装"></a>4.验证python安装</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -V</span><br></pre></td></tr></table></figure>
       
     </div>
     
