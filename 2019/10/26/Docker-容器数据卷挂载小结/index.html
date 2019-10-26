@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="jiebaiyou, aibox, redhat" />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -79,14 +79,15 @@
 
 
 
-<meta name="description" content="分享学习记录">
-<meta name="keywords" content="linux, docker, nginx, mysql, shell, python, OpsDev">
-<meta property="og:type" content="website">
-<meta property="og:title" content="解百忧 - 随记">
-<meta property="og:url" content="https:&#x2F;&#x2F;www.jiebaiyou.com&#x2F;archives&#x2F;2019&#x2F;index.html">
+<meta name="description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 12345# 本地目录不存在 test 文件。$ docker run --">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 容器数据卷挂载小结">
+<meta property="og:url" content="https:&#x2F;&#x2F;www.jiebaiyou.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;Docker-%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%8C%82%E8%BD%BD%E5%B0%8F%E7%BB%93&#x2F;index.html">
 <meta property="og:site_name" content="解百忧 - 随记">
-<meta property="og:description" content="分享学习记录">
+<meta property="og:description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 12345# 本地目录不存在 test 文件。$ docker run --">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T12:34:52.573Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://www.jiebaiyou.com/archives/2019/"/>
+  <link rel="canonical" href="https://www.jiebaiyou.com/2019/10/26/Docker-容器数据卷挂载小结/"/>
 
 
 
 
 
-  <title>归档 | 解百忧 - 随记</title>
+  <title>Docker 容器数据卷挂载小结 | 解百忧 - 随记</title>
   
 
 
@@ -142,7 +143,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -280,148 +281,267 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2019/10/26/Docker-%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%8C%82%E8%BD%BD%E5%B0%8F%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 - 随记">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Docker 容器数据卷挂载小结</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T20:34:03+08:00">
+                2019-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 3 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/10/26/Docker-%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%8C%82%E8%BD%BD%E5%B0%8F%E7%BB%93/" itemprop="url">
-              
-                <span itemprop="name">Docker 容器数据卷挂载小结</span>
-              
-            </a>
-        
-      </h2>
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-26T20:34:03+08:00"
-              content="2019-10-26" >
-          10-26
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/10/26/pip-pip3%E5%88%87%E6%8D%A2%E5%9B%BD%E5%86%85%E6%BA%90/" itemprop="url">
-              
-                <span itemprop="name">pip/pip3切换国内源</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-26T17:30:08+08:00"
-              content="2019-10-26" >
-          10-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
+      
+        <p>为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。</p>
+<p><strong>情况一、本地不存在文件挂载到容器存在文件</strong></p>
+<p>首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 本地目录不存在 test 文件。</span><br><span class="line">$ docker run --name=test -v ~/test.txt:/etc/hosts -d volume_test</span><br><span class="line">0cba2e50229df7508c616bd456c4ab131f2fe1a88385c34f8a5876fbc577b176</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting &quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs/etc/hosts&quot; to rootfs &quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动容器失败。</span><br></pre></td></tr></table></figure>
 
-        
-        
+<p><strong>情况二、本地不存在文件夹挂载到容器存在文件夹</strong></p>
+<p>然后是把本地不存在的文件夹挂载到容器内存在的文件夹，在 volume_test 镜像中存在一个 /srv 的文件夹，文件夹里面有一个 index.php 文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 本地目录不存在 srv文件夹。</span><br><span class="line">$ docker run --name=test -v ~/srv:/srv -d volume_test </span><br><span class="line">c71cf1cfa4932e3e398a7d6c4e2ae94f915b832f5506e374aedb19af4cb1ac62</span><br><span class="line"># 启动正常，但是进入容器发现目录被清空。</span><br><span class="line">$ docker exec -it test sh</span><br><span class="line">/srv # ls</span><br><span class="line">/srv #</span><br></pre></td></tr></table></figure>
 
-        
+<p><strong>情况三、宿主机存在文件挂载到容器不存在文件</strong></p>
+<p>我们继续，假设宿主机存在文件，容器内不存在该文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 本地目录存在 test.txt文件</span><br><span class="line">$ docker run --name=test -v ~/test.txt:/srv/test.txt-d volume_test </span><br><span class="line">2d6853c10643a735ae3d7f3aaac8c6344f9c75170e531f613d08db7cdf484e54</span><br><span class="line"># 容器内存在 /srv 文件夹，里面原本有一个 index.php 。</span><br><span class="line">$ docker exec -it test sh</span><br><span class="line">/srv # ls</span><br><span class="line">index.php  test.txt</span><br><span class="line">/srv # </span><br><span class="line"># 可以看到文件挂载成功。</span><br></pre></td></tr></table></figure>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<p><strong>情况四、宿主机存在文件夹挂载到容器不存在文件夹</strong></p>
+<p>接下来是宿主机存在文件夹，容器不存在该文件夹，宿主机的 test 文件夹里面存在一个 hello 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test:/srv/test -d volume_test </span><br><span class="line">c935ffa0d9fc5e5ac8f213a51a878e71056472b0597d2e385a29e5c748012958</span><br><span class="line"># 进入容器，查看是否存在 test 文件夹，以及文件夹里面是否有 hello 文件。</span><br><span class="line">$ docker exec -it test sh</span><br><span class="line">/srv # ls</span><br><span class="line">index.php  test</span><br><span class="line">/srv # cd test/</span><br><span class="line">/srv/test # ls</span><br><span class="line">hello</span><br><span class="line">/srv/test #</span><br></pre></td></tr></table></figure>
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/10/26/CentOS7%E5%AE%89%E8%A3%85Python3-8/" itemprop="url">
-              
-                <span itemprop="name">CentOS7安装Python3.8.0</span>
-              
-            </a>
-        
-      </h2>
+<p>上面两个例子说明了，容器内部如果不存在文件，宿主机直接挂载。</p>
+<p><strong>情况五、宿主机文件夹挂载到容器文件</strong></p>
+<p>接下来假设宿主机存在 test 文件夹，而容器内部存在的是名为 test 文件，这样挂载会怎样呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test:/srv/test-d volume_test </span><br><span class="line">385bc78e5333460da11f04535da27a3fd226df218f95c970ff2dd5609b17f816</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting &quot;/var/lib/docker/devicemapper/mnt/fd5c42e844c3550d1a372ed939ed57f90dcacbd375dfed1bedfbb71ef6f3f185/rootfs/etc/hosts&quot; to rootfs &quot;/var/lib/docker/devicemapper/mnt/fd5c42e844c3550d1a372ed939ed57f90dcacbd375dfed1bedfbb71ef6f3f185/rootfs&quot; caused &quot;not a directory&quot;.</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-26T16:08:20+08:00"
-              content="2019-10-26" >
-          10-26
-        </time>
-      </div>
+<p>上面的情况不出意外是启动错误。</p>
+<p><strong>情况六、同名文件夹挂载</strong></p>
+<p>那么假设宿主机是文件夹，容器也是文件夹，两个文件夹里面内容不一样，宿主机内部有一个 hello 文件，容器的文件夹里面有一个 index.php ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/srv:/srv -d volume_test </span><br><span class="line">3aec30122bd7010c694e0ff8b77f7b7b6bb6f850c258786db125313060fad43b                                                                                                                                               $ docker exec-it test sh</span><br><span class="line">/srv # ls</span><br><span class="line">hello</span><br><span class="line">/srv # </span><br><span class="line"># 可以看到，宿主机文件夹会覆盖容器内部的文件夹。</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<p><strong>情况七、同名文件挂载</strong></p>
+<p>假设宿主机有一个 test.txt 文件，里面写着 Hello World，而容器里面也存在一个 test.txt 文件，里面写着 Hi World，现在挂载文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test.txt:/srv/test.txt -d volume_test </span><br><span class="line">047cbfe45b5bc868c864fe94f7a22643d52b644947f40260097dbb579de56c5c</span><br><span class="line">$ docker exec -it test sh</span><br><span class="line">/srv # cat /test</span><br><span class="line">Hello World</span><br><span class="line">/srv # </span><br><span class="line"># 宿主机会覆盖容器的文件。</span><br></pre></td></tr></table></figure>
 
+<p><strong>情况八、宿主机文件挂载到容器文件夹</strong></p>
+<p>最后一种情况，宿主机存在文件 test.txt，而容器内部存在一个 test 的文件夹，现在把 文件挂载到文件夹中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test.txt:/test -d volume_test </span><br><span class="line">59b5fd74a1e9e17aa2a6a9be7900b16c7dd4b3c424a4fa72a7671fa1c51bdf69</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting &quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs/home&quot; to rootfs &quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动失败。</span><br></pre></td></tr></table></figure>
 
+<p><strong>小结：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>宿主机文件</strong></th>
+<th><strong>容器内文件</strong></th>
+<th><strong>启动参数（加粗表示不存在）</strong></th>
+<th><strong>容器启动情况</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不存在</td>
+<td>文件</td>
+<td>-v <strong>~/test.txt</strong>:/etc/hosts</td>
+<td>启动错误</td>
+</tr>
+<tr>
+<td>不存在</td>
+<td>文件夹</td>
+<td>-v <strong>~/srv</strong>:/srv</td>
+<td>启动正常</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>不存在</td>
+<td>-v ~/test.txt:<strong>/srv/test.txt</strong></td>
+<td>启动正常</td>
+</tr>
+<tr>
+<td>文件夹</td>
+<td>不存在</td>
+<td>~/test:<strong>/srv/test</strong></td>
+<td>启动正常</td>
+</tr>
+<tr>
+<td>文件夹</td>
+<td>文件</td>
+<td>~/test:/srv/test</td>
+<td>启动错误</td>
+</tr>
+<tr>
+<td>文件夹</td>
+<td>文件夹</td>
+<td>-v ~/srv:/srv</td>
+<td>启动正常</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>文件</td>
+<td>-v ~/test.txt:/srv/test.txt</td>
+<td>启动正常</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>文件夹</td>
+<td>-v ~/test.txt:/test</td>
+<td>启动错误</td>
+</tr>
+</tbody></table>
 
       
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/26/pip-pip3%E5%88%87%E6%8D%A2%E5%9B%BD%E5%86%85%E6%BA%90/" rel="next" title="pip/pip3切换国内源">
+                <i class="fa fa-chevron-left"></i> pip/pip3切换国内源
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -429,6 +549,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -691,6 +815,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
