@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 12345# 本地目录不存在 test 文件。$ docker run --">
+<meta name="description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 1234567# 本地目录不存在 test 文件。$ docker run">
 <meta name="keywords" content="docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 容器数据卷挂载小结">
 <meta property="og:url" content="https:&#x2F;&#x2F;www.jiebaiyou.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;Docker-%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%8C%82%E8%BD%BD%E5%B0%8F%E7%BB%93&#x2F;index.html">
 <meta property="og:site_name" content="解百忧 - 随记">
-<meta property="og:description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 12345# 本地目录不存在 test 文件。$ docker run --">
+<meta property="og:description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 1234567# 本地目录不存在 test 文件。$ docker run">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-26T12:34:52.573Z">
+<meta property="og:updated_time" content="2019-10-26T12:39:01.901Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -392,7 +392,7 @@
         <p>为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。</p>
 <p><strong>情况一、本地不存在文件挂载到容器存在文件</strong></p>
 <p>首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 本地目录不存在 test 文件。</span><br><span class="line">$ docker run --name=test -v ~/test.txt:/etc/hosts -d volume_test</span><br><span class="line">0cba2e50229df7508c616bd456c4ab131f2fe1a88385c34f8a5876fbc577b176</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting &quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs/etc/hosts&quot; to rootfs &quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动容器失败。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 本地目录不存在 test 文件。</span><br><span class="line">$ docker run --name=test -v ~/test.txt:/etc/hosts -d volume_test</span><br><span class="line">0cba2e50229df7508c616bd456c4ab131f2fe1a88385c34f8a5876fbc577b176</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting</span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs/etc/hosts&quot; to rootfs</span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/6b83c07ebedcb828f34cac69eac5a85ce3a5f59e1e8688c8dae40198671d0ecb/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动容器失败。</span><br></pre></td></tr></table></figure>
 
 <p><strong>情况二、本地不存在文件夹挂载到容器存在文件夹</strong></p>
 <p>然后是把本地不存在的文件夹挂载到容器内存在的文件夹，在 volume_test 镜像中存在一个 /srv 的文件夹，文件夹里面有一个 index.php 文件。</p>
@@ -409,7 +409,7 @@
 <p>上面两个例子说明了，容器内部如果不存在文件，宿主机直接挂载。</p>
 <p><strong>情况五、宿主机文件夹挂载到容器文件</strong></p>
 <p>接下来假设宿主机存在 test 文件夹，而容器内部存在的是名为 test 文件，这样挂载会怎样呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test:/srv/test-d volume_test </span><br><span class="line">385bc78e5333460da11f04535da27a3fd226df218f95c970ff2dd5609b17f816</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting &quot;/var/lib/docker/devicemapper/mnt/fd5c42e844c3550d1a372ed939ed57f90dcacbd375dfed1bedfbb71ef6f3f185/rootfs/etc/hosts&quot; to rootfs &quot;/var/lib/docker/devicemapper/mnt/fd5c42e844c3550d1a372ed939ed57f90dcacbd375dfed1bedfbb71ef6f3f185/rootfs&quot; caused &quot;not a directory&quot;.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test:/srv/test-d volume_test </span><br><span class="line">385bc78e5333460da11f04535da27a3fd226df218f95c970ff2dd5609b17f816</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/fd5c42e844c3550d1a372ed939ed57f90dcacbd375dfed1bedfbb71ef6f3f185/rootfs/etc/hosts&quot; to rootfs </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/fd5c42e844c3550d1a372ed939ed57f90dcacbd375dfed1bedfbb71ef6f3f185/rootfs&quot; caused &quot;not a directory&quot;.</span><br></pre></td></tr></table></figure>
 
 <p>上面的情况不出意外是启动错误。</p>
 <p><strong>情况六、同名文件夹挂载</strong></p>
@@ -422,7 +422,7 @@
 
 <p><strong>情况八、宿主机文件挂载到容器文件夹</strong></p>
 <p>最后一种情况，宿主机存在文件 test.txt，而容器内部存在一个 test 的文件夹，现在把 文件挂载到文件夹中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test.txt:/test -d volume_test </span><br><span class="line">59b5fd74a1e9e17aa2a6a9be7900b16c7dd4b3c424a4fa72a7671fa1c51bdf69</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting &quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs/home&quot; to rootfs &quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动失败。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test.txt:/test -d volume_test </span><br><span class="line">59b5fd74a1e9e17aa2a6a9be7900b16c7dd4b3c424a4fa72a7671fa1c51bdf69</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs/home&quot; to rootfs </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动失败。</span><br></pre></td></tr></table></figure>
 
 <p><strong>小结：</strong></p>
 <table>
