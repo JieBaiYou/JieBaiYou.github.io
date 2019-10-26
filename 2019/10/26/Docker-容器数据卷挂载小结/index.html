@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="解百忧 - 随记">
 <meta property="og:description" content="为了更直观了解数据卷挂载的操作，做个实验一一验证数据卷挂载的各种情况。 情况一、本地不存在文件挂载到容器存在文件 首先是当本地不存在该文件，而容器内存在该文件的情况，尝试把不存在的文件挂载到存在该文件的容器中。以一个 Alpine 镜像为例，这里把一个修改后的 Alpine 镜像打了新标签，叫做 volume_test： 1234567# 本地目录不存在 test 文件。$ docker run">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-26T13:16:27.687Z">
+<meta property="og:updated_time" content="2019-10-26T13:17:56.376Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -424,7 +424,7 @@
 <p>最后一种情况，宿主机存在文件 test.txt，而容器内部存在一个 test 的文件夹，现在把 文件挂载到文件夹中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name=test -v ~/test.txt:/test -d volume_test </span><br><span class="line">59b5fd74a1e9e17aa2a6a9be7900b16c7dd4b3c424a4fa72a7671fa1c51bdf69</span><br><span class="line">docker: Error response from daemon: oci runtime error: rootfs_linux.go:53: mounting </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs/home&quot; to rootfs </span><br><span class="line">&quot;/var/lib/docker/devicemapper/mnt/b201054ed36a189b5abb599082d0b5bcbe31d07611a0985deefd79d1221447fd/rootfs&quot; caused &quot;not a directory&quot;.</span><br><span class="line"># 启动失败。</span><br></pre></td></tr></table></figure>
 
-<p><strong>小结：</strong><br>| <strong>宿主机文件</strong> | <strong>容器内文件</strong> | <strong>启动参数(加粗为不存在)</strong> | <strong>容器启动情况</strong> |<br>| - | - | - | - |<br>| 不存在| 文件  | -v <strong>~/test.txt</strong>:/etc/hosts    | 启动错误 |<br>| 不存在| 文件夹| -v <strong>~/srv</strong>:/srv               | 启动正常 |<br>| 文件  | 不存在| -v ~/test.txt:<strong>/srv/test.txt</strong> | 启动正常 |<br>| 文件夹| 不存在| ~/test:<strong>/srv/test</strong>            | 启动正常 |<br>| 文件夹| 文件  | ~/test:/srv/test                | 启动错误 |<br>| 文件夹| 文件夹| -v ~/srv:/srv                   | 启动正常 |<br>| 文件  | 文件  | -v ~/test.txt:/srv/test.txt     | 启动正常 |<br>| 文件  | 文件夹| -v ~/test.txt:/test             | 启动错误 |</p>
+<p><strong>小结：</strong><br>| <strong>宿主机文件</strong> | <strong>容器内文件</strong> | <strong>启动参数(加粗为不存在)</strong> | <strong>容器启动情况</strong> |<br>| —- | —– | ——————————- | ——– |<br>| 不存在| 文件  | -v <strong>~/test.txt</strong>:/etc/hosts    | 启动错误 |<br>| 不存在| 文件夹| -v <strong>~/srv</strong>:/srv               | 启动正常 |<br>| 文件  | 不存在| -v ~/test.txt:<strong>/srv/test.txt</strong> | 启动正常 |<br>| 文件夹| 不存在| ~/test:<strong>/srv/test</strong>            | 启动正常 |<br>| 文件夹| 文件  | ~/test:/srv/test                | 启动错误 |<br>| 文件夹| 文件夹| -v ~/srv:/srv                   | 启动正常 |<br>| 文件  | 文件  | -v ~/test.txt:/srv/test.txt     | 启动正常 |<br>| 文件  | 文件夹| -v ~/test.txt:/test             | 启动错误 |</p>
 
       
     </div>
