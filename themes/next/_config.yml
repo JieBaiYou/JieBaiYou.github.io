@@ -92,14 +92,14 @@ index_with_subtitle: false
 # Value before `||` delimeter is the target link.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, question icon will be loaded.
 menu:
-  home: /|| home
-  tags: /tags/|| tags
-  categories: /categories/|| th
-  archives: /archives/|| archive
-  #schedule: /schedule/|| calendar
-  #sitemap: /sitemap.xml|| sitemap
-  #commonweal: /404/ || heartbeat
-  about: /about/|| user
+  home: /||home
+  tags: /tags/||tags
+  categories: /categories/||th
+  archives: /archives/||archive
+  #schedule: /schedule/||calendar
+  #sitemap: /sitemap.xml||sitemap
+  #commonweal: /404/||heartbeat
+  about: /about/||user
 # Enable/Disable menu icons.
 menu_icons:
   enable: true
@@ -294,7 +294,7 @@ highlight_theme: normal
 # Arial | Tahoma | Helvetica | Times New Roman | Courier New | Verdana | Georgia | Palatino | Garamond | Comic Sans MS | Trebuchet MS
 # ---------------------------------------------------------------
 font:
-  enable: true
+  enable: false
 
   # Uri of fonts host. E.g. //fonts.googleapis.com (Default).
   host: //fonts.lug.ustc.edu.cn
