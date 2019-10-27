@@ -17,7 +17,7 @@ find /www/images            # 要压缩图片的目录
 -mtime -1                   # -mtime -n +n (按文件更改时间来查找文件，-n指n天以内，+n指n天以前)
 convert -quality 75         # 压缩后的图片质量
 ```
-<!-- more -- >
+<!-- more -->
 
 **安装**
 如果系统中没有convert命令，就需要先安装了

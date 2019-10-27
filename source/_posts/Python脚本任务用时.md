@@ -5,8 +5,8 @@ tags:
   - python
 categories:
   - 技术
-
 ---
+
 >很简单，别忘了导入time模块
 
 ```
