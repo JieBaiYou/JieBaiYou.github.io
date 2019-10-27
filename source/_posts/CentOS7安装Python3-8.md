@@ -8,7 +8,9 @@ categories:
     - 技术
 ---
 
-> 测试在CentOS7上安装Python3.8.0版
+> 在CentOS7上安装Python3.8.0版（编译安装方式）
+
+<!-- more -->
 
 #### 安装支持库
 
