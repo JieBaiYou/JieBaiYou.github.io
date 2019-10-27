@@ -8,7 +8,9 @@ date: 2019-10-27 20:36:02
 ---
 >convert的功能相当强大，先来个示例，再慢慢研究其它的功能
 ```
-find /www/images  -regex '.*\(jpg\|JPG\|png\|PNG\|jpeg\)' -size +1000k -mtime -1 -exec convert -quality 75 {} {} \; 
+find /www/images  -regex '.*\(jpg\|JPG\|png\|PNG\|jpeg\)' -size +1000k -mtime -1 \
+    -exec convert -quality 75 {} {} \; 
+# 参数解释    
 find /www/images            # 要压缩图片的目录
 -regex '.*\(jpg...|jpeg\)'  # 正则匹配需要压缩的文件扩展名
 -size +1000k                # 要压缩图片的最小尺寸
