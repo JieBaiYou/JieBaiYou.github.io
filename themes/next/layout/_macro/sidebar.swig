@@ -51,6 +51,7 @@
 
                 {{theme.menu.archives}}
                 <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
+                {{ url_for(theme.menu.archives).split("||")[0] }}
                 {{ url_for(theme.menu.archives).split('||')[1] }}
 
               {% else %}
