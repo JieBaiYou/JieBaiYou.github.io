@@ -52,6 +52,8 @@
                 <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
                 
               {% else %}
+
+                {{ url_for(config.archive_dir) }}
                 <a href="{{ url_for(config.archive_dir) }}">
               {% endif %}
                   <span class="site-state-item-count">{{ site.posts.length }}</span>
