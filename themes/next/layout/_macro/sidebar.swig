@@ -45,14 +45,13 @@
           </div>
 
           <nav class="site-state motion-element">
-
+            {{url_for(theme.menu.archives)}}
             {% if config.archive_dir != '/' and site.posts.length > 0 %}
               <div class="site-state-item site-state-posts">
               {% if theme.menu.archives %}
-              /*  <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
+                <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
               {% else %}
-              */  
-                  <a href="{{ url_for(config.archive_dir) }}">
+                <a href="{{ url_for(config.archive_dir) }}">
               {% endif %}
                   <span class="site-state-item-count">{{ site.posts.length }}</span>
                   <span class="site-state-item-name">{{ __('state.posts') }}</span>
