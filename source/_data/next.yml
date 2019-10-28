@@ -81,14 +81,6 @@ back2top:
   # Scroll percent label in b2t button.
   scrollpercent: true
 
-# Reading progress bar
-reading_progress:
-  enable: true
-  # Available values: top | bottom
-  position: top
-  color: "#37c6c0"
-  height: 3px
-
 
 busuanzi_count:
   enable: true
