@@ -8,7 +8,7 @@ subtitle: "ww.jiebaiyou.com"
 description: 分享学习记录
 keywords: 'linux, docker, nginx, mysql, shell, python, OpsDev'
 author: 解百忧
-language: zh-Hans
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
@@ -138,7 +138,7 @@ favicon:
   #ms_browserconfig: /images/browserconfig.xml
 
 # Set default keywords (Use a comma to separate)
-keywords: "jiebaiyou, aibox, redhat"
+# keywords: ""
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
