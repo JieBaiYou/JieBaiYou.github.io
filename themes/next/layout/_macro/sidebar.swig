@@ -49,8 +49,8 @@
               <div class="site-state-item site-state-posts">
               {% if theme.menu.archives %}
 
-                {{(theme.menu.archives).split('||')}}
-
+                {{(theme.menu.archives).split('||')[0]}}
+                {{url_for(theme.menu.archives).split('||')[0]}}
                 <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
 
               {% else %}
