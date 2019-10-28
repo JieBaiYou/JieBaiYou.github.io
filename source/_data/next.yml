@@ -17,24 +17,13 @@ footer:
     # Version info of NexT after scheme info (vX.X.X).
     version: false
 
-# ---------------------------------------------------------------
-# Scheme Settings
-# ---------------------------------------------------------------
-
 # Schemes
 #scheme: Muse
 #scheme: Mist
-#scheme: Pisces
-scheme: Gemini
+scheme: Pisces
+#scheme: Gemini
 
 
-
-# Usage: `Key: /link/ || icon`
-# Key is the name of menu item. If the translation for this item is available, the translated text will be loaded, otherwise the Key name will be used. Key is case-senstive.
-# Value before `||` delimiter is the target link.
-# Value after `||` delimiter is the name of Font Awesome icon. If icon (with or without delimiter) is not specified, question icon will be loaded.
-# When running the site in a subdirectory (e.g. domain.tld/blog), remove the leading slash from link value (/archives -> archives).
-# External url should start with http:// or https://
 menu:
   home: / || home
   about: /about/ || user
@@ -45,8 +34,21 @@ menu:
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
 
-# Enable / Disable menu icons / item badges.
-menu_settings:
-  icons: true
-  badges: false
+
+social:
+  GitHub: https://github.com/jiebaiyou || github
+  E-Mail: mailto:jiebaiyou@gmail.com || envelope
+
+
+# Blog rolls
+links_icon: link
+links_title: 友情链接
+links_layout: block
+#links_layout: inline
+links:
+  Orivon: http://www.orivon.com
+  AiBox: http://aibox.one
+  RedHat: http://redhat.one
+
+
 
