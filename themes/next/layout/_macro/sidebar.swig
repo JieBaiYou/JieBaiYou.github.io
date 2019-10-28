@@ -50,7 +50,7 @@
               {% if theme.menu.archives %}
                 {{theme.menu.archives}}
                 <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
-                {{ url_for(theme.menu.archives).split('||')[0] | trim }}
+                {{ url_for(theme.menu.archives).split('||')[0]  }}
               {% else %}
 
                 {{ url_for(config.archive_dir) }}
