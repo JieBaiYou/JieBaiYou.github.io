@@ -11,7 +11,8 @@ date: 2019-10-28 16:27:28
 
 <!-- more -->
 
-#### 首先在需要加密的python文件头部添加以下行
+#### 修改原文件
+首先在需要加密的python文件头部添加以下行
 ```
 cython : language_level=3
 ```
@@ -23,28 +24,32 @@ or
 pip3 install cython
 ```
 #### 设置环境变量
+将cython执行文件目录加入系统环境变量,一般在python安装目录下的bin文件夹
 ```
-# 将cython执行文件目录加入系统环境变量,一般在python安装目录下的bin文件夹
 CYTHON_DIR=/usr/local/python3/bin
 export PATH=$PATH:$CYTHON_DIR
-
-# 确定python安装库文件目录
+```
+确定python安装库文件目录
+```
 PYTHON_INCLUDE_DIR=/usr/local/python3/include/python3.7m
 ```
 
 #### 程序加密
+将文件转换为.c文件
 ```
-# 将文件转换为.c文件
 cython app.py
-
-# gcc将.c文件编译成o文件
+```
+gcc将.c文件编译成o文件
+```
 gcc -c -fPIC -I$PYTHON_INCLUDE_DIR app.c 
-
-# gcc将.o文件编译成so文件
+```
+gcc将.o文件编译成so文件
+```
 gcc -shared app.o -o app.so
-
-# 如果不需要原文件了，可以删除（强烈建议备份）
-# rm app.c app.o app.py
+```
+如果不需要原文件了，可以删除（强烈建议备份）
+```
+rm app.c app.o app.py
 ```
 
 #### 加密后程序的使用
