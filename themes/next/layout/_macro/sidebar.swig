@@ -45,7 +45,7 @@
           </div>
 
           <nav class="site-state motion-element">
-            {{url_for(theme.menu.archives)}}
+            Junde{{url_for(theme.menu.archives)}}
             {% if config.archive_dir != '/' and site.posts.length > 0 %}
               <div class="site-state-item site-state-posts">
               {% if theme.menu.archives %}
