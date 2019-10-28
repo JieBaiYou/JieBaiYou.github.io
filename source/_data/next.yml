@@ -40,15 +40,8 @@ social:
   E-Mail: mailto:jiebaiyou@gmail.com || envelope
 
 
-# Blog rolls
-links_icon: link
-links_title: 友情链接
-links_layout: block
-#links_layout: inline
-links:
-  Orivon: http://www.orivon.com
-  AiBox: http://aibox.one
-  RedHat: http://redhat.one
+
+
 
 
 
@@ -70,6 +63,14 @@ avatar:
   # If true, the avatar would be rotated with the cursor.
   rotated: true
 
-
-
+links_settings:
+  icon: link
+  title: 友情链接
+  # Available values: block | inline
+  layout: block
+  
+links:
+  Orivon: http://www.orivon.com
+  AiBox: http://aibox.one
+  RedHat: http://redhat.one
 
