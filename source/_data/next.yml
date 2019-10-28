@@ -90,3 +90,32 @@ reading_progress:
   height: 3px
 
 
+busuanzi_count:
+  enable: true
+  total_visitors: true
+  total_visitors_icon: user
+  total_views: true
+  total_views_icon: eye
+  post_views: true
+  post_views_icon: eye
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
