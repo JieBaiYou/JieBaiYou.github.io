@@ -49,13 +49,13 @@
               <div class="site-state-item site-state-posts">
               {% if theme.menu.archives %}
 
-                {{theme.menu.archives}}
+                {{(theme.menu.archives).split('||')}}
+
                 <a href="{{ url_for(theme.menu.archives).split('||')[0] | trim }}">
-                {{ url_for(theme.menu.archives).split("||")[0] }}
-                {{ url_for(theme.menu.archives).split('||')[1] }}
 
               {% else %}
                 <a href="{{ url_for(config.archive_dir) }}">
+
               {% endif %}
                   <span class="site-state-item-count">{{ site.posts.length }}</span>
                   <span class="site-state-item-name">{{ __('state.posts') }}</span>
