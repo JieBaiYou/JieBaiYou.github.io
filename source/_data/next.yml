@@ -89,11 +89,3 @@ reading_progress:
   color: "#37c6c0"
   height: 3px
 
-# Bookmark Support
-bookmark:
-  enable: true
-  # Customize the color of the bookmark.
-  color: "#222"
-  # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
-  # If manual, only save it by clicking the bookmark-icon.
-  save: auto
