@@ -9,7 +9,10 @@ date: 2019-10-29 15:33:32
 
 > 最近在生产环境中发现.git目录特别大，导致clone项目要等很久，严重影响工作效率，分析发现是项目目录下.git文件夹有1.4G之大，上网学习后总结如下：
 
+
+
 <!-- more -->
+
 ### 1. 查看问题
 
 首先查看一下项目目录的大小
@@ -78,6 +81,8 @@ git push
 其间给了一个提示，有点意思
 
 ![](https://s3-cn-east-1.qiniucs.com/jiebaiyou-blog/let.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LW523SRVcyaYd2iOH9tpm7pW0k-XMECg4kT6rYFt%2F20191029%2Fcn-east-1%2Fs3%2Faws4_request&X-Amz-Date=20191029T084223Z&X-Amz-Expires=1200&X-Amz-Signature=0f67019e4a3c25eecce5b5dc35ab9f8de1250fbe2081488847baa48cdca1e262&X-Amz-SignedHeaders=host)
+
+
 
 
 
