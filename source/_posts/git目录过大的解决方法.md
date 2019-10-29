@@ -31,8 +31,8 @@ du -sh
 
 解决这个问题有两种方法
 
-    2.1 使用git自带的`git rev-list` `git filter-branch` 命令查找并删除大文件
-    2.2 使用bfg工具（效率工具，强烈推荐，本文采用此种方式）
+* 使用git自带的`git rev-list` `git filter-branch` 命令查找并删除大文件
+* 使用bfg工具（效率工具，强烈推荐，本文采用此种方式）
 
 #### 2.1 使用git命令方式
 
@@ -80,9 +80,7 @@ git push
 
 其间给了一个提示，有点意思
 
-![let](C:\Users\HouShuang\Pictures\Camera Roll\let.png)
-
-
+![](http://q02nuv786.bkt.clouddn.com/let.png)
 
 
 
