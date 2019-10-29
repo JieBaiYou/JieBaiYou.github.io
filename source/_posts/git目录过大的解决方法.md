@@ -41,7 +41,7 @@ du -sh
 
 #### 第二种方法使用bfg工具
 
-**安装java环境并下载bfq工具**
+**首先安装java环境并下载bfq工具**
 
 ```
 # 下载java环境包
@@ -49,7 +49,7 @@ https://www.java.com/zh_CN/
 # 下载bfq工具
 https://repo1.maven.org/maven2/com/madgag/bfg/1.13.0/bfg-1.13.0.jar
 ```
-**首先使用`--mirror`标记克隆git库副本**
+**然后使用`--mirror`标记克隆git库副本**
 
 ```
 git clone --mirror git://example.com/some-big-repo.git
