@@ -31,7 +31,7 @@ du -sh
 第一种使用git自带的`git rev-list` `git filter-branch` 命令查找并删除大文件
 第二种使用bfg工具（效率工具，强烈推荐，本文采用此种方式）
 
-#### 第一种方法使用git命令方式
+#### 2.1方法使用git命令方式
 
 这种方式操作比较麻烦，建议有一些经验的朋友采用。但就一个字`慢`，在生产环境中我删除一个文件需要2个多小时，真是不能忍。如果想这样操作，推荐看看下面两位的文章：
 
@@ -39,9 +39,9 @@ du -sh
 
 [解决github项目体积过大的问题]( https://juejin.im/post/5ce5043c518825240245beb7 )
 
-#### 第二种方法使用bfg工具
+#### 2.2方法使用bfg工具
 
-**首先安装java环境并下载bfq工具**
+* 首先安装java环境并下载bfq工具
 
 ```
 # 下载java环境包
@@ -49,24 +49,23 @@ https://www.java.com/zh_CN/
 # 下载bfq工具
 https://repo1.maven.org/maven2/com/madgag/bfg/1.13.0/bfg-1.13.0.jar
 ```
-**然后使用`--mirror`标记克隆git库副本**
+* 然后使用`--mirror`标记克隆git库副本
 
 ```
 git clone --mirror git://example.com/some-big-repo.git
 ```
-**在确保已备份后，使用下面的命令清理git库中大于10M的文件**
+* 在确保已备份后，使用下面的命令清理git库中大于10M的文件
 
 ```
-java -jar bfg.jar --strip-blobs-bigger-than 10M some-big-repo.git
+java -jar bfg-1.13.0.jar --strip-blobs-bigger-than 10M some-big-repo.git
 ```
-**或者删除某些敏感文件，比如秘钥之类**
+* 或者删除某些敏感文件，比如秘钥之类
 
 ```
-bfg --delete-files id_{dsa,rsa}  my-repo.git
-bfg --replace-text passwords.txt  my-repo.git
+java -jar bfg-1.13.0.jar --delete-files id_{dsa,rsa}  my-repo.git
+java -jar bfg-1.13.0.jar --replace-text passwords.txt  my-repo.git
 ```
-**执行完命令后，会提示所有符合清理条件的文件**
-**按提示进行最后一步，推送**
+* 执行完命令后，会提示所有符合清理条件的文件。按提示进行最后一步，推送
 
 ```
 cd some-big-repo.git
