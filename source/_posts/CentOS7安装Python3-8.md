@@ -5,7 +5,7 @@ tags:
     - python
     - centos
 categories:
-    - 技术
+    - 技术分享
 ---
 
 > 在CentOS7上安装Python3.8.0版（编译安装方式）

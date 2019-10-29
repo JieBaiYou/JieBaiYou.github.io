@@ -3,7 +3,7 @@ title: Docker 容器数据卷挂载小结
 tags:
   - docker
 categories:
-  - 技术
+  - 技术分享
 date: 2019-10-26 20:34:03
 ---
 

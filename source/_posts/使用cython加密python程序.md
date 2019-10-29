@@ -3,7 +3,7 @@ title: 使用cython加密python程序
 tags:
   - python
 categories:
-  - 技术
+  - 技术分享
 date: 2019-10-28 16:27:28
 ---
 

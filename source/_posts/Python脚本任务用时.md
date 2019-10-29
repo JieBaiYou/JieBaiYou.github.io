@@ -4,7 +4,7 @@ date: 2019-10-27 18:24:40
 tags:
   - python
 categories:
-  - 技术
+  - 技术分享
 ---
 
 >很简单，别忘了导入time模块

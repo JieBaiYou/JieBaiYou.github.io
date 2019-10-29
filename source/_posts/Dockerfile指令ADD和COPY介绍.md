@@ -3,7 +3,7 @@ title: Dockerfile指令ADD和COPY介绍
 tags:
   - docker
 categories:
-  - 技术
+  - 技术分享
 date: 2019-10-27 21:30:29
 ---
 #### 一、ADD指令
@@ -37,6 +37,6 @@ ADD zip.tar /myzip
 如果目标路径是个已经存在的目录，则docker会把源路径目录下的文件拷贝到该目录下。
 
 4、如果源文件是个归档文件（压缩文件），则docker会自动帮解压。
- 
+
 #### 二、COPY指令
 COPY指令和ADD指令功能和使用方式类似。只是COPY指令不会做自动解压工作。

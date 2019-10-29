@@ -3,7 +3,7 @@ title: Linux下使用convert批量压缩图片
 tags:
   - linux
 categories:
-  - 技术
+  - 技术分享
 date: 2019-10-27 20:36:02
 ---
 >convert的功能相当强大，先来个示例，再慢慢研究其它的功能
