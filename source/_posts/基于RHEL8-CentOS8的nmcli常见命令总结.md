@@ -8,9 +8,7 @@ categories:
 date: 2019-10-29 18:40:16
 ---
 
-转载自：https://blog.51cto.com/cyent/2332161
-> 以下提及的ifcfg均指代/etc/sysconfig/network-scripts/ifcfg-ethX及/etc/sysconfig/network-scripts/route-ethX
-
+转载修改自：https://blog.51cto.com/cyent/2332161
 首先看一下帮助，了解一下命令的简写
 ```
 [root@redhat ~]# nmcli -h
@@ -34,13 +32,15 @@ date: 2019-10-29 18:40:16
 对象：
   g[eneral]       网络管理器（NetworkManager）的常规状态和操作
   n[etworking]    整体联网控制
-  r[adio]         网络管理器无线电开关
+  r[adio]         无线网络管理器开关
   c[onnection]    网络管理器的连接
   d[evice]        由网络管理器管理的设备
   a[gent]         网络管理器的密钥（secret）代理或 polkit 代理
   m[onitor]       监视网络管理器更改
 ```
 <!-- more -->
+
+> 以下提及的ifcfg均指代/etc/sysconfig/network-scripts/ifcfg-ethX及/etc/sysconfig/network-scripts/route-ethX
 
 #### 查看ip（类似于ifconfig、ip addr）
 nmcli
