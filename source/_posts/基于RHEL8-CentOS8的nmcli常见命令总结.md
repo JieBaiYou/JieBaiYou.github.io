@@ -8,8 +8,16 @@ categories:
 date: 2019-10-29 18:40:16
 ---
 
-转载修改自：https://blog.51cto.com/cyent/2332161
-首先看一下帮助，了解一下命令的简写
+> 开始前建议在使用前先安装命令补全包，`tab`就可以补全命令了
+
+```
+yum install bash-completion -y
+```
+
+<!-- more -->
+
+看一下帮助，了解一下命令的简写
+
 ```
 [root@redhat ~]# nmcli -h
 用法：nmcli [选项] 对象 
@@ -38,8 +46,6 @@ date: 2019-10-29 18:40:16
   a[gent]         网络管理器的密钥（secret）代理或 polkit 代理
   m[onitor]       监视网络管理器更改
 ```
-<!-- more -->
-
 > 以下提及的ifcfg均指代/etc/sysconfig/network-scripts/ifcfg-ethX及/etc/sysconfig/network-scripts/route-ethX
 
 #### 查看ip（类似于ifconfig、ip addr）
@@ -125,3 +131,7 @@ nmcli
 
 #### 检测NM是否在线可用
 nm-online
+
+
+
+转载修改自：https://blog.51cto.com/cyent/2332161
