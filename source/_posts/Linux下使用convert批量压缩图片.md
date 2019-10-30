@@ -56,7 +56,7 @@ convert +raise 5x5 input.jpg output.jpg
 在图像的10,80 位置采用60磅的全黑Helvetica字体写上 Hello, World! 
 convert还有其他很多有趣和强大的功能，大家不妨可以试试。  
 ```
-convert -fill black -pointsize 60 -font helvetica -draw 'text 10,80 "Hello, World!" ‘  hello.jpg  helloworld.jpg 
+convert -fill black -pointsize 60 -font helvetica -draw 'text 10,80 "Hello, World!" hello.jpg helloworld.jpg 
 ```
 **批量图像格式转换** 
 如果想将某目录下的所有jpg文件转换为png文件，在命令行模式下输入: 
