@@ -1,5 +1,5 @@
 ---
-title: 解决vim粘贴格式混乱(TAB缩进)
+title: 解决vim粘贴格式混乱(自动缩进问题)
 tags:
   - vim
 categories:
