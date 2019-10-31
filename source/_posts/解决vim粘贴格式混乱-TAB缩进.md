@@ -7,7 +7,7 @@ categories:
 date: 2019-10-31 13:30:42
 ---
 
->  问题如下：  
+>  问题如下，复制后因为自动缩进，每行都新增了一个TAB：  
 
 ![]( http://q02nuv786.bkt.clouddn.com/vimpaste.png )
 
