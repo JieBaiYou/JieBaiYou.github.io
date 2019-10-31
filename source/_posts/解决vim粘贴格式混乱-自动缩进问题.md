@@ -7,9 +7,23 @@ categories:
 date: 2019-10-31 13:30:42
 ---
 
->  问题如下，复制后因为自动缩进，产生了每行行首的自动缩进累积：  
-
-![]( http://q02nuv786.bkt.clouddn.com/vimpaste.png )
+>  问题如下，复制后因为自动缩进，产生了每行行首的自动缩进累积：
+```
+#原内容  
+  'WeChat' =>
+    array (
+      'Token' => '',
+      'EncodingAESKey' => '',
+      'AppID' => '',
+    ),
+#粘贴后内容             
+  'WeChat' =>
+    array (
+        'Token' => '',
+            'EncodingAESKey' => '',
+                'AppID' => '',
+                    ),
+```
 
 #### 方法一：
 

@@ -11,11 +11,11 @@ date: 2019-10-27 20:36:02
 find /www/images  -regex '.*\(jpg\|JPG\|png\|PNG\|jpeg\)' -size +1000k -mtime -1 \
     -exec convert -quality 75 {} {} \; 
 # 参数解释    
-find /www/images            # 要压缩图片的目录
+/www/images            # 要压缩图片的目录
 -regex '.*\(jpg...|jpeg\)'  # 正则匹配需要压缩的文件扩展名
 -size +1000k                # 要压缩图片的最小尺寸
 -mtime -1                   # -mtime -n +n (按文件更改时间来查找文件，-n指n天以内，+n指n天以前)
-convert -quality 75         # 压缩后的图片质量
+-quality 75         # 压缩后的图片质量
 ```
 <!-- more -->
 
