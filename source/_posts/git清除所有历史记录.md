@@ -11,9 +11,12 @@ date: 2019-10-31 11:44:41
 
  ##### 克隆项目
 ```
-git clone git@code.aliyun.com:liziyu/ds.git 
+git clone git@code.aliyun.com:user/project.git 
 ```
+<!-- more -->
+
  ##### 检出分支
+
 ```
 cd ds  
 git checkout --orphan latest_branch 
