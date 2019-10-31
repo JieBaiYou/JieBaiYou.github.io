@@ -13,29 +13,32 @@ date: 2019-10-31 11:44:41
 ```
 git clone git@code.aliyun.com:user/project.git 
 ```
- ##### 检出分支
+ ##### 检出新分支
+
+> 使用 git checkout --orphan new_branch ,基于当前分支创建一个独立的分支new_branch； 
 
 ```
 cd project  
-git checkout --orphan latest_branch 
+git checkout --orphan new_branch
 ```
 <!-- more -->
-
- ##### 初始化提交
-
+##### 添加文件到暂存区
 ```
 git add -A 
+```
+##### 添加提交记录
+```
 git commit -am "Initial commit." 
 ```
- ##### 删除分支
+ ##### 删除当前分支
 ```
 git branch -D master 
 ```
- ##### 更改分支为master
+ ##### 重命名分支
 ```
 git branch -m master 
 ```
- ##### 强制推送
+ ##### 强制推送至远程分支
 ```
 git push -f origin master 
 ```
@@ -45,4 +48,3 @@ git push -f origin master
 ```
 git branch --set-upstream-to=origin/master
 ```
-
