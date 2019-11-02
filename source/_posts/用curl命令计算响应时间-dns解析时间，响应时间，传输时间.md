@@ -12,9 +12,9 @@ date: 2019-11-02 10:38:18
 
 ```
 curl -o /dev/null -s -w " http_code:%{http_code}\n time_namelookup:%{time_namelookup}\n \
-time_redirect:%{time_redirect}\n time_pretransfer:%{time_pretransfer}\n \
-time_connect:%{time_connect}\n time_starttransfer:%{time_starttransfer}\n \
-time_total:%{time_total}\n speed_download:%{speed_download}\n " "https://jiebaiyou.com"
+    time_redirect:%{time_redirect}\n time_pretransfer:%{time_pretransfer}\n \
+    time_connect:%{time_connect}\n time_starttransfer:%{time_starttransfer}\n \
+    time_total:%{time_total}\n speed_download:%{speed_download}\n " "https://jiebaiyou.com"
 ```
 <!-- more -->
 **输出结果：**
