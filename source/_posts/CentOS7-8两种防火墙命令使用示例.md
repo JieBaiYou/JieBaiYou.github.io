@@ -8,7 +8,7 @@ categories:
 date: 2019-11-07 13:40:10
 ---
 
-转发修改自：[ https://www.toutiao.com/i6755704307607142920/ ](https://www.toutiao.com/i6755704307607142920/)
+> 转发修改自：[ https://www.toutiao.com/i6755704307607142920/ ](https://www.toutiao.com/i6755704307607142920/)
 
 #### 一、CentOS7/8关闭防火墙的命令
 

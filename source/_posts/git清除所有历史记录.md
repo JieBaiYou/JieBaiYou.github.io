@@ -13,6 +13,8 @@ date: 2019-10-31 11:44:41
 ```
 git clone git@code.aliyun.com:user/project.git 
 ```
+<!-- more -->
+
  ##### 检出新分支
 
 > 使用 git checkout --orphan new_branch ,基于当前分支创建一个独立的分支new_branch； 
@@ -21,7 +23,6 @@ git clone git@code.aliyun.com:user/project.git
 cd project  
 git checkout --orphan new_branch
 ```
-<!-- more -->
 ##### 添加文件到暂存区
 ```
 git add -A 
