@@ -19,6 +19,8 @@ systemctl status firewalld
 service iptables status
 ```
 
+<!-- more -->
+
 ##### 2:暂时关闭防火墙
 
 ```
