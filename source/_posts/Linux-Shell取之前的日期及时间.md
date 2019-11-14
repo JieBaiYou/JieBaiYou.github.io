@@ -17,6 +17,7 @@ date: 2019-11-13 17:43:28
 #一月前  
 historyTime=$(date "+%Y-%m-%d %H" -d '1 month ago')  
 echo ${historyTime}  
+
 #一个月前时间戳
 historyTimeStamp=$(date -d "$historyTime" +%s)  
 echo ${historyTimeStamp}  
