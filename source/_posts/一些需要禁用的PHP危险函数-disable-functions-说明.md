@@ -10,9 +10,9 @@ date: 2019-11-14 17:58:41
 打开php.ini文件，如：/usr/local/php/etc/php.ini
 查找到 disable_functions ，添加需禁用的函数名，如下：
 ```
-disable_functions = exec,scandir,shell_exec,phpinfo,eval,passthru,system,chroot,chgrp,chown,proc_open, 
-proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink, 
-popepassthru,stream_socket_server,fsocket
+disable_functions = exec,scandir,shell_exec,phpinfo,eval,passthru,system,chroot,chgrp,chown,
+        proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,
+        symlink,popepassthru,stream_socket_server,fsocket
 ```
 <!-- more -->
 
