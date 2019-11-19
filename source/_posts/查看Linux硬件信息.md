@@ -11,10 +11,6 @@ date: 2019-11-19 09:57:07
 
 <!--more-->
 
-> 通过命令行获取计算机硬件详细信息。
->
-> -- Howard Fosdick（作者）
-
 ​        你可能会有很多的原因需要查清计算机硬件的详细信息。例如，你需要修复某些问题并在论坛上发出请求，人们可能会立即询问你的计算机具体的信息。或者当你想要升级计算机配置时，你需要知道现有的硬件型号和能够升级的型号。这些都需要查询你的计算机具体规格信息。
 
 最简单的方法是使用标准的 Linux GUI 程序之一:
@@ -306,3 +302,9 @@ uname -a
 ![用 Linux 命令显示硬件信息](http://q02nuv786.bkt.clouddn.com/%E6%9F%A5%E7%9C%8Blinux%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/f6ab9b3f8af2415984dcc45b1519a03c.jfif)
 
 ![用 Linux 命令显示硬件信息](http://q02nuv786.bkt.clouddn.com/%E6%9F%A5%E7%9C%8Blinux%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/44ab578616b149a2b8dfbdf502f505cf.jfif)
+
+原文：https://opensource.com/article/19/9/linux-commands-hardware-information
+
+作者： Howard Fosdick  选题： lujun9972 译者： way-ww 校对： wxy
+
+引用地址：  https://www.toutiao.com/i6743851128955339276/ 
