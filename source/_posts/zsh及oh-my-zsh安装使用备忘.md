@@ -77,7 +77,7 @@ $ sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="ys"/' ~/.zshrc
 #### 添加插件支持 plugins 
 
 ```
-$ sed -i 's/git$/git extract autojump zsh-autosuggestions zsh-syntax-highlighting/' ~/.zshrc 
+$ sed -i 's/(git)$/(git extract autojump zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc 
 # 实际上是修改配置文件plugins字段，添加需要使用的插件
 plugins=(git wd web-search history history-substring-search)
 ```
