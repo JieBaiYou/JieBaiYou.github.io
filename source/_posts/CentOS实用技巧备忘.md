@@ -90,4 +90,11 @@ yum install -y epel-release
 yum makecache
 ```
 
+#### 查找进程 PPID（查找并杀死僵尸进程）
+```
+ps -p 29327 -o ppid 
+ps -p 29327 -o ppid=
+
+ps -A -o stat,ppid,pid,cmd | grep -e '^[Zz]' | awk '{ print $2 }' | xargs kill 9
+```
 
