@@ -17,14 +17,21 @@ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | sed 1q
 
 
 ##### PYTHON
+
+> python3中为string.ascii_letters,而python2下则可以使用string.letters和string.ascii_letters
+
+```
 #coding=utf-8
 from random import choice
 import string
-
-> python3中为string.ascii_letters,而python2下则可以使用string.letters和string.ascii_letters
 
 def getPassword(length=8, chars=string.ascii_letters + string.digits):
     return ''.join([choice(chars) for i in range(length)])
 
 print(getPassword(16))
+```
+
+
+
+
 
