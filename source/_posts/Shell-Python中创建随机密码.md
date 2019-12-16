@@ -11,10 +11,10 @@ date: 2019-12-16 08:47:31
 > 生成16位数字+字母大小写密码
 
 ##### SHELL 
+```
 head -c 160 /dev/urandom | tr -dc a-z0-9A-Z |head -c 16
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | sed 1q
-
-
+```
 
 ##### PYTHON
 
