@@ -9,7 +9,7 @@ date: 2019-12-16 08:58:19
 
 ```
 #!/usr/bin/env python
-#coding=utf-8
+# coding=utf-8
 import os
 def findConfigFile(dir, name):
     for relpath, dirs, files in os.walk(dir):
