@@ -58,10 +58,12 @@ make && make install
 
 ```
 ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
 ```
 
 #### 验证安装
 ```
 python3 -V
+pip3 -V
 ```
 
