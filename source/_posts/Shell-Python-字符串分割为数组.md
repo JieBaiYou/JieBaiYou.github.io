@@ -21,7 +21,10 @@ Shell中要将字符串列表转变为数组，只需要在前面加()，所以�
 # echo ${arr[@]}
 ONE TWO THREE FOUR
 ```
+<!-- more -->
+
 ##### 方法二: 借助于tr命令来处理
+
 ```
 # str="ONE,TWO,THREE,FOUR"
 # arr=(`echo $str | tr ',' ' '`) 
