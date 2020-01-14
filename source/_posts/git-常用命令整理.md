@@ -19,6 +19,7 @@ date: 2020-01-14 16:35:30
 `git clone git://github.com/schacon/grit.git`从服务器上将代码给拉下来
 `git config --list`看所有用户
 `git ls-files`看已经被提交的
+<!-- more -->
 `git add .`添加至暂存区
 `git add [file name]`添加一个文件到 git index
 `git commit` 提交
