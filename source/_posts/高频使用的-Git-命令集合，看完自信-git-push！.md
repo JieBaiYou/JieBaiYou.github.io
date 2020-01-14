@@ -8,17 +8,11 @@ date: 2020-01-14 16:01:15
 ---
 
 ### 前言
-
 汇总下我在项目中高频使用的git命令及姿势。
-
 不是入门文档，官方文档肯定比我全面，这里是结合实际业务场景输出。
-
 使用的 Git版本：git version 2.24.0
-
 ### git log
-
 查看日志，常规操作，必备
-
 ```bash
 # 输出概要日志,这条命令等同于
 # git log --pretty=oneline --abbrev-commit
@@ -36,7 +30,6 @@ git log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Cre
 ### git status
 
 查看工作区状态的东东，不如GUI直观，但是命令行也有一些用的
-
 ```bash
 # 等同 git status --long,查看当前工作区暂存区变动
 git status
@@ -49,11 +42,8 @@ git status  --show-stash
 ```
 
 ### git checkout
-
 用来切换到对应记录的,可以基于分支,提交,标签。
-
 切提交和标签一般用来热修复或者老版本需要加新特性。
-
 ```bash
 # 分支切换
 git checkout dev # local branch
@@ -76,11 +66,8 @@ git checkout .
 # 切换上一个分支
 git checkout -
 ```
-
 ### git commit
-
 天天打交道的命令，这里说一些很常见的姿势
-
 ```bash
 # 新修改的内容,添加到上次提交中,减少提交的日志
 # --no-edit:是跳过进入编辑器，直接提交
@@ -106,11 +93,8 @@ git commit -t templateFile
 # 提交信息从文件读取,可以结合上面的一起用
 git commit -F
 ```
-
 ### git reset
-
 不得不说，代码回滚中这个命令也是用的很多，而且是 `--hard`
-
 ```bash
 # 硬性回滚,简单粗暴，直接抛弃回滚之后改动(log 还是有保留，内容不要而已)
 git reset --hard commit_sha1
@@ -131,26 +115,18 @@ git reset --merge commit_sha1
 # 保留工作区和HEAD之间的差异
 git reset --keep commit_sha1
 ```
-
 ### git revert
-
 一般用于master 的代码回滚，因为多人在上面协作，
-
 `revert` 可以平稳的回滚代码,但却保留提交记录,不会让协作的人各种冲突！
 
 ```bash
 # 回滚到某个 commit
 git revert commit-sha1
 ```
-
 ### git rebase
-
 变基在项目中算是很频繁的，为什么这么说。
-
 比如你开发一个新的 feature, 遵循最小化代码提交的理念。
-
 在整个功能开发完毕的时侯，会有非常多的 commit，用 `rebase` 可以让我们的commit记录很干净
-
 ```bash
 # 带 -i 可以进入交互模式，效果如下
 git rebase -i git-sha1|branch(HEAD)
@@ -160,7 +136,6 @@ git rebase --continue # 提交变更后继续变基下一步
 git rebase --skip # 引起冲突的commits会被丢弃，continue提示没有需要改动的也可以用这个跳过
 git rebase --abort # 若是变基改残废了，但是走到一半，可以彻底回滚变基之前的状态
 ```
-
 - pick: 是保留该 commit(采用)
 - edit: 一般你提交的东西多了,可以用这个把东东拿回工作区拆分更细的 commit
 - reword: 这个可以重新修改你的 commit msg
@@ -176,7 +151,6 @@ git rebase --abort # 若是变基改残废了，但是走到一半，可以彻�
 - 不要在公共分支上变基！！！一变其他协作者基本都一堆冲突！除非你们有很清晰的分支管理机制
 
 ### git merge
-
 ```bash
 # --ff 是指fast-forward命令,当使用ff模式进行合并时，将不会创造一个新的commit节点。
 # --no-ff,保留合并分支的提交记录,一般主干用的比较多.
@@ -184,17 +158,11 @@ git rebase --abort # 若是变基改残废了，但是走到一半，可以彻�
 # --squash 则类似 rebase squash,可以把合并多个 commit 变成一个
 git merge --no-ff branchName
 ```
-
 ### git pull
-
 git pull中用的最多是带`--rebase(-r)`的方式(变基形式拉取合并代码),保持分支一条线。
-
 默认的pull会走ff模式,多数情况会产生新的commit,部分参数与 merge提供一致。
-
 ### git push
-
 当本地分支存在，远程分支不存在的时侯，可以这样推送关联的远程分支
-
 ```python
 # 这样会直接新建一个同名的远程分支
 git push origin localbranch 
@@ -216,11 +184,8 @@ git push -f origin branchName # 一般合理的项目，主干都做了分支保
 # --force-with-lease: 若是远程有人提交，此次强推失败，反之成功
 git push --force-with-lease
 ```
-
 ### git remote
-
 这个东西用在你需要考虑维护多个地方仓库的时侯会考虑，或者修改仓库源的时侯
-
 ```bash
 # 常规关联本地 git init 到远程仓库的姿势
 git remote add origin url
@@ -231,11 +196,8 @@ git remote add github url
 # 修改推送源
 git remote set-url  origin(或者其他上游域) url
 ```
-
 ### git branch
-
 该命令用的最多的就是删除本地分支，重命名分支，删除远程分支了
-
 ```bash
 # 分支删除，拷贝，重命名，参数若是大写就等同多了--force，强制执行
 # -c, --copy : 复制分支，
@@ -250,15 +212,10 @@ git branch -M oldBranch newNameBranch
 git branch --set-upstream-to=origin/xxx 
 git branch --set-upstream-to origin xxx 
 ```
-
 ### git stash
-
 暂存用的最多时侯就是你撸代码撸到一半，突然说有个紧急 BUG 要修正。
-
 或者别人在你这里需要帮忙排查代码，你这时候也会用到。
-
 强烈建议给每个 stash 添加描述信息！！！
-
 ```bash
 # 缓存当前工作区的内容到stashName, save 这个现在不怎么推荐用，图方便也能用
 # -a|--all: 除了未跟踪的文件，其他变动的文件都会保存
@@ -290,24 +247,16 @@ git stash drop stash@{0}
 # 想看 stash 做了什么改动，类似简化版的git diff
 git stash show stash@{0}
 ```
-
 ### git reflog
-
 这个命令的强大之处，是记录了所有行为，包括你 `rebase`,`merge`, `reset` 这些
-
 当我们不小心硬回滚的时侯,或变基错了都可以在这里找到行为之前的commit，然后回滚。
-
 当然这个时间回溯也只在本地有用，你推送到远程分支的破坏性改动,该凉还是得凉。
-
 ```bash
 # 最近五次行为,不带-n 则默认所有
 git reflog -5
 ```
-
 #### git cherry-pick
-
 这个东西你可以理解为你去买橘子，你会专门挑一些符合心意的橘子放到购物篮中。你可以从多个分支同时挑取部分需要的 commit 合并到同一个地方去，是不是贼骚。这货和变基有点类似，但是仅仅类似，挑过来的 commit 若是没有冲突则追加。有冲突会中断，解决后 `--continue`
-
 ```bash
 # 在当前分支挑其他分支的 commit，把那部分的变动那过来
 git cherry-pick commit-sha1
@@ -324,11 +273,8 @@ git cherry-pick startGitSha1..endGitSha1
 # --quit: 未冲突的自动变更，冲突的不要，退出这次 pick
 # 这几个状态跟变基差不多,解决冲突继续，跳过处理，放弃这次pick,不输出错误
 ```
-
 ### git rm
-
 这个命令在旧的版本用的比较最多的姿势是为了重新索引.gitignore 的范围
-
 ```bash
 # 删除某个文件的索引
 # --cache 不会删除硬盘中的文件，只是 git 索引(缓存)的关系！！！
@@ -339,13 +285,9 @@ git rm -r --cached .
 git add .
 git commit -m "xxx"
 ```
-
 ### git rev-parse
-
 这个估计一般人用的不是很多，可以通过这个快速获取部分git 仓库的信息
-
 我在弄脚本的时侯就会从这里拿东西
-
 ```bash
 # 获取最新有效的commit
 # --short：显示七位的 sha1,不带就是全部
@@ -362,17 +304,12 @@ git rev-parse --git-dir
 # 显示所有关联引用的 git sha1
 git rev-parse --all
 ```
-
 ### git diff
-
 对于这个命令，在终端比对用的不是很频繁，除了少量改动的时侯可能会用这个看看。
-
 其他情况下我更倾向于用 GUI 工具来看，因为比对更加直观。
 
 ### 总结
-
 git 的常用命令其实很好掌握，很多命令都有 Linux 的影子。
-
 列出来的命令都是高频使用的，或许有一些更骚的姿势没有摸索到
 
 文章引用自：https://www.jianshu.com/p/0993bf65c8c4
