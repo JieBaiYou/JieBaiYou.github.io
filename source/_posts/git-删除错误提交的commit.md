@@ -10,15 +10,12 @@ date: 2020-01-13 14:05:44
 ### git 删除错误提交的commit
 
 方法: 
-
+```
   git reset --hard  \<commit_id\>
-
   git push origin HEAD --force
-
-<!-- more -->
-
+```
 说明:
-
+<!-- more -->
 根据–soft –mixed –hard，会对working tree和index和HEAD进行重置:
 * git reset –mixed：此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息
 
