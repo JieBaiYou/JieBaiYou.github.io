@@ -187,7 +187,7 @@ git commit -m 'first commit'
 **命令** **简要说明**
 `git daemon实现`git协议
 `git http-backend`实现HTTP协议的CGI程序，支持智能HTTP协议
-`git instaweb`即时启动浏览器通过 `gitweb 浏览当前版本库
+`git instaweb`即时启动浏览器通过 `gitweb 浏览当前版本库`
 `git shell`受限制的shell，提供仅执行git命令的SSH访问
 `git update-server-info`更新哑协议需要的辅助文件
 `git http-fetch`通过HTTP协议获取版本库
@@ -201,7 +201,7 @@ git commit -m 'first commit'
 `git remote-test`git协议扩展示例脚本
 #### 8、版本库转换和交互相关命令
 **命令** **简要说明**
-`git archimport`导入Arch版本库到`git
+`git archimport`导入Arch版本库到git
 `git bundle`提交打包和解包，以便在不同版本库间传递
 `git cvsexportcommit`将git的一个提交作为一个CVS检出
 `git cvsimport`导入CVS版本库到git。或者使用 cvs2git
