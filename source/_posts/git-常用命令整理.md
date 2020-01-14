@@ -23,6 +23,9 @@ git push
 `git apply`应用补丁
 `git am`应用邮件格式补丁
 `git annotate`同义词，等同于 `git blame`
+
+<!-- more -->
+
 `git archive`文件归档打包
 `git bisect`二分查找
 `git blame`文件逐行追溯
@@ -65,6 +68,7 @@ git push
 `git stash`保存和恢复进度
 `git status`显示工作区文件状态
 `git tag`里程碑管理
+
 #### 2、对象库操作相关命令
 **命令** **简要说明**
 `git commit-tree`从树对象创建提交
