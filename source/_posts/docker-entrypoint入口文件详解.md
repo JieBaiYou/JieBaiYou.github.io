@@ -12,11 +12,11 @@ date: 2020-01-13 09:06:46
 下面以mysql官方镜像中的entrypoint文件docker-entrypoint.sh为例，文件地址为：
 [docker-entrypoint.sh](https://raw.githubusercontent.com/docker-library/mysql/607b2a65aa76adf495730b9f7e6f28f146a9f95f/5.7/docker-entrypoint.sh)
 
-<!-- more -->
-
 ## set -e
 
 你写的每个脚本都应该在文件开头加上`set -e`, 这句语句告诉bash如果任何语句的执行结果不是true则应该退出. 这样的好处是防止错误像滚雪球般变大导致一个致命的错误, 而这些错误本应该在之前就被处理掉. 如果要增加可读性, 可以使用`set -o errexit`, 它的作用与`set -e`相同
+
+<!-- more -->
 
 ## set -o pipefail
 
