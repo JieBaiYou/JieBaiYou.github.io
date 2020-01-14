@@ -82,9 +82,7 @@ git commit -m 'first commit'
 `git add–interactive`交互式添加
 `git apply`应用补丁
 `git am`应用邮件格式补丁
-```
-git annotate`同义词，等同于 `git blame
-```
+`git annotate`同义词，等同于 `git blame`
 `git archive`文件归档打包
 `git bisect`二分查找
 `git blame`文件逐行追溯
@@ -106,9 +104,7 @@ git annotate`同义词，等同于 `git blame
 `git gui`基于Tcl/Tk的图形化工具，侧重提交等操作
 `git help`帮助
 `git init`版本库初始化
-```
-git init-db`同义词，等同于`git init
-```
+`git init-db`同义词，等同于`git init`
 `git log`显示提交日志
 `git merge`分支合并
 `git mergetool`图形化冲突解决
@@ -119,17 +115,13 @@ git init-db`同义词，等同于`git init
 `git rebase–interactive`交互式分支变基
 `git reflog`分支等引用变更记录管理
 `git remote`远程版本库管理
-```
-git repo-config`同义词，等同于 `git config
-```
+`git repo-config`同义词，等同于 `git config`
 `git reset`重置改变分支“游标”指向
 `git rev-parse`将各种引用表示法转换为哈希值等
 `git revert`反转提交
 `git rm`删除文件
 `git show`显示各种类型的对象
-```
-git stage`同义词，等同于 `git add
-```
+`git stage`同义词，等同于 `git add`
 `git stash`保存和恢复进度
 `git status`显示工作区文件状态
 `git tag`里程碑管理
@@ -151,9 +143,7 @@ git stage`同义词，等同于 `git add
 `git for-each-ref`引用迭代器，用于shell编程
 `git ls-remote`显示远程版本库的引用
 `git name-rev`将提交ID显示为友好名称
-```
-git peek-remote`过时命令，请使用 `git ls-remote
-```
+`git peek-remote`过时命令，请使用 `git ls-remote`
 `git rev-list`显示版本范围
 `git show-branch`显示分支列表及拓扑关系
 `git show-ref`显示本地引用
@@ -165,7 +155,7 @@ git peek-remote`过时命令，请使用 `git ls-remote
 `git count-objects`显示松散对象的数量和磁盘占用
 `git filter-branch`版本库重构
 `git fsck`对象库完整性检查
-`git fsck-objects`同义词，等同于 `git fsck
+`git fsck-objects`同义词，等同于 `git fsck`
 `git gc`版本库存储优化
 `git index-pack`从打包文件创建对应的索引文件
 `git lost-found`过时，请使用 `git fsck –lost-found`命令
@@ -233,16 +223,15 @@ git peek-remote`过时命令，请使用 `git ls-remote
 `git merge-tree`显式三向合并结果，不改变暂存区
 `git fmt-merge-msg`供执行合并操作的脚本调用，用于创建一个合并提交说明
 `git rerere`重用所记录的冲突解决方案
+#### 10、 杂项
 **命令** **简要说明**
 `git bisect–helper`由 `git bisect`命令调用，确认二分查找进度
 `git check-attr`显示某个文件是否设置了某个属性
 `git checkout-index`从暂存区拷贝文件至工作区
 `git cherry`查找没有合并到上游的提交
-```
-git diff-files`比较暂存区和工作区，相当于 `git diff –raw
-git diff-index`比较暂存区和版本库，相当于 `git diff –cached –raw
-git diff-tree`比较两个树对象，相当于 `git diff –raw A B
-```
+`git diff-files`比较暂存区和工作区，相当于 `git diff –raw`
+`git diff-index`比较暂存区和版本库，相当于 `git diff –cached –raw`
+`git diff-tree`比较两个树对象，相当于 `git diff –raw A B`
 `git difftool–helper`由 `git difftool`命令调用，默认要使用的差异比较工具
 `git get-tar-commit-id`从 `git archive`创建的 tar 包中提取提交ID
 `git gui–askpass`命令 `git gui`的获取用户口令输入界面
@@ -253,9 +242,7 @@ git diff-tree`比较两个树对象，相当于 `git diff –raw A B
 `git shortlog`对 `git log` 的汇总输出，适合于产品发布说明
 `git stripspace`删除空行，供其他脚本调用
 `git submodule`子模组管理
-```
-git tar-tree`过时命令，请使用 `git archive
-```
+`git tar-tree`过时命令，请使用 `git archive`
 `git var`显示 git 环境变量
 `git web–browse`启动浏览器以查看目录或文件
 `git whatchanged`显示提交历史及每次提交的改动
