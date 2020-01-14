@@ -29,7 +29,7 @@ date: 2019-11-19 09:57:07
 
 很多检测硬件信息的命令行都需要使用 root 权限。所以要么切换到 root 用户，要么使用 sudo 在普通用户状态下发出命令：
 
-```
+```bash
 sudo <the_line_command> 
 ```
 
@@ -43,7 +43,7 @@ sudo <the_line_command>
 
 inxi 命令能够列出包括 CPU、图形、音频、网络、驱动、分区、传感器等详细信息。当论坛里的人尝试帮助其他人解决问题的时候，他们常常询问此命令的输出。这是解决问题的标准诊断程序：
 
-```
+```bash
 inxi -Fxz
 ```
 
@@ -51,25 +51,25 @@ inxi -Fxz
 
 hwinfo 和 lshw 命令以不同的格式显示大量相同的信息：
 
-```
+```bash
 hwinfo --short
 ```
 
 或
 
-```
+```bash
 lshw -short
 ```
 
 这两条命令的长格式输出非常详细，但也有点难以阅读：
 
-```
+```bash
 hwinfo
 ```
 
 或
 
-```
+```bash
 lshw
 ```
 
@@ -77,13 +77,13 @@ lshw
 
 通过命令你可以了解关于你的 CPU 的任何信息。使用 lscpu 命令或与它相近的 lshw 命令查看 CPU 的详细信息：
 
-```
+```bash
 lscpu
 ```
 
 或
 
-```
+```bash
 lshw -C cpu
 ```
 
@@ -91,19 +91,19 @@ lshw -C cpu
 
 使用这些命令的时候，你可以通过使用 grep 命令过滤复杂的信息，并缩小所需信息范围。例如，只查看 CPU 品牌和型号:
 
-```
+```bash
 lshw -C cpu | grep -i product
 ```
 
 仅查看 CPU 的速度（兆赫兹）:
 
-```
+```bash
 lscpu | grep -i mhz
 ```
 
 或其 BogoMips 额定功率:
 
-```
+```bash
 lscpu | grep -i bogo
 ```
 
@@ -115,25 +115,25 @@ Linux 命令行使你能够收集关于你的计算机内存的所有可能的�
 
 使用 dmidecode 命令列出每根内存条和其容量：
 
-```
+```bash
 dmidecode -t memory | grep -i size
 ```
 
 使用以下命令获取系统内存更多的信息，包括类型、容量、速度和电压：
 
-```
+```bash
 lshw -short -C memory
 ```
 
 你肯定想知道的一件事是你的计算机可以安装的最大内存：
 
-```
+```bash
 dmidecode -t memory | grep -i max
 ```
 
 现在检查一下计算机是否有空闲的插槽可以插入额外的内存条。你可以通过使用命令在不打开计算机机箱的情况下就做到：
 
-```
+```bash
 lshw -short -C memory | grep -i empty
 ```
 
@@ -141,19 +141,19 @@ lshw -short -C memory | grep -i empty
 
 确定你的计算机拥有多少显卡内存需要下面的命令。首先使用 lspci 列出所有设备信息然后过滤出你想要的显卡设备信息:
 
-```
+```bash
 lspci | grep -i vga
 ```
 
 视频控制器的设备号输出信息通常如下：
 
-```
+```bash
 00:02.0 VGA compatible controller: Intel Corporation 82Q35 Express Integrated Graphics Controller (rev 02)
 ```
 
 现在再加上视频设备号重新运行 lspci 命令：
 
-```
+```bash
 lspci -v -s 00:02.0
 ```
 
@@ -165,7 +165,7 @@ lspci -v -s 00:02.0
 
 最后使用下面的命令展示当前内存使用量（兆字节）：
 
-```
+```bash
 free -m
 ```
 
@@ -177,7 +177,7 @@ free -m
 
 top 命令为你提供内存使用更加详细的信息。它显示了当前全部内存和 CPU 使用情况并按照进程 ID、用户 ID 及正在运行的命令细分。同时这条命令也是全屏输出:
 
-```
+```bash
 top
 ```
 
@@ -187,13 +187,13 @@ top
 
 显示每个磁盘设备的描述信息：
 
-```
+```bash
 lshw -short -C disk
 ```
 
 通过以下命令获取任何指定的 SATA 磁盘详细信息，例如其型号、序列号以及支持的模式和扇区数量等：
 
-```
+```bash
 hdparm -i /dev/sda
 ```
 
@@ -207,7 +207,7 @@ lsblk
 
 使用以下命令获取更多有关扇区数量、大小、文件系统 ID 和 类型以及分区开始和结束扇区：
 
-```
+```bash
 fdisk -l
 ```
 
@@ -219,7 +219,7 @@ blkid
 
 使用以下命令列出已挂载的文件系统和它们的挂载点，以及已用的空间和可用的空间（兆字节为单位）：
 
-```
+```bash
 df -m
 ```
 
@@ -241,25 +241,25 @@ Linux 提供大量的网络相关命令，下面只是几个例子。
 
 查看你的网卡硬件详细信息:
 
-```
+```bash
 lshw -C network
 ```
 
 ifconfig 是显示网络接口的传统命令：
 
-```
+```bash
 ifconfig -a
 ```
 
 但是现在很多人们使用：
 
-```
+```bash
 ip link show
 ```
 
 或
 
-```
+```bash
 netstat -i
 ```
 
@@ -273,13 +273,13 @@ netstat -i
 
 使用以下命令显示默认网关和路由表：
 
-```
+```bash
 ip route | column -t
 ```
 
 或
 
-```
+```bash
 netstat -r
 ```
 
@@ -287,13 +287,13 @@ netstat -r
 
 让我们以显示最底层软件详细信息的两条命令来结束。例如，如果你想知道是否安装了最新的固件该怎么办？这条命令显示了 UEFI 或 BIOS 的日期和版本:
 
-```
+```bash
 dmidecode -t bios
 ```
 
 内核版本是多少，以及它是 64 位的吗？网络主机名是什么？使用下面的命令查出结果：
 
-```
+```bash
 uname -a
 ```
 

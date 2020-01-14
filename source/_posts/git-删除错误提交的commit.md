@@ -10,7 +10,7 @@ date: 2020-01-13 14:05:44
 ### git 删除错误提交的commit
 
 方法: 
-```
+```bash
   git reset --hard  \<commit_id\>
   git push origin HEAD --force
 ```

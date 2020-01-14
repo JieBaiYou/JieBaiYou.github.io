@@ -14,14 +14,14 @@ date: 2020-01-07 12:47:25
 ### 一、CentOS7版本对防火墙进行加强,不再使用原来的iptables,启用firewalld
 
 ##### 1.firewalld的基本使用
-```
+```bash
 启动：  `systemctl start firewalld`
 查状态：`systemctl status firewalld `
 停止：  `systemctl disable firewalld`
 禁用：  `systemctl stop firewalld`
 ```
 <!-- more -->
-```
+```bash
 在开机时启用一个服务：`systemctl enable firewalld.service`
 在开机时禁用一个服务：`systemctl disable firewalld.service`
 查看服务是否开机启动：`systemctl is-enabled firewalld.service`
@@ -29,7 +29,7 @@ date: 2020-01-07 12:47:25
 查看启动失败的服务列表：`systemctl *--failed`*
 ```
 ##### 2.配置firewalld-cmd
-```
+```bash
 查看版本： `firewall-cmd *--version`*
 查看帮助： `firewall-cmd *--help`*
 显示状态： `firewall-cmd *--state`*
@@ -45,7 +45,7 @@ date: 2020-01-07 12:47:25
 
 添加
 
-```
+```bash
 firewall-cmd --zone=public(作用域) --add-port=80/tcp(端口和访问类型) --permanent(永久生效)
 firewall-cmd --zone=public --add-service=http --permanent
 firewall-cmd --reload    # 重新载入，更新防火墙规则
@@ -61,7 +61,7 @@ firewall-cmd --delete-service=
 
 使用命令实际也是在修改文件，需要重新加载才能生效。
 
-```
+```bash
 firewall-cmd --zone=public --query-port=80/tcp
 firewall-cmd --zone=public --query-port=8080/tcp
 firewall-cmd --zone=public --query-port=3306/tcp
@@ -76,7 +76,7 @@ firewall-cmd --zone=public --query-port=8080/tcp
 
 ##### 4.参数解释
 
-```
+```bash
 –add-service #添加的服务
 –zone #作用域
 –add-port=80/tcp #添加端口，格式为：端口/通讯协议
@@ -85,7 +85,7 @@ firewall-cmd --zone=public --query-port=8080/tcp
 
 ##### 5.详细使用
 
-```firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.0.4/24" service name="http" accept'*//设置某个ip访问某个服务*
+```bash
 firewall-cmd --permanent --add-rich-rule 'rule family=ipv4 source address=192.168.0.1/2 port port=80 protocol=tcp accept'*//设置某个ip访问某个端口*
 
 firewall-cmd --permanent --remove-rich-rule 'rule family=ipv4 source address=192.168.0.1/2 port port=80 protocol=tcp accept'*//删除配置*
@@ -98,6 +98,7 @@ firewall-cmd --add-forward-port=proto=80:proto=tcp:toaddr=192.168.1.0.1# 将80�
 firewall-cmd --add-forward-port=proto=80:proto=tcp:toaddr=192.168.0.1:toport=8080# 将80端口的流量转发至192.168.0.1的8080端口
 
 firewall-cmd --permanent --zone=public --remove-rich-rule='rule family="ipv4" source address="192.168.0.4/24" service name="http" accept'*//删除配置*
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.0.4/24" service name="http" accept'*//设置某个ip访问某个服务*
 ```
 
 
@@ -106,7 +107,7 @@ firewall-cmd --permanent --zone=public --remove-rich-rule='rule family="ipv4" so
 
 ##### 1.开放80，22，8080 端口
 
-```
+```bash
 /sbin/iptables -I INPUT -p tcp *--dport 80 -j ACCEPT*
 /sbin/iptables -I INPUT -p tcp *--dport 22 -j ACCEPT*
 /sbin/iptables -I INPUT -p tcp *--dport 8080 -j ACCEPT*
@@ -114,13 +115,13 @@ firewall-cmd --permanent --zone=public --remove-rich-rule='rule family="ipv4" so
 
 ##### 2.保存
 
-```
+```bash
 /etc/rc.d/init.d/iptables save
 ```
 
 ##### 3.查看打开的端口
 
-```
+```bash
 /etc/init.d/iptables status
 ```
 
@@ -128,7 +129,7 @@ firewall-cmd --permanent --zone=public --remove-rich-rule='rule family="ipv4" so
 
 1） 永久性生效，重启后不会复原
 
-```
+```bash
 开启： chkconfig iptables on
 关闭： chkconfig iptables off
 ```
@@ -139,7 +140,7 @@ firewall-cmd --permanent --zone=public --remove-rich-rule='rule family="ipv4" so
 
 关闭： service iptables stop
 
-```
+```bash
 firewall-cmd --state               #查看防火墙状态  
 firewall-cmd --reload              #更新防火墙规则  
 firewall-cmd --state               #查看防火墙状态  
@@ -151,7 +152,7 @@ firewall-cmd --get-services        #获取所有支持的服务
 
 \#区域相关
 
-```
+```bash
 firewall-cmd --list-all-zones                    #查看所有区域信息  
 firewall-cmd --get-active-zones                  #查看活动区域信息  
 firewall-cmd --set-default-zone=public           #设置public为默认区域  
@@ -161,7 +162,7 @@ firewall-cmd --zone=public --add-interface=eth0  #将接口eth0加入区域publi
 
 \#接口相关
 
-```
+```bash
 firewall-cmd --zone=public --remove-interface=eth0     #从区域public中删除接口eth0  
 firewall-cmd --zone=default --change-interface=eth0    #修改接口eth0所属区域为default  
 firewall-cmd --get-zone-of-interface=eth0              #查看接口eth0所属区域  
@@ -169,7 +170,7 @@ firewall-cmd --get-zone-of-interface=eth0              #查看接口eth0所属�
 
 \#端口控制
 
-```
+```bash
 #永久添加80端口例外(全局)
 firewall-cmd --add-port=80/tcp --permanent 
 

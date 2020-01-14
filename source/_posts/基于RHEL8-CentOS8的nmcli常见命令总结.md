@@ -18,7 +18,7 @@ yum install bash-completion -y
 
 看一下帮助，了解一下命令的简写
 
-```
+```bash
 [root@redhat ~]# nmcli -h
 用法：nmcli [选项] 对象 
 
