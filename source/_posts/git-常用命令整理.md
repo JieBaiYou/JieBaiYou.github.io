@@ -7,77 +7,16 @@ categories:
 date: 2020-01-14 16:35:30
 ---
 
-**一、Git 常用命令整理**
-
-**命令** **简要说明**
-`git log`看你commit的日志
-`git branch` 查看本地所有分支
-`git branch -a` 查看所有的分支
-`git branch -r` 查看远程所有分支
-`git branch -D master develop` 删除本地库develop
-`git status` 查看当前状态
-`git clone git://github.com/schacon/grit.git`从服务器上将代码给拉下来
-`git config --list`看所有用户
-`git ls-files`看已经被提交的
-<!-- more -->
-`git add .`添加至暂存区
-`git add [file name]`添加一个文件到 git index
-`git commit` 提交
-`git commit -am "init"`提交并且加注释
-`git commit -a`提交当前repos的所有的改变
-`git commit -v`当你用－v参数的时候可以看commit的差异
-`git commit -m "This is the message describing the commit"`添加commit信息
-`git commit -a`-a是代表add，把所有的change加到git index里然后再commit
-`git commit -a -v`一般提交命令
-`git commit -m "remove"`移除文件(从git中删除)
-`git remote show`查看远程库
-`git remote add origin git地址`添加远程地址
-`git remote show origin`显示远程库origin里的资源
-`git push origin master`将文件给推到服务器上
-`git push origin master:master`提交到远程master分支
-`git push origin master:master`将本地库与服务器上的库进行关联
-`git checkout dev`切换到本地dev分支
-`git checkout --track origin/dev`切换到远程dev分支
-`git checkout -b dev`建立一个新的本地分支dev
-`git merge origin/dev`将分支dev与当前分支进行合并
-`git rm [file name]` 删除一个文件
-`git rm a.a`移除文件(从暂存区和工作区中删除)
-`git rm --cached a.a`移除文件(只从暂存区中删除)
-`git rm -f a.a`强行移除修改后文件(从暂存区和工作区中删除)
-`git rm 文件名(包括路径) 从`git中删除指定文件
-`git diff`查看尚未暂存的更新
-`git diff --cached 或 $ git diff --staged`查看尚未提交的更新
-`git stash push`将文件给push到一个临时空间中
-`git stash pop`将文件从临时空间pop下来
-`git remote add origin git@github.***/***.git`
-`git push origin master`将本地项目给提交到服务器中
-`git pull`本地与服务器端同步
-`git push`(远程仓库名) (分支名) 将本地分支推送到服务器上去。
-`git push origin master:one`
-`git fetch`相当于是从远程获取最新版本到本地，不会自动merge
-`git commit -a -m "message"`(-a是提交所有改动，-m是加入log信息) 本地修改同步至服务器端 ：
-`git branch branch_0.1 master`从主分支master创建branch_0.1分支
-`git branch -m branch_0.1 branch_1.0`将branch_0.1重命名为branch_1.0
-`git checkout branch_1.0/master`切换到branch_1.0/master分支
-`git branch`删除远程branch
-`git push origin **:**branch_remote_name`
-`git branch -r -d branch_remote_name`
-
-##### 初始化版本库，并提交到远程服务器端
+#### 初始化版本库，并提交到远程服务器端
 ```bash
 mkdir git_project
 cd git_project
-```
-`git init`本地初始化
-```undefined
+git init #本地初始化
 touch README
-```
-`git add README`添加文件
-```
+git add README #添加文件
 git commit -m 'first commit'
+git push
 ```
-`git remote add origin URL地址`增加一个远程服务器端
-上面的命令会增加URL地址为 'URL地址'，名称为origin的远程服务器库，以后提交代码的时候只需要使用 origin别名即可
 
 #### 1、常用的Git命令
 `git add–interactive`交互式添加
