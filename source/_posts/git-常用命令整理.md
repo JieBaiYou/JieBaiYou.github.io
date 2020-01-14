@@ -77,7 +77,8 @@ git commit -m 'first commit'
 ```
 `git remote add origin URL地址`增加一个远程服务器端
 上面的命令会增加URL地址为 'URL地址'，名称为origin的远程服务器库，以后提交代码的时候只需要使用 origin别名即可
-1、常用的Git命令
+
+#### 1、常用的Git命令
 `git add–interactive`交互式添加
 `git apply`应用补丁
 `git am`应用邮件格式补丁
@@ -132,7 +133,7 @@ git stage`同义词，等同于 `git add
 `git stash`保存和恢复进度
 `git status`显示工作区文件状态
 `git tag`里程碑管理
-2、对象库操作相关命令
+#### 2、对象库操作相关命令
 **命令** **简要说明**
 `git commit-tree`从树对象创建提交
 `git hash-object`从标准输入或文件计算哈希值或创建对象
@@ -144,7 +145,7 @@ git stage`同义词，等同于 `git add
 `git update-index`工作区内容注册到暂存区及暂存区管理
 `git unpack-file`创建临时文件包含指定 blob 的内容
 `git write-tree`从暂存区创建一个树对象
-3、引用操作相关命令
+#### 3、引用操作相关命令
 **命令** **简要说明**
 `git check-ref-format`检查引用名称是否符合规范
 `git for-each-ref`引用迭代器，用于shell编程
@@ -159,7 +160,7 @@ git peek-remote`过时命令，请使用 `git ls-remote
 `git symbolic-ref`显示或者设置符号引用
 `git update-ref`更新引用的指向
 `git verify-tag`校验 GPG 签名的Tag
-4、版本库管理相关命令
+#### 4、版本库管理相关命令
 **命令** **简要说明**
 `git count-objects`显示松散对象的数量和磁盘占用
 `git filter-branch`版本库重构
@@ -178,21 +179,21 @@ git peek-remote`过时命令，请使用 `git ls-remote
 `git show-index`读取包的索引文件，显示打包文件中的内容
 `git unpack-objects`从打包文件释放文件
 `git verify-pack`校验对象库打包文件
-5、数据传输相关命令
+#### 5、数据传输相关命令
 **命令** **简要说明**
 `git fetch-pack`执行 `git fetch 或 git pull`命令时在本地执行此命令，用于从其他版本库获取缺失的对象
 `git receive-pack`执行 `git push` 命令时在远程执行的命令，用于接受推送的数据
 `git send-pack`执行 `git push` 命令时在本地执行的命令，用于向其他版本库推送数据
 `git upload-archive`执行 `git archive –remote`命令基于远程版本库创建归档时，远程版本库执行此命令传送归档
 `git upload-pack`执行 `git fetch 或 git pull` 命令时在远程执行此命令，将对象打包、上传
-6、邮件相关命令
+#### 6、邮件相关命令
 **命令** **简要说明**
 `git imap-send`将补丁通过 IMAP 发送
 `git mailinfo`从邮件导出提交说明和补丁
 `git mailsplit`将 mbox 或 Maildir 格式邮箱中邮件逐一提取为文件
 `git request-pull`创建包含提交间差异和执行PULL操作地址的信息
 `git send-email`发送邮件
-7、协议相关命令
+#### 7、协议相关命令
 **命令** **简要说明**
 `git daemon实现`git协议
 `git http-backend`实现HTTP协议的CGI程序，支持智能HTTP协议
@@ -208,7 +209,7 @@ git peek-remote`过时命令，请使用 `git ls-remote
 `git remote-http`由git命令调用，提供对HTTP协议的支持
 `git remote-https`由git命令调用，提供对HTTPS协议的支持
 `git remote-test`git协议扩展示例脚本
-8、版本库转换和交互相关命令
+#### 8、版本库转换和交互相关命令
 **命令** **简要说明**
 `git archimport`导入Arch版本库到`git
 `git bundle`提交打包和解包，以便在不同版本库间传递
@@ -218,7 +219,7 @@ git peek-remote`过时命令，请使用 `git ls-remote
 `git fast-export`将提交导出为`git-fast-import` 格式
 `git fast-import`其他版本库迁移至git的通用工具
 `git svn`git 作为前端操作 Subversion
-9、合并相关的辅助命令
+#### 9、合并相关的辅助命令
 **命令** **简要说明**
 `git merge-base`供其他脚本调用，找到两个或多个提交最近的共同祖先
 `git merge-file`针对文件的两个不同版本执行三向文件合并
