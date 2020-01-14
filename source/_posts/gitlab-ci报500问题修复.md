@@ -15,14 +15,16 @@ For Omnibus GitLab packages:
 ```
 sudo gitlab-rails dbconsole
 ```
-<!-- more -->
 ### Reset CI/CD variables
 Drop the table:
 ```
 DELETE FROM ci_group_variables;
 DELETE FROM ci_variables;
 ```
+<!-- more -->
+
 ### Reset Runner registration tokens
+
 ```
 -- Clear project tokens
 UPDATE projects SET runners_token = null, runners_token_encrypted = null;
