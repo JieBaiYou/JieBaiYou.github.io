@@ -11,7 +11,7 @@ date: 2020-01-13 14:05:44
 
 方法: 
 
-  git reset --hard <commit_id>
+  git reset --hard  \<commit_id\>
 
   git push origin HEAD --force
 
@@ -30,7 +30,7 @@ date: 2020-01-13 14:05:44
 
   HEAD 最近一个提交
   HEAD^ 上一次
-  <commit_id>  每次commit的SHA1值. 可以用`git log` 看到,也可以在页面上commit标签页里找到.
+  \<commit_id\>  每次commit的SHA1值. 可以用`git log` 看到,也可以在页面上commit标签页里找到.
 
 commit合并:
 [http://www.douban.com/note/318248317/](https://www.douban.com/note/318248317/)
