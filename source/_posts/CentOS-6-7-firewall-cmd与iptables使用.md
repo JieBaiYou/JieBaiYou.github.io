@@ -140,44 +140,7 @@ firewall-cmd --permanent --zone=public --remove-rich-rule='rule family="ipv4" so
 firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.0.4/24" service name="http" accept'
 ```
 
-
-
-### 二、CentOS7以下版本
-
-##### 1.开放80，22，8080 端口
-
-```bash
-/sbin/iptables -I INPUT -p tcp *--dport 80 -j ACCEPT*
-/sbin/iptables -I INPUT -p tcp *--dport 22 -j ACCEPT*
-/sbin/iptables -I INPUT -p tcp *--dport 8080 -j ACCEPT*
-```
-
-##### 2.保存
-
-```bash
-/etc/rc.d/init.d/iptables save
-```
-
-##### 3.查看打开的端口
-
-```bash
-/etc/init.d/iptables status
-```
-
-##### 4.关闭防火墙 
-
-1） 永久性生效，重启后不会复原
-
-```bash
-开启： chkconfig iptables on
-关闭： chkconfig iptables off
-```
-
-2） 即时生效，重启后复原
-
-开启： service iptables start
-
-关闭： service iptables stop
+##### 6.使用示例
 
 ```bash
 firewall-cmd --state               #查看防火墙状态  
@@ -240,4 +203,43 @@ firewall-cmd --permanent --remove-port=8080/tcp
 #重启防火墙(修改配置后要重启防火墙)
 firewall-cmd --reload 
 ```
+
+
+
+### 二、CentOS7以下版本
+
+##### 1.开放80，22，8080 端口
+
+```bash
+/sbin/iptables -I INPUT -p tcp *--dport 80 -j ACCEPT*
+/sbin/iptables -I INPUT -p tcp *--dport 22 -j ACCEPT*
+/sbin/iptables -I INPUT -p tcp *--dport 8080 -j ACCEPT*
+```
+
+##### 2.保存
+
+```bash
+/etc/rc.d/init.d/iptables save
+```
+
+##### 3.查看打开的端口
+
+```bash
+/etc/init.d/iptables status
+```
+
+##### 4.关闭防火墙 
+
+1） 永久性生效，重启后不会复原
+
+```bash
+开启： chkconfig iptables on
+关闭： chkconfig iptables off
+```
+
+2） 即时生效，重启后复原
+
+开启： service iptables start
+
+关闭： service iptables stop
 
