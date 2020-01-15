@@ -9,20 +9,20 @@ date: 2020-01-13 11:05:31
 
 ### 查看文件权限
 
-```
+```bash
 $ git ls-tree HEAD
 100644 blob ce71d57cfdcddcf2f8aa19fecc46ba05c85aaed1    install.sh
 ```
 
 ### 修改权限
 
-```
+```bash
 $ git update-index --chmod=+x install.sh
 ```
 
 ### 提交修改
 
-```
+```bash
 $ git commit -m "修改install.sh文件权限"
 [master c26ebb5] 修改install.sh文件权限
  1 file changed, 0 insertions(+), 0 deletions(-)

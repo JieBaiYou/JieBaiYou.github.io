@@ -7,7 +7,7 @@ categories:
 date: 2019-12-16 08:58:19
 ---
 
-```
+```python
 #!/usr/bin/env python
 # coding=utf-8
 import os
@@ -35,7 +35,7 @@ os.walk(top, topdown=True, οnerrοr=None, followlinks=False)
 
 glob.glob(path)
 返回所有匹配的文件路径列表。它只有一个参数path，定义了文件路径匹配规则，这里可以是绝对路径，也可以是相对路径。
-```
+```python
 [root@test ~]# python3
 import glob
 glob.glob('./*.py')

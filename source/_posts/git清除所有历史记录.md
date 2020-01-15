@@ -10,7 +10,7 @@ date: 2019-10-31 11:44:41
 > 一起来清理掉git上所有的历史记录吧
 
  ##### 克隆项目
-```
+```bash
 git clone git@code.aliyun.com:user/project.git 
 ```
 <!-- more -->

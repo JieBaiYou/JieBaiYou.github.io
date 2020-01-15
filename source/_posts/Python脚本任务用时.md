@@ -9,7 +9,7 @@ categories:
 
 >很简单，别忘了导入time模块
 
-```
+```python
 import time
 start = time.time()
 (要执行的代码...)
