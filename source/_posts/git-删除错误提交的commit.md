@@ -12,6 +12,7 @@ date: 2020-01-13 14:05:44
 方法: 
 ```bash
   git reset --hard  <commit_id>
+  
   git push origin HEAD --force
 ```
 说明:
