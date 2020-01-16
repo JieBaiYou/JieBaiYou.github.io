@@ -8,7 +8,7 @@ date: 2020-01-14 16:35:30
 ---
 
 #### 初始化版本库，并提交到远程服务器端
-```bash
+```
 mkdir git_project
 cd git_project
 git init #本地初始化
