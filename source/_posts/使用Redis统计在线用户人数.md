@@ -21,10 +21,10 @@ date: 2020-02-26 10:01:50
 ZADD "online_users" <user_id> <current_timestamp>
 ```
 
-通过使用 [ZSCORE](http://redisdoc.com/sorted_set/zscore.html) 命令检查指定的用户 ID 在有序集合中是否有相关联的分值， 我们可以知道该用户是否在线：
+通过使用 [ZSCORE](http://redisdoc.com/sorted_set/zscore.html) 命令检查指定时间的用户在有序集合中是否有相关联的分值， 我们可以知道该用户是否在线：
 
 ```
-ZSCORE "online_users" <user_id>
+ZSCORE "online_users" <current_timestamp>
 ```
 
 而通过执行 [ZCARD](http://redisdoc.com/sorted_set/zcard.html) 命令， 我们可以知道总共有多用户在线：
