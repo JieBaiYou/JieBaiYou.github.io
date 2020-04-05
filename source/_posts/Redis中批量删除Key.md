@@ -17,13 +17,13 @@ date: 2019-11-20 11:48:42
 
 大致使用到的骚操作如下：
 
-```
+```bash
 redis-cli --scan --pattern users:* | xargs redis-cli del
 ```
 
 如果你使用的Redis版本为4.0或者更高，还可以使用[`unlink`](https://redis.io/commands/unlink)命令来替代`del`命令:
 
-```
+```bash
 redis-cli --scan --pattern users:* | xargs redis-cli unlink
 ```
 

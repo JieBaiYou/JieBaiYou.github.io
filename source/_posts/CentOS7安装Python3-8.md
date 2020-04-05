@@ -46,9 +46,14 @@ cd Python-3.8.0
 # 最好将下面的环境变量加到开机自启动脚本中
 export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib:/usr/local/python3/lib
 export $PATH:/usr/local/python3/lib:/usr/local/python3/bin
-sudo ldconfig /usr/local/python3/lib
+
+ldconfig /usr/local/python3/lib
+或者
+echo "/usr/local/python3/lib" >> /etc/ld.so.conf
+ldconfig
 ```
 *--enable-optimizations 优化选项（可选）执行完上一步后会提示执行以下的代码对Python解释器进行优化，据说性能有10%左右的提升，执行该代码后，会编译安装到 /usr/local/bin/python3.8 下，且不用添加软连接或环境变量。但安装目录也许并不是你想要的*
+
 ```
 ./configure --enable-optimizations
 ```

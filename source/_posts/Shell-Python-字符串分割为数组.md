@@ -15,7 +15,7 @@ Shell中要将字符串列表转变为数组，只需要在前面加()，所以�
 ### Shell分割字符串为数组
 
 ##### 方法一: 借助于{str//,/}来处理
-```
+```bash
 # str="ONE,TWO,THREE,FOUR"
 # arr=(${str//,/})
 # echo ${arr[@]}
@@ -25,7 +25,7 @@ ONE TWO THREE FOUR
 
 ##### 方法二: 借助于tr命令来处理
 
-```
+```bash
 # str="ONE,TWO,THREE,FOUR"
 # arr=(`echo $str | tr ',' ' '`) 
 # echo ${arr[@]}
@@ -33,14 +33,14 @@ ONE TWO THREE FOUR
 ```
 
 ##### 方法三: 借助于awk命令来处理
-```
+```bash
 # str="ONE,TWO,THREE,FOUR"
 # arr=($(echo $str | awk 'BEGIN{FS=",";OFS=" "} {print $1,$2,$3,$4}'))
 # echo ${str[*]}
 ```
 
 ##### 方法四: 借助于IFS来处理分隔符
-```
+```bash
 # str="ONE,TWO,THREE,FOUR"
 # IFS=","
 # arr=(str)
@@ -49,7 +49,7 @@ ONE TWO THREE FOUR
 
 ##### 方法五：使用AWK分割无分隔符的文本
 
-```
+```bash
 # text="abcdefghijklmnopqrstuvwxyz"
 # echo $text | awk 'BEGIN { FS=OFS="" } { for( i=1; i<=NF; i++ ) { if( i%4==0 && i!=NF ) { printf $i" " } else { printf $i }} print "" }'
 ```
@@ -60,7 +60,7 @@ ONE TWO THREE FOUR
 
 ##### re
 
-```
+```python
 import re
 re.findall('..','1234567890')
 ['12', '34', '56', '78', '90']
@@ -68,7 +68,7 @@ re.findall('..','1234567890')
 
 也可以这样做：
 
-```
+```python
 import re
 re.findall('..?', '123456789')
 ['12', '34', '56', '78', '9']
@@ -76,7 +76,7 @@ re.findall('..?', '123456789')
 
 您还可以执行以下操作，以简化较长块的正则表达式：
 
-```
+```python
 import re
 re.findall('.{1,2}', '123456789')
 ['12', '34', '56', '78', '9']
@@ -84,7 +84,7 @@ re.findall('.{1,2}', '123456789')
 
 ##### lambda
 
-```
+```python
 split_string = lambda x, n: [x[i:i+n] for i in range(0, len(x), n)]
 s = '1234567890'
 split_string(s,2)
@@ -93,7 +93,7 @@ split_string(s,2)
 
 ##### other
 
-```
+```python
 s = '1234567890'
 o = []
 while s:
@@ -101,7 +101,7 @@ while s:
     s = s[2:]
 ```
 
-```
+```python
 s='1234567890'
 print([s[idx:idx+2] for idx,val in enumerate(s) if idx%2 == 0])
 ```
