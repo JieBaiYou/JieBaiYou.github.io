@@ -27,7 +27,7 @@ Python 语言里有许多（而且是越来越多）的高级特性，是 Python
 
 这是一段非常简单的通过年龄判断一个人是否成年的代码，由于代码行数过多，有些人就不太愿意这样写，因为这体现不出自己多年的 Python 功力。
 
-```
+```python
 if age > 18:
     return "已成年"
 else:
@@ -40,13 +40,13 @@ else:
 
 语法：
 
-```
+```python
 <on_true> if <condition> else <on_false> 
 ```
 
 例子
 
-```
+```python
 age1 = 20
 age2 = 17
 
@@ -63,13 +63,13 @@ print msg2
 
 语法
 
-```
+```python
 <condition> and <on_true> or <on_false>
 ```
 
 例子
 
-```
+```python
 msg1 = age1 > 18 and "已成年" or "未成年"
 msg2 = "已成年" if age2 > 18 else "未成年"
 
@@ -84,13 +84,13 @@ print(msg2)
 
 语法
 
-```
+```python
 (<on_true>, <on_false>)[condition]
 ```
 
 例子
 
-```
+```python
 msg1 = ("未成年", "已成年")[age1 > 18]
 print(msg1)
 已成年
@@ -104,13 +104,13 @@ print(msg2)
 
 语法
 
-```
+```python
 (lambda: <on_false>, lambda:<on_true>)[<condition>]()
 ```
 
 例子
 
-```
+```python
 msg1 = (lambda:"未成年", lambda:"已成年")[age1 > 18]()
 print(msg1)
 已成年
@@ -124,13 +124,13 @@ print(msg2)
 
 语法：
 
-```
+```python
 {True: <on_true>, False: <on_false>}[<condition>]
 ```
 
 例子：
 
-```
+```python
 msg1 = {True: "已成年", False: "未成年"}[age1 > 18]
 print(msg1)
 已成年
@@ -144,13 +144,13 @@ print(msg2)
 
 语法
 
-```
+```python
 ((<condition>) and (<on_true>,) or (<on_false>,))[0]
 ```
 
 例子
 
-```
+```python
 msg1 = ((age1 > 18) and ("已成年",) or ("未成年",))[0]
 print(msg1)
 已成年
