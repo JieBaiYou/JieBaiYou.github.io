@@ -51,11 +51,11 @@ age1 = 20
 age2 = 17
 
 msg1 = "已成年" if age1 > 18 else "未成年"
-print msg1
+print(msg1)
 已成年
 
 msg2 = "已成年" if age2 > 18 else "未成年"
-print msg2
+print(msg2)
 未成年
 ```
 
