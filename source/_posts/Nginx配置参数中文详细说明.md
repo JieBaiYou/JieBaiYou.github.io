@@ -3,7 +3,7 @@ title: Nginx配置参数中文详细说明
 tags:
   - nginx
 categories:
-  - 技术支持
+  - 技术分享
 date: 2020-06-05 10:12:21
 ---
 
