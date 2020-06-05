@@ -162,13 +162,13 @@ http
 
 ## Nginx多台服务器实现负载均衡：
 
-> 1.Nginx负载均衡服务器：
-> IP：192.168.0.4（Nginx-Server）
->
-> 2.Web服务器列表：
-> Web1:192.168.0.5（Nginx-Node1/Nginx-Web1） ；Web2:192.168.0.7（Nginx-Node2/Nginx-Web2）
->
-> 3.实现目的：用户访问Nginx-Server（“http://mongo.demo.com:8888”）时，通过Nginx负载均衡到Web1和Web2服务器
+1.Nginx负载均衡服务器：
+IP：192.168.0.4（Nginx-Server）
+
+2.Web服务器列表：
+Web1:192.168.0.5（Nginx-Node1/Nginx-Web1） ；Web2:192.168.0.7（Nginx-Node2/Nginx-Web2）
+
+3.实现目的：用户访问Nginx-Server（“mongo.demo.com:8888”）时，通过Nginx负载均衡到Web1和Web2服务器
 
 Nginx负载均衡服务器的nginx.conf配置注释如下：
 
