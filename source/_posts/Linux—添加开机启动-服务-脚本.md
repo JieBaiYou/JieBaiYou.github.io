@@ -51,7 +51,7 @@ date: 2020-06-05 10:04:46
 将写好的脚本（.sh文件）放到目录 /etc/profile.d/ 下，系统启动后就会自动执行该目录下的所有shell脚本。
 **三、通过chkconfig命令设置**
 
-```
+```bash
 # 1.将(脚本)启动文件移动到 /etc/init.d/或者/etc/rc.d/init.d/目录下。（前者是后者的软连接）
 mv  /www/wwwroot/test.sh /etc/rc.d/init.d
 
@@ -82,7 +82,7 @@ chmod +x  /etc/rc.d/init.d/test.sh
 **四、自定义服务文件，添加到系统服务，通过Systemctl管理**
 1.写服务文件：如nginx.service、redis.service、supervisord.service
 
-```
+```bash
 [Unit]:服务的说明
 Description:描述服务
 After:描述服务类别
@@ -101,14 +101,14 @@ WantedBy=multi-user.target
 
 2.文件保存在目录下：以754的权限。目录路径：/usr/lib/systemd/system。如上面的supervisord.service文件放在这个目录下面。
 
-```
+```bash
 [root@localhost ~]# cat /usr/lib/systemd/system/nginx.service
 [root@localhost ~]# cat /usr/lib/systemd/system/supervisord.service
 ```
 
 3.设置开机自启动(任意目录下执行)。如果执行启动命令报错，则执行：systemctl daemon-reload
 
-```
+```bash
 设置开机自启动
 [root@localhost ~]# systemctl enable nginx.service       
 [root@localhost ~]# systemctl enable supervisord
@@ -120,7 +120,7 @@ WantedBy=multi-user.target
 
 4.其他命令
 
-```
+```bash
 启动nginx服务
 [root@localhost ~]# systemctl start nginx.service
 停止nginx服务
@@ -135,7 +135,7 @@ WantedBy=multi-user.target
 
 5.服务文件示例：
 
-```
+```bash
 # supervisord.service进程管理服务文件[Unit]
 Description=Process Monitoring and Control Daemon   # 内容自己定义：Description=Supervisor daemon
 After=rc-local.service nss-user-lookup.target
@@ -148,7 +148,7 @@ ExecReload=/usr/bin/supervisorctl reloadRestart=on-failureRestartSec=42sKillMode
 WantedBy=multi-user.target
 ```
 
-```
+```bash
 # nginx.service服务文件[Unit]
 Description=nginx - high performance web server
 After=network.target remote-fs.target nss-lookup.target
@@ -161,7 +161,7 @@ ExecStop=/usr/local/nginx/sbin/nginx -s stop
 WantedBy=multi-user.target
 ```
 
-```
+```bash
 # redis.service服务文件
 [Unit]
 Description=Redis
