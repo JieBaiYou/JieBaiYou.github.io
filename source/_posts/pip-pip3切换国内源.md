@@ -12,17 +12,18 @@ categories:
 <!-- more -->
 
 **创建并编辑pip配置文件**
-```
+```bash
 mkdir ~/.pip && vim ~/.pip/pip.conf
 ```
 **然后将下面这两行复制进去就好了**
-```
+```bash
 [global]
 index-url = https://mirrors.aliyun.com/pypi/simple
 ```
 ---
 **国内其他pip源**
-```
+
+```bash
 清华:
 https://pypi.tuna.tsinghua.edu.cn/simple 
 
