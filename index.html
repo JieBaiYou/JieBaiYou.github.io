@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="分享学习记录">
+<meta property="og:type" content="website">
+<meta property="og:title" content="解百忧 · 随记">
+<meta property="og:url" content="https://www.jiebaiyou.com/index.html">
+<meta property="og:site_name" content="解百忧 · 随记">
+<meta property="og:description" content="分享学习记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="解百忧">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content=" docker">
+<meta property="article:tag" content=" nginx">
+<meta property="article:tag" content=" mysql">
+<meta property="article:tag" content=" shell">
+<meta property="article:tag" content=" python">
+<meta property="article:tag" content=" OpsDev">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.jiebaiyou.com/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>解百忧 · 随记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解百忧 · 随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">那些比你走得远的人，并不比你聪慧，只是每天多走了一点。坚持，是最强大的力量。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/jiebaiyou" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2021/06/30/25%E6%9D%A1%E6%9C%89%E7%94%A8%E7%9A%84iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/30/25%E6%9D%A1%E6%9C%89%E7%94%A8%E7%9A%84iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/" class="post-title-link" itemprop="url">25条有用的iptables常用示例</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-30 17:59:40 / 修改时间：18:00:41" itemprop="dateCreated datePublished" datetime="2021-06-30T17:59:40+08:00">2021-06-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="25-条有用的-iptables-常用示例"><a href="#25-条有用的-iptables-常用示例" class="headerlink" title="25 条有用的 iptables 常用示例"></a>25 条有用的 iptables 常用示例</h2><p>本文将给出25个iptables常用规则示例，这些例子为您提供了些基本的模板，您可以根据特定需求对其进行修改调整以达到期望。</p>
+<p><strong>格式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables [-t 表名] 选项 [链名] [条件] [-j 控制类型]</span><br></pre></td></tr></table></figure>
+
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><blockquote>
+<p>-P 设置默认策略:iptables -P INPUT (DROP|ACCEPT)<br>-F 清空规则链<br>-L 查看规则链<br>-A 在规则链的末尾加入新规则<br>-I num 在规则链的头部加入新规则<br>-D num 删除某一条规则<br>-s 匹配来源地址IP/MASK，加叹号”!”表示除这个IP外。<br>-d 匹配目标地址<br>-i 网卡名称 匹配从这块网卡流入的数据<br>-o 网卡名称 匹配从这块网卡流出的数据<br>-p 匹配协议,如tcp,udp,icmp<br>–dport num 匹配目标端口号<br>–sport num 匹配来源端口号</p>
+</blockquote>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><h5 id="1-删除已有规则"><a href="#1-删除已有规则" class="headerlink" title="1. 删除已有规则"></a>1. 删除已有规则</h5><p>在开始创建iptables规则之前，你也许需要删除已有规则。命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">(or)</span><br><span class="line">iptables –flush</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-设置链的默认策略"><a href="#2-设置链的默认策略" class="headerlink" title="2.设置链的默认策略"></a>2.设置链的默认策略</h5><p>链的默认政策设置为”ACCEPT”（接受），若要将INPUT,FORWARD,OUTPUT链设置成”DROP”（拒绝），命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P FORWARD DROP</span><br><span class="line">iptables -P OUTPUT DROP</span><br></pre></td></tr></table></figure>
+
+<p>当INPUT链和OUTPUT链都设置成DROP时，对于每一个防火墙规则，我们都应该定义两个规则。例如：一个传入另一个传出。在下面所有的例子中，由于我们已将DROP设置成INPUT链和OUTPUT链的默认策略，每种情况我们都将制定两条规则。当然，如果你相信你的内部用户,则可以省略上面的最后一行。例如：默认不丢弃所有出站的数据包。在这种情况下,对于每一个防火墙规则要求,你只需要制定一个规则——只对进站的数据包制定规则。</p>
+<h5 id="3-阻止指定IP地址"><a href="#3-阻止指定IP地址" class="headerlink" title="3. 阻止指定IP地址"></a>3. 阻止指定IP地址</h5><p>例：丢弃来自IP地址x.x.x.x的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BLOCK_THIS_IP&#x3D;&quot;x.x.x.x&quot;</span><br><span class="line">iptables -A INPUT -s &quot;$BLOCK_THIS_IP&quot; -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>注：当你在log里发现来自某ip地址的异常记录，可以通过此命令暂时阻止该地址的访问以做更深入分析</p>
+<p>例：阻止来自IP地址x.x.x.x eth0 tcp的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -s &quot;$BLOCK_THIS_IP&quot; -j DROP</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -s &quot;$BLOCK_THIS_IP&quot; -j DROP</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-允许所有SSH的连接请求"><a href="#4-允许所有SSH的连接请求" class="headerlink" title="4. 允许所有SSH的连接请求"></a>4. 允许所有SSH的连接请求</h5><p>例：允许所有来自外部的SSH连接请求，即只允许进入eth0接口，并且目标端口为22的数据包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-仅允许来自指定网络的SSH连接请求"><a href="#5-仅允许来自指定网络的SSH连接请求" class="headerlink" title="5. 仅允许来自指定网络的SSH连接请求"></a>5. 仅允许来自指定网络的SSH连接请求</h5><p>例：仅允许来自于192.168.100.0/24域的用户的ssh连接请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.0&#x2F;24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-允许http和https的连接请求"><a href="#6-允许http和https的连接请求" class="headerlink" title="6.允许http和https的连接请求"></a>6.允许http和https的连接请求</h5><p>例：允许所有来自web - http的连接请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>例：允许所有来自web - https的连接请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="7-使用multiport-将多个规则结合在一起"><a href="#7-使用multiport-将多个规则结合在一起" class="headerlink" title="7. 使用multiport 将多个规则结合在一起"></a>7. 使用multiport 将多个规则结合在一起</h5><p>允许多个端口从外界连入，除了为每个端口都写一条独立的规则外，我们可以用multiport将其组合成一条规则。如下所示：</p>
+<p>例：允许所有ssh,http,https的流量访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp -m multiport --sports 22,80,443 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="8-允许从本地发起的SSH请求"><a href="#8-允许从本地发起的SSH请求" class="headerlink" title="8. 允许从本地发起的SSH请求"></a>8. 允许从本地发起的SSH请求</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>请注意,这与允许ssh连入的规则略有不同。本例在OUTPUT链上，我们允许NEW和ESTABLISHED状态。在INPUT链上，我们只允许ESTABLISHED状态。ssh连入的规则与之相反。</p>
+<h5 id="9-仅允许从本地发起到一个指定的网络域的SSH请求"><a href="#9-仅允许从本地发起到一个指定的网络域的SSH请求" class="headerlink" title="9. 仅允许从本地发起到一个指定的网络域的SSH请求"></a>9. 仅允许从本地发起到一个指定的网络域的SSH请求</h5><p>例：仅允许从内部连接到网域192.168.100.0/24</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p tcp -d 192.168.100.0&#x2F;24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="10-允许从本地发起的HTTPS连接请求"><a href="#10-允许从本地发起的HTTPS连接请求" class="headerlink" title="10. 允许从本地发起的HTTPS连接请求"></a>10. 允许从本地发起的HTTPS连接请求</h5><p>下面的规则允许输出安全的网络流量。如果你想允许用户访问互联网，这是非常有必要的。在服务器上，这些规则能让你使用wget从外部下载一些文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A INPUT -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>注：对于HTTP web流量的外联请求，只需要将上述命令中的端口从443改成80即可。</p>
+<h5 id="11-负载平衡传入的网络流量"><a href="#11-负载平衡传入的网络流量" class="headerlink" title="11. 负载平衡传入的网络流量"></a>11. 负载平衡传入的网络流量</h5><p>使用iptables可以实现传入web流量的负载均衡，我们可以传入web流量负载平衡使用iptables防火墙规则。<br>例：使用iptables nth将HTTPS流量负载平衡至三个不同的ip地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 0 -j DNAT --to-destination 192.168.1.101:443iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 1 -j DNAT --to-destination 192.168.1.102:443iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 2 -j DNAT --to-destination 192.168.1.103:443</span><br></pre></td></tr></table></figure>
+
+<h5 id="12-允许外部主机ping内部主机"><a href="#12-允许外部主机ping内部主机" class="headerlink" title="12. 允许外部主机ping内部主机"></a>12. 允许外部主机ping内部主机</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPTiptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="13-允许内部主机ping外部主机"><a href="#13-允许内部主机ping外部主机" class="headerlink" title="13. 允许内部主机ping外部主机"></a>13. 允许内部主机ping外部主机</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPTiptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="14-允许回环访问"><a href="#14-允许回环访问" class="headerlink" title="14. 允许回环访问"></a>14. 允许回环访问</h5><p>例：在服务器上允许127.0.0.1回环访问。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i lo -j ACCEPTiptables -A OUTPUT -o lo -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="15-允许内部网络域外部网络的通信"><a href="#15-允许内部网络域外部网络的通信" class="headerlink" title="15. 允许内部网络域外部网络的通信"></a>15. 允许内部网络域外部网络的通信</h5><p>防火墙服务器上的其中一个网卡连接到外部，另一个网卡连接到内部服务器，使用以下规则允许内部网络与外部网络的通信。此例中，eth1连接到外部网络(互联网)，eth0连接到内部网络(例如:192.168.1.x)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="16-允许出站的DNS连接"><a href="#16-允许出站的DNS连接" class="headerlink" title="16. 允许出站的DNS连接"></a>16. 允许出站的DNS连接</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPTiptables -A INPUT -p udp -i eth0 --sport 53 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="17-允许NIS连接"><a href="#17-允许NIS连接" class="headerlink" title="17. 允许NIS连接"></a>17. 允许NIS连接</h5><p>如果你使用NIS管理用户帐户，你需要允许NIS连接。如果你不允许NIS相关的ypbind连接请求，即使SSH连接请求已被允许，用户仍然无法登录。NIS的端口是动态的，先使用命令rpcinfo –p来知道端口号，此例中为853和850端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpcinfo -p | grep ypbind</span><br></pre></td></tr></table></figure>
+
+<p>例：允许来自111端口以及ypbind使用端口的连接请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 111 -j ACCEPTiptables -A INPUT -p udp --dport 111 -j ACCEPTiptables -A INPUT -p tcp --dport 853 -j ACCEPTiptables -A INPUT -p udp --dport 853 -j ACCEPTiptables -A INPUT -p tcp --dport 850 -j ACCEPTiptables -A INPUT -p udp --dport 850 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>注：当你重启ypbind之后端口将不同，上述命令将无效。有两种解决方案：1）使用你NIS的静态IP 2）编写shell脚本通过“rpcinfo - p”命令自动获取动态端口号,并在上述iptables规则中使用。</p>
+<h5 id="18-允许来自指定网络的rsync连接请求"><a href="#18-允许来自指定网络的rsync连接请求" class="headerlink" title="18. 允许来自指定网络的rsync连接请求"></a>18. 允许来自指定网络的rsync连接请求</h5><p>例：允许来自网络192.168.101.0/24的rsync连接请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.101.0&#x2F;24 --dport 873 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 873 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="19-允许来自指定网络的MySQL连接请求"><a href="#19-允许来自指定网络的MySQL连接请求" class="headerlink" title="19. 允许来自指定网络的MySQL连接请求"></a>19. 允许来自指定网络的MySQL连接请求</h5><p>很多情况下，MySQL数据库与web服务跑在同一台服务器上。有时候我们仅希望DBA和开发人员从内部网络（192.168.100.0/24）直接登录数据库，可尝试以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.0&#x2F;24 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="20-允许Sendmail-Postfix邮件服务"><a href="#20-允许Sendmail-Postfix邮件服务" class="headerlink" title="20. 允许Sendmail, Postfix邮件服务"></a>20. 允许Sendmail, Postfix邮件服务</h5><p>Sendmail和postfix都使用了25端口，因此我们只需要允许来自25端口的连接请求即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="21-允许IMAP和IMAPS"><a href="#21-允许IMAP和IMAPS" class="headerlink" title="21. 允许IMAP和IMAPS"></a>21. 允许IMAP和IMAPS</h5><p>例：允许IMAP/IMAP2流量，端口为143</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 143 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 143 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>例：允许IMAPS流量，端口为993</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 993 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 993 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="22-允许POP3和POP3S"><a href="#22-允许POP3和POP3S" class="headerlink" title="22. 允许POP3和POP3S"></a>22. 允许POP3和POP3S</h5><p>例：允许POP3访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 110 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 110 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>例：允许POP3S访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 995 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 995 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="23-防止DoS攻击"><a href="#23-防止DoS攻击" class="headerlink" title="23. 防止DoS攻击"></a>23. 防止DoS攻击</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 80 -m limit --limit 25&#x2F;minute --limit-burst 100 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>上述例子中：</p>
+<blockquote>
+<p>-m limit: 启用limit扩展<br>–limit 25/minute: 允许最多每分钟25个连接（根据需求更改）。<br>–limit-burst 100: 只有当连接达到limit-burst水平(此例为100)时才启用上述limit/minute限制。</p>
+</blockquote>
+<h5 id="24-端口转发"><a href="#24-端口转发" class="headerlink" title="24. 端口转发"></a>24. 端口转发</h5><p>例：将来自422端口的流量全部转到22端口。</p>
+<p>这意味着我们既能通过422端口又能通过22端口进行ssh连接。启用DNAT转发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，还需要允许连接到422端口的请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<h5 id="25-记录丢弃的数据表"><a href="#25-记录丢弃的数据表" class="headerlink" title="25. 记录丢弃的数据表"></a>25. 记录丢弃的数据表</h5><p>第一步：新建名为LOGGING的链</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -N LOGGING</span><br></pre></td></tr></table></figure>
+
+<p>第二步：将所有来自INPUT链中的数据包跳转到LOGGING链中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -j LOGGING</span><br></pre></td></tr></table></figure>
+
+<p>第三步：为这些包自定义个前缀，命名为”IPTables Packet Dropped”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A LOGGING -m limit --limit 2&#x2F;min -j LOG --log-prefix &quot;IPTables Packet Dropped: &quot; --log-level 7</span><br></pre></td></tr></table></figure>
+
+<p>第四步：丢弃这些数据包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A LOGGING -j DROP</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2021/05/25/python%E8%B7%AF%E5%BE%84%E6%93%8D%E4%BD%9C%E6%96%B0%E6%A0%87%E5%87%86%EF%BC%9Apathlib-%E6%A8%A1%E5%9D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/25/python%E8%B7%AF%E5%BE%84%E6%93%8D%E4%BD%9C%E6%96%B0%E6%A0%87%E5%87%86%EF%BC%9Apathlib-%E6%A8%A1%E5%9D%97/" class="post-title-link" itemprop="url">python路径操作新标准：pathlib 模块</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-25 15:18:24" itemprop="dateCreated datePublished" datetime="2021-05-25T15:18:24+08:00">2021-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="python路径操作新标准：pathlib-模块"><a href="#python路径操作新标准：pathlib-模块" class="headerlink" title="python路径操作新标准：pathlib 模块"></a>python路径操作新标准：pathlib 模块</h1><p>之前如果要使用 python 操作文件路径，我总是会条件反射导入 os.path。 而现在，我会更加喜欢用新式的 pathlib, 虽然用得还是没有 os.path 熟练，但是以后会坚持使用。</p>
+<p>pathlib 库从 python3.4 开始，到 python3.6 已经比较成熟。如果你的新项目可以直接用 3.6 以上，建议用 pathlib。相比于老式的 os.path 有几个优势：</p>
+<ol>
+<li>老的路径操作函数管理比较混乱，有的是导入 os, 有的又是在 os.path 当中，而新的用法统一可以用 pathlib 管理。</li>
+<li>老用法在处理不同操作系统 win，mac 以及 linux 之间很吃力。换了操作系统常常要改代码，还经常需要进行一些额外操作。</li>
+<li>老用法主要是函数形式，返回的数据类型通常是字符串。但是路径和字符串并不等价，所以在使用 os 操作路径的时候常常还要引入其他类库协助操作。新用法是面向对象，处理起来更灵活方便。</li>
+<li>pathlib 简化了很多操作，用起来更轻松。</li>
+</ol>
+<p>举个例子， 把所有的 txt 文本全部移动到 archive 目录当中（archive 目录必须存在)。</p>
+<p><img src="https://i.loli.net/2020/05/09/yxBn1KPYm7AJU3O.png" alt="image.png">image.png</p>
+<p>使用原来的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import glob</span><br><span class="line">import os</span><br><span class="line">import shutil</span><br><span class="line"></span><br><span class="line"># 获取运行目录下所有的 txt 文件。注意：不是这个文件目录下</span><br><span class="line">print(glob.glob(&#39;*.txt&#39;))</span><br><span class="line"></span><br><span class="line">for file_name in glob.glob(&#39;*.txt&#39;):</span><br><span class="line">    new_path &#x3D; os.path.join(&#39;archive&#39;, file_name)</span><br><span class="line">    shutil.move(file_name, new_path)</span><br></pre></td></tr></table></figure>
+
+<p>新的写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from pathlib import Path</span><br><span class="line"></span><br><span class="line">Path(&quot;demo.txt&quot;).replace(&#39;archive&#x2F;demo.txt&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>这篇文章列举了 pathlib 的主要用法，细节知识有点多，我只会介绍 pathlib 的用法，不会每个都列举和 os 的区别。但是我会在文章最后放上主要操作使用 pathlib 和 os 的对比图。</p>
+<p>最主要的路径操作，你可以参考国外一位大神总结的图：</p>
+<p><img src="https://i.loli.net/2020/05/11/Uwqg4IrtELPD8ak.png" alt="pathlib_cheatsheet.png">pathlib_cheatsheet.png</p>
+<h2 id="1-路径获取"><a href="#1-路径获取" class="headerlink" title="1 路径获取"></a><strong>1 路径获取</strong></h2><ul>
+<li>获取当前工作目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import pathlib</span><br><span class="line">&gt;&gt;&gt; pathlib.Path.cwd()</span><br><span class="line">C:\Users\me\study</span><br><span class="line"># WindowsPath(&#39;C:\Users\me\study&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>虽然在这里打印出来的很像一个字符串，但实际上得到的是一个 <code>WindowsPath(&#39;C:\Users\me\study&#39;)</code>对象。显示内容由 Path 类的 <code>__repr__</code> 定义。</p>
+<blockquote>
+<p>注意</p>
+<p>工作目录是在哪个目录下运行你的程序，不是项目目录。</p>
+</blockquote>
+<p>如果你只想得到字符串表示，不想要 WindowsPath 对象，可以用 str() 转化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; str(pathlib.Path.cwd())</span><br><span class="line">C:\Users\me\study</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取用户 home 目录。</li>
+</ul>
+<p>下面的例子因为基本都是使用 pathlib 下面的 Path 类，所以可以换一种导入方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from pathlib import Path</span><br><span class="line">&gt;&gt;&gt; Path.home()</span><br><span class="line">c:\Users\me</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取当前文件路径</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(__file__)</span><br><span class="line">demo_01.py</span><br></pre></td></tr></table></figure>
+
+<p>在 pycharm 中右击运行和在 cmd 运行的结果会不同。pycharm 会显示全路径，cmd 运行只会显示工作目录下的相对路径。如果想统一，可以添加后缀 <code>.resolve()</code> 转化成绝对路径，这个在后面还会提到。</p>
+<p><img src="https://i.loli.net/2020/05/11/HnRC8rKk4dupi1L.png" alt="image.png">image.png</p>
+<ul>
+<li>获取任意字符串路径</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(&#39;subdir&#x2F;demo_02.py&#39;)</span><br><span class="line">subdir\demo_02.py</span><br><span class="line">&gt;&gt;&gt; Path(&#39;c:d:y&#x2F;rad.txt&#39;)</span><br><span class="line">c:d:y\rad.txt</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意 2 点：</p>
+<ol>
+<li>不管字符串使用的是正斜杠 <code>/</code> 还是反斜杠 <code>\</code>， 在 windows 系统里，得到的路径都是反斜杠<code>\</code>, pathlib 会根据操作系统智能处理。</li>
+<li>第二个例子中字符串会被 <code>/</code> 分割，<code>c:d:y</code> 会被当做一个目录名字，pathlib 不会去判断这个文件真的存在哦。</li>
+</ol>
+<ul>
+<li>获取绝对路径</li>
+</ul>
+<p>只需要在任意路径对象后添加方法 <code>.resolve()</code> 就能获取路径的绝对路径。如果填入的路径是相对路径（windows 下没有盘符，linux 没有 / 开头)，则会在当前工作目录后添加路径。如果是已经是绝对路径，则只会根据操作系统优化表达。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)</span><br><span class="line">&gt;&gt;&gt; file</span><br><span class="line">archive\demo.txt</span><br><span class="line">&gt;&gt;&gt; file.resolve()</span><br><span class="line">C:\Users\me\study\archive\demo.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取文件属性</li>
+</ul>
+<p>文件属性比如文件大小，创建时间，修改时间等等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)print(file.stat())print(file.stat().st_size)print(file.stat().st_atime)print(file.stat().st_ctime)print(file.stat().st_mtime)</span><br></pre></td></tr></table></figure>
+
+<p>找出最后修改的文件的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; path &#x3D; Path.cwd()&gt;&gt;&gt; max(        [(f.stat().st_mtime, f)          for f in path.iterdir()          if f.is_file()]    )1589171135.860173 C:\Users\me\study\demo_03.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-路径组成部分"><a href="#2-路径组成部分" class="headerlink" title="2 路径组成部分"></a><strong>2 路径组成部分</strong></h2><p>获取路径的组成部分非常方便：</p>
+<ul>
+<li>.name 文件名，包含后缀名，如果是目录则获取目录名。</li>
+<li>.stem 文件名，不包含后缀。</li>
+<li>.suffix 后缀，比如 <code>.txt</code>, <code>.png</code>。</li>
+<li>.parent 父级目录，相当于 <code>cd ..</code></li>
+<li>.anchor 锚，目录前面的部分 <code>C:\</code> 或者 <code>/</code>。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)&gt;&gt;&gt; file.namedemo.txt&gt;&gt;&gt; file.stemdemo&gt;&gt;&gt; file.suffix.txt&gt;&gt;&gt; file.parentC:\Users\me\study\archive&gt;&gt;&gt; file.anchor&#39;C:\&#39;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取上一级目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)&gt;&gt;&gt; file.parentarchive</span><br></pre></td></tr></table></figure>
+
+<p>获取上 2 级 和 3 级目录会有点问题。因为传入的是一个相对路径，上 3 级已经无法往上了，所以还是会停留在工作目录。所以你需要确保你的路径有这么多层级。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file.parent.parent.&gt;&gt;&gt; file.parent.parent.parent.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取所有的上级目录：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file.parents&lt;WindowsPath.parents&gt;&gt;&gt;&gt; list(file.parents)[WindowsPath(&#39;archive&#39;), WindowsPath(&#39;.&#39;)]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>父级目录的另一种表示方法：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file.parents[0]archive</span><br></pre></td></tr></table></figure>
+
+<p>如果路径是在当前工作目录下的子目录，最好转化成绝对路径再获取上层目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file.resolve().parents[4]C:\Users# 不能使用负数</span><br></pre></td></tr></table></figure>
+
+<p>在 os 模块中获取上 3 级目录简直令人奔溃，需要重复使用 dirname 函数，使用 pathlib 的 parent 可以极大简单化操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import os&gt;&gt;&gt; os.path.dirname(file)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>相对其他某个路径的结果：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file.relative_to(&#39;archive&#39;)dmeo.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-子路径扫描"><a href="#3-子路径扫描" class="headerlink" title="3 子路径扫描"></a><strong>3 子路径扫描</strong></h2><ul>
+<li>dir_path.iterdir() 可以扫描某个目录下的所有路径（文件和子目录)， 打印的会是处理过的绝对路径。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; cwd &#x3D; Path.cwd()&gt;&gt;&gt; [path for path in cwd.iterdir() if cwd.is_dir()][    WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;archive&#39;),     WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;demo_01.py&#39;),     WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;new_archive&#39;)]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用 iterdir() 可以统计目录下的不同文件类型：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; path &#x3D; Path.cwd()&gt;&gt;&gt; files &#x3D; [f.suffix for f in path.iterdir() if f.is_file()]&gt;&gt;&gt; collections.Counter(files)Counter(&#123;&#39;.py&#39;: 3, &#39;.txt&#39;: 1&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查找目录下的指定文件 glob 。</li>
+</ul>
+<p>使用模式匹配（正则表达式）匹配指定的路径。正则表达式不熟练的可以查看 <a href="https://mp.weixin.qq.com/s?src=11&timestamp=1589010579&ver=2327&signature=J84Vp3En0*OyHZ5OJEkl4xjhX3gXUDTEn2jxYy*heATYN*IOB66Vnvj8R9Cu9D6BVB*QcAP4NtxQne2WVDOxb0e9lUFISXOtzT-8dhAqbUvHVZ69*yGAvJJ2vzWhJMfA&new=1" target="_blank" rel="noopener">这个教程，真的让我学会了正则表达式</a>。glob 只会匹配当前目录下， rglob 会递归所有子目录。下面这个例子，demo.txt 在 archive 子目录下。所以用 glob 找到的是空列表，rglob 可以找到。glob 得到的是一个生成器，可以通过 list() 转化成列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; cwd &#x3D; Path.cwd()&gt;&gt;&gt; list(cwd.glob(&#39;*.txt&#39;))[]&gt;&gt;&gt; list(cwd.rglob(&#39;*.txt&#39;))[WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;archive&#x2F;demo.txt&#39;)]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>检查路径是否符合规则 match</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;&#x2F;archive&#x2F;demo.txt&#39;)&gt;&gt;&gt; file.match(&#39;*.txt&#39;)True</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-路径拼接"><a href="#4-路径拼接" class="headerlink" title="4 路径拼接"></a><strong>4 路径拼接</strong></h2><p>pathlib 支持用 <code>/</code> 拼接路径。熟悉魔术方法的同学应该很容易理解其中的原理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path.home() &#x2F; &#39;dir&#39; &#x2F; &#39;file.txt&#39;C:\Users\me\dir\file.txt</span><br></pre></td></tr></table></figure>
+
+<p>如果用不惯 <code>/</code> ，也可以用类似 os.path.join 的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path.home().joinpath(&#39;dir&#39;, &#39;file.txt&#39;)C:\Users\me\dir\file.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-路径测试（判断）"><a href="#5-路径测试（判断）" class="headerlink" title="5 路径测试（判断）"></a><strong>5 路径测试（判断）</strong></h2><ul>
+<li>是否为文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).is_file()True&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).parent.is_file()False</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>是否为文件夹 (目录)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).is_dir()False&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).parent.is_dir()True</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>是否存在</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).existsTrue&gt;&gt;&gt; Path(&quot;archive&#x2F;dem.txt&quot;).existsFalse</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-文件操作"><a href="#6-文件操作" class="headerlink" title="6 文件操作"></a><strong>6 文件操作</strong></h2><ul>
+<li>创建文件 touch</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;hello.txt&#39;)&gt;&gt;&gt; file.touch(exist_ok&#x3D;True)None&gt;&gt;&gt; file.touch(exist_ok&#x3D;False)FileExistsError: [Errno 17] File exists: &#39;hello.txt&#39;</span><br></pre></td></tr></table></figure>
+
+<p>exist_ok 表示当文件已经存在时，程序的反应。如果为 True，文件存在时，不进行任何操作。如果为 False, 则会报 <code>FileExistsError</code> 错误。</p>
+<ul>
+<li>创建目录 path.mkdir</li>
+</ul>
+<p>用 os 创建目录分为 2 个函数 ： <code>mkdir()</code> 和 <code>makedirs()</code>。 <code>mkdir()</code> 一次只能创建一级目录， <code>makedirs()</code> 可以同时创建多级目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; os.mkdir(&#39;dir&#x2F;subdir&#x2F;3dir&#39;)FileNotFoundError: [WinError 3] 系统找不到指定的路径。: &#39;dir&#x2F;subdir&#x2F;3dir&#39;&gt;&gt;&gt; os.makedirs(&#39;dir&#x2F;subdir&#x2F;3dir&#39;)None</span><br></pre></td></tr></table></figure>
+
+<p>使用 pathlib 只需要用 path.mkdir() 函数就可以。它提供了 parents 参数，设置为 True 可以创建多级目录；不设置则只能创建 一层：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; path &#x3D; Path(&#39;&#x2F;dir&#x2F;subdir&#x2F;3dir&#39;)&gt;&gt;&gt; path.mkdir()FileNotFoundError: [WinError 3] 系统找不到指定的路径。: &#39;dir&#x2F;subdir&#x2F;3dir&#39;&gt;&gt;&gt; path.mkdir(parents&#x3D;True)None</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除目录 path.rmdir()</li>
+</ul>
+<p>删除目录非常危险，并且没有提示，一定要谨慎操作。一次只删除一级目录，且当前目录必须为空。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; path &#x3D; Path(&#39;dir&#x2F;subdir&#x2F;3dir&#39;)&gt;&gt;&gt; path.rmdir()None</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除文件 path.unlink, 危险操作。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)&gt;&gt;&gt; path.unlink()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>打开文件</li>
+</ul>
+<p>使用 open() 函数打开文件时，如果需要传入文件路径。可以用字符串作为参数传入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">with open(&#39;archive&#x2F;demo.txt&#39;) as f:    print(f.read())</span><br></pre></td></tr></table></figure>
+
+<p>也可以传入 Path 对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file_path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)with open(file_path) as f:    print(f.read())</span><br></pre></td></tr></table></figure>
+
+<p>如果经常使用 pathlib，可以在获取到 Path 路径以后直接调用 path.open() 方法。至于到底用哪一个，其实不必太在意，因为 path.open() 也是调用内置函数 open()。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)with file.open() as f:    print(f.read())</span><br></pre></td></tr></table></figure>
+
+<p>不过 pathlib 对读取和写入进行了简单的封装，不再需要重复去打开文件和管理文件的关闭了。</p>
+<ul>
+<li>.read_text() 读取文本</li>
+<li>.read_bytes() 读取 bytes</li>
+<li>.write_text() 写入文本</li>
+<li>.write_bytes() 写入 tytes</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; file_path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)&gt;&gt;&gt; file_path.read_text()   # 读取文本&#39;text in the demo.txt&#39;&gt;&gt;&gt; file_path.read_bytes()  # 读取 bytesb&#39;text in the demo.txt&#39;&gt;&gt;&gt; file.write_text(&#39;new words&#39;)  # 写入文本9&gt;&gt;&gt; file.write_bytes(b&#39;new words&#39;) # 写入 bytes9</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意</p>
+<p>file.write 操作使用的是 w 模式，如果之前已经有文件内容，将会被覆盖。</p>
+</blockquote>
+<ul>
+<li>移动文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">txt_path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)res &#x3D; txt_path.replace(&#39;new_demo.txt&#39;)print(res)</span><br></pre></td></tr></table></figure>
+
+<p>这个操作会把 archive 目录下的 demo.txt 文件移动到当前工作目录，并重命名为 new_demo.txt。</p>
+<p>移动操作支持的功能很受限。比如当前工作目录如果已经有一个 new_demo.txt 的文件，则里面的内容都会被覆盖。还有，如果需要移动到其他目录下，则该目录必须要存在，否则会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># new_archive 目录必须存在，否则会报错txt_path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)res &#x3D; txt_path.replace(&#39;new_archive&#x2F;new_demo.txt&#39;)print(res)</span><br></pre></td></tr></table></figure>
+
+<p>为了避免出现同名文件里的内容被覆盖，通常需要进行额外处理。比如判断同名文件不能存在，但是父级目录必须存在；或者判断父级目录不存在时，创建该目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dest &#x3D; Path(&#39;new_demo.txt&#39;)if (not dest.exists()) and dest.parent.exists(): txt_path.replace(dest)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重命名文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">txt_path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)new_file &#x3D; txt_path.with_name(&#39;new.txt&#39;)txt_path.replace(new_file)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改后缀名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">txt_path &#x3D; Path(&#39;archive&#x2F;demo.txt&#39;)new_file &#x3D; txt_path.with_suffix(&#39;.json&#39;)txt_path.replace(new_file)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意</p>
+<p>不管是移动文件还是删除文件，都不会给任何提示。所以在进行此类操作的时候要特别小心。</p>
+<p>对文件进行操作最好还是用 shutil 模块。</p>
+</blockquote>
+<h2 id="7-附件：常用的-pathlib-和-os-对比图"><a href="#7-附件：常用的-pathlib-和-os-对比图" class="headerlink" title="7 附件：常用的 pathlib 和 os 对比图"></a><strong>7 附件：常用的 pathlib 和 os 对比图</strong></h2><table>
+<thead>
+<tr>
+<th align="center">操作</th>
+<th align="left">os and os.path</th>
+<th align="left">pathlib</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">绝对路径</td>
+<td align="left"><code>os.path.abspath</code></td>
+<td align="left"><code>Path.resolve</code></td>
+</tr>
+<tr>
+<td align="center">修改权限</td>
+<td align="left"><code>os.chmod</code></td>
+<td align="left"><code>Path.chmod</code></td>
+</tr>
+<tr>
+<td align="center">创建目录</td>
+<td align="left"><code>os.mkdir</code></td>
+<td align="left"><code>Path.mkdir</code></td>
+</tr>
+<tr>
+<td align="center">重命名</td>
+<td align="left"><code>os.rename</code></td>
+<td align="left"><code>Path.rename</code></td>
+</tr>
+<tr>
+<td align="center">移动</td>
+<td align="left"><code>os.replace</code></td>
+<td align="left"><code>Path.replace</code></td>
+</tr>
+<tr>
+<td align="center">删除目录</td>
+<td align="left"><code>os.rmdir</code></td>
+<td align="left"><code>Path.rmdir</code></td>
+</tr>
+<tr>
+<td align="center">删除文件</td>
+<td align="left"><code>os.remove</code>, <code>os.unlink</code></td>
+<td align="left"><code>Path.unlink</code></td>
+</tr>
+<tr>
+<td align="center">工作目录</td>
+<td align="left"><code>os.getcwd</code></td>
+<td align="left"><code>Path.cwd</code></td>
+</tr>
+<tr>
+<td align="center">是否存在</td>
+<td align="left"><code>os.path.exists</code></td>
+<td align="left"><code>Path.exists</code></td>
+</tr>
+<tr>
+<td align="center">用户目录</td>
+<td align="left"><code>os.path.expanduser</code></td>
+<td align="left"><code>Path.expanduser</code> and <code>Path.home</code></td>
+</tr>
+<tr>
+<td align="center">是否为目录</td>
+<td align="left"><code>os.path.isdir</code></td>
+<td align="left"><code>Path.is_dir</code></td>
+</tr>
+<tr>
+<td align="center">是否为文件</td>
+<td align="left"><code>os.path.isfile</code></td>
+<td align="left"><code>Path.is_file</code></td>
+</tr>
+<tr>
+<td align="center">是否为连接</td>
+<td align="left"><code>os.path.islink</code></td>
+<td align="left"><code>Path.is_symlink</code></td>
+</tr>
+<tr>
+<td align="center">文件属性</td>
+<td align="left"><code>os.stat</code></td>
+<td align="left"><code>Path.stat</code>, <code>Path.owner</code>, <code>Path.group</code></td>
+</tr>
+<tr>
+<td align="center">是否为绝对路径</td>
+<td align="left"><code>os.path.isabs</code></td>
+<td align="left"><code>PurePath.is_absolute</code></td>
+</tr>
+<tr>
+<td align="center">路径拼接</td>
+<td align="left"><code>os.path.join</code></td>
+<td align="left"><code>PurePath.joinpath</code></td>
+</tr>
+<tr>
+<td align="center">文件名</td>
+<td align="left"><code>os.path.basename</code></td>
+<td align="left"><code>PurePath.name</code></td>
+</tr>
+<tr>
+<td align="center">上级目录</td>
+<td align="left"><code>os.path.dirname</code></td>
+<td align="left"><code>PurePath.parent</code></td>
+</tr>
+<tr>
+<td align="center">同名文件</td>
+<td align="left"><code>os.path.samefile</code></td>
+<td align="left"><code>Path.samefile</code></td>
+</tr>
+<tr>
+<td align="center">后缀</td>
+<td align="left"><code>os.path.splitext</code></td>
+<td align="left"><code>PurePath.suffix</code></td>
+</tr>
+</tbody></table>
+<p>参考文献</p>
+<ul>
+<li><a href="https://realpython.com/python-pathlib/" target="_blank" rel="noopener">Python 3’s pathlib Module</a></li>
+<li><a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/" target="_blank" rel="noopener">Why you should be using pathlib</a></li>
+<li><a href="https://xin053.github.io/2016/07/03/pathlib路径库使用详解/" target="_blank" rel="noopener">pathlib路径库使用详解</a></li>
+<li><a href="https://www.dongwm.com/post/use-pathlib/" target="_blank" rel="noopener">你应该使用pathlib替代os.path</a></li>
+<li><a href="https://cuiqingcai.com/6598.html" target="_blank" rel="noopener"><a href="https://cuiqingcai.com/6598.html" target="_blank" rel="noopener">Python3 中使用 Pathlib 模块进行文件操作</a></a></li>
+<li><a href="http://www.ityouknow.com/python/2019/10/19/python-pathlib-035.html" target="_blank" rel="noopener">pathlib 模块</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/08/12/Go%E6%AF%8F%E6%97%A5%E4%B8%80%E5%BA%93%E4%B9%8Bcron/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/12/Go%E6%AF%8F%E6%97%A5%E4%B8%80%E5%BA%93%E4%B9%8Bcron/" class="post-title-link" itemprop="url">Go每日一库之cron</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-12 10:23:06" itemprop="dateCreated datePublished" datetime="2020-08-12T10:23:06+08:00">2020-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><a href="https://github.com/robfig/cron" target="_blank" rel="noopener"><code>cron</code></a>一个用于管理定时任务的库，用 Go 实现 Linux 中<code>crontab</code>这个命令的效果。之前我们也介绍过一个类似的 Go 库——<a href="https://darjun.github.io/2020/04/20/godailylib/gron/" target="_blank" rel="noopener"><code>gron</code></a>。<code>gron</code>代码小巧，用于学习是比较好的。但是它功能相对简单些，并且已经不维护了。如果有定时任务需求，还是建议使用<code>cron</code>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/12/Go%E6%AF%8F%E6%97%A5%E4%B8%80%E5%BA%93%E4%B9%8Bcron/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/06/05/Nginx%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E4%B8%AD%E6%96%87%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/05/Nginx%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E4%B8%AD%E6%96%87%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" class="post-title-link" itemprop="url">Nginx配置参数中文详细说明</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-05 10:12:21" itemprop="dateCreated datePublished" datetime="2020-06-05T10:12:21+08:00">2020-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，在BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
+<p>可以在大多数 UnixLinux OS 上编译运行，并有 Windows 移植版。是一个很强大的高性能Web和反向代理服务，它具有很多非常优越的特性，在连接高并发的情况下，Nginx是Apache服务不错的替代品：Nginx在美国是做虚拟主机生意的老板们经常选择的软件平台之一，能够支持高达 50,000 个并发连接数的响应。</p>
+<p>Nginx作为负载均衡服务：Nginx 既可以在内部直接支持 Rails 和 PHP 程序对外进行服务，也可以支持作为 HTTP 代理服务 对外进行服务。Nginx采用C进行编写，不论是系统资源开销还是CPU使用效率都比 Perlbal 要好很多。那对于Nginx的相应配置，当集群出现某些问题的时候，参数会起到相当重要的作用，但是大家也知道，包括官网在内，很多的参数配置都是用英文进行讲解，今天就给大家整理一些配置中文详解</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/05/Nginx%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E4%B8%AD%E6%96%87%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/06/05/Windows-10-WSL2-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%8F%8ADocker%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/05/Windows-10-WSL2-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%8F%8ADocker%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">Windows 10 WSL2 安装使用及Docker安装</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-05 10:06:45" itemprop="dateCreated datePublished" datetime="2020-06-05T10:06:45+08:00">2020-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-WSL2-子系统安装使用"><a href="#1-WSL2-子系统安装使用" class="headerlink" title="1. WSL2 子系统安装使用"></a>1. WSL2 子系统安装使用</h2><blockquote>
+<p>WLS2 需要 Windows 10 Version 2004 Build 19041 或更高版本，使用 Windows Update 自动更新到2004版本。如果没有检测到更新，可以去微软官网下载<a href="https://software-download.microsoft.com/download/pr/MediaCreationTool2004.exe" target="_blank" rel="noopener"> 易升 </a>工具并安装运行。工具会检测到更新并安装。</p>
+<p>如果需要使用 Docker for Windows，需要下载<a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" target="_blank" rel="noopener"> WLS Updata </a>补丁并安装。</p>
+</blockquote>
+<h4 id="1-1-启用Linux子系统"><a href="#1-1-启用Linux子系统" class="headerlink" title="1.1 启用Linux子系统"></a>1.1 启用Linux子系统</h4><p>打开 <code>控制面板</code> -&gt; <code>程序</code> -&gt; <code>启用或关闭Windows功能</code>。找到 <code>适用于Linux的Windows子系统</code> 和 <code>虚拟机平台</code>，勾选这两项之后确定，并重新启动计算机。</p>
+<p>也可以通过命令行启用，以<code>管理员身份</code>打开 PowerShell，输入如下命令，并 <code>重启电脑</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 开启 虚拟机平台 可选组件</span><br><span class="line">Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform</span><br><span class="line"># 开启 适用于Linux的Windows子系统 可选组件</span><br><span class="line">dism.exe &#x2F;online &#x2F;enable-feature &#x2F;featurename:Microsoft-Windows-Subsystem-Linux &#x2F;all &#x2F;norestart</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/05/Windows-10-WSL2-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%8F%8ADocker%E5%AE%89%E8%A3%85/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/06/05/Linux%E2%80%94%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-%E6%9C%8D%E5%8A%A1-%E8%84%9A%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/05/Linux%E2%80%94%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-%E6%9C%8D%E5%8A%A1-%E8%84%9A%E6%9C%AC/" class="post-title-link" itemprop="url">Linux—添加开机启动(服务/脚本)</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-05 10:04:46" itemprop="dateCreated datePublished" datetime="2020-06-05T10:04:46+08:00">2020-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>系统启动时需要加载的配置文件</strong><br>/etc/profile、/root/.bash_profile<br>/etc/bashrc、/root/.bashrc<br>/etc/profile.d/*.sh、/etc/profile.d/lang.sh<br>/etc/sysconfig/i18n、/etc/rc.local（/etc/rc.d/rc.local）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/05/Linux%E2%80%94%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-%E6%9C%8D%E5%8A%A1-%E8%84%9A%E6%9C%AC/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/06/04/Python-asyncio%E5%8D%8F%E7%A8%8B%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/04/Python-asyncio%E5%8D%8F%E7%A8%8B%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">Python asyncio协程学习</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-04 18:03:57" itemprop="dateCreated datePublished" datetime="2020-06-04T18:03:57+08:00">2020-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>不知道你是否发现，身边聊异步的人越来越多了，比如：FastAPI、Tornado、Sanic、Django 3、aiohttp等。<br>听说异步如何如何牛逼？性能如何吊炸天。。。。但他到底是咋回事呢？ </p>
+<p>本节要跟大家一起聊聊关于asyncio异步的那些事！<br>asyncio讲解教程：<a href="https://study.163.com/instructor/3525856.htm" target="_blank" rel="noopener">https://study.163.com/instructor/3525856.htm</a><br>博客园同步：<a href="https://www.cnblogs.com/wupeiqi/" target="_blank" rel="noopener">https://www.cnblogs.com/wupeiqi/</a></p>
+</blockquote>
+<h2 id="1-协程"><a href="#1-协程" class="headerlink" title="1.协程"></a>1.协程</h2><blockquote>
+<p>想学asyncio，得先了解协程，协程是根本呀！<br>协程（Coroutine），也可以被称为微线程，是一种用户态内的上下文切换技术。简而言之，其实就是通过一个线程实现代码块相互切换执行。例如：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="number">1</span>)</span><br><span class="line">    ...</span><br><span class="line">    print(<span class="number">2</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="number">3</span>)</span><br><span class="line">    ...</span><br><span class="line">    print(<span class="number">4</span>)</span><br><span class="line">func1()</span><br><span class="line">func2()</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/04/Python-asyncio%E5%8D%8F%E7%A8%8B%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/05/14/Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%8445%E4%B8%AA%E6%96%B9%E6%B3%95%E8%B6%85%E7%BA%A7%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/14/Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%8445%E4%B8%AA%E6%96%B9%E6%B3%95%E8%B6%85%E7%BA%A7%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">Python字符串的45个方法超级详解</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-14 11:36:41" itemprop="dateCreated datePublished" datetime="2020-05-14T11:36:41+08:00">2020-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Python中字符串对象提供了很多方法来操作字符串，功能相当丰富。必须进行全面的了解与学习，后面的代码处理才能更得心应手，编程水平走向新台阶的坚实基础。目前一共有45个方法，给大家分类整理，可以收藏查询使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 获取字所有的符串方法</span><br><span class="line">print(dir(str))</span><br><span class="line">[...,&#39;capitalize&#39;, &#39;casefold&#39;, &#39;center&#39;, &#39;count&#39;, &#39;encode&#39;, &#39;endswith&#39;,</span><br><span class="line">&#39;expandtabs&#39;, &#39;find&#39;, &#39;format&#39;, &#39;format_map&#39;, &#39;index&#39;, &#39;isalnum&#39;, &#39;isalpha&#39;, </span><br><span class="line">&#39;isascii&#39;, &#39;isdecimal&#39;, &#39;isdigit&#39;, &#39;isidentifier&#39;, &#39;islower&#39;, &#39;isnumeric&#39;, </span><br><span class="line">&#39;isprintable&#39;, &#39;isspace&#39;, &#39;istitle&#39;, &#39;isupper&#39;, &#39;join&#39;, &#39;ljust&#39;, &#39;lower&#39;, </span><br><span class="line">&#39;lstrip&#39;, &#39;maketrans&#39;, &#39;partition&#39;, &#39;replace&#39;, &#39;rfind&#39;, &#39;rindex&#39;, &#39;rjust&#39;, </span><br><span class="line">&#39;rpartition&#39;, &#39;rsplit&#39;, &#39;rstrip&#39;, &#39;split&#39;, &#39;splitlines&#39;, &#39;startswith&#39;, </span><br><span class="line">&#39;strip&#39;, &#39;swapcase&#39;, &#39;title&#39;, &#39;translate&#39;, &#39;upper&#39;, &#39;zfill&#39;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="一、大小写转换"><a href="#一、大小写转换" class="headerlink" title="一、大小写转换"></a>一、大小写转换</h2><h3 id="01、capitalize"><a href="#01、capitalize" class="headerlink" title="01、capitalize()"></a>01、capitalize()</h3><p><strong>描述：</strong>将字符串的第一个字母变成大写，其余字母变为小写。</p>
+<p><strong>语法：</strong>str.capitalize()</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"i Love python"</span>.capitalize() </span><br><span class="line"><span class="string">'I love python'</span></span><br><span class="line"></span><br><span class="line"><span class="string">"i Love pYthoN"</span>.capitalize() </span><br><span class="line"><span class="string">'I love python'</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/14/Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%8445%E4%B8%AA%E6%96%B9%E6%B3%95%E8%B6%85%E7%BA%A7%E8%AF%A6%E8%A7%A3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%B5%B7%E8%B1%A1%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%B8%89%E7%A7%8D%E7%94%A8%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%B5%B7%E8%B1%A1%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%B8%89%E7%A7%8D%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">很多人不知道的Python 炫技操作：海象运算符的三种用法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-22 11:05:47" itemprop="dateCreated datePublished" datetime="2020-04-22T11:05:47+08:00">2020-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Python 版本发展非常快，如今最新的版本已经是 Pyhton 3.9，即便如此，有很多人甚至还停留在 3.6 或者 3.7，连 3.8 还没用上。</p>
+<p>很多 Python 3.8 的特性还没来得及了解，就已经成为旧知识了，比如今天要说的海象运算符。</p>
+<p>海象运算符是在 PEP 572 被提出的，直到 3.8 版本合入发布。</p>
+<p>它的英文原名叫 <code>Assignment Expressions</code>，翻译过来也就是 <code>赋值表达式</code>，不过现在大家更普遍地称之为海象运算符，就是因为它长得真的太像海象了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%B5%B7%E8%B1%A1%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%B8%89%E7%A7%8D%E7%94%A8%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E5%90%88%E5%B9%B6%E5%AD%97%E5%85%B8%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E5%90%88%E5%B9%B6%E5%AD%97%E5%85%B8%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">很多人不知道的Python 炫技操作：合并字典的七种方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-22 10:59:51" itemprop="dateCreated datePublished" datetime="2020-04-22T10:59:51+08:00">2020-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Python 语言里有许多（而且是越来越多）的高级特性，是 Python 发烧友们非常喜欢的。在这些人的眼里，能够写出那些一般开发者看不懂的高级特性，就是高手，就是大神。</p>
+<p>但你要知道，在团队合作里，炫技是大忌。</p>
+<p>为什么这么说呢？我说下自己的看法：</p>
+<ol>
+<li>越简洁的代码，越清晰的逻辑，就越不容易出错；</li>
+<li>在团队合作中，你的代码不只有你在维护，降低别人的阅读/理解代码逻辑的成本是一个良好的品德</li>
+<li>简单的代码，只会用到最基本的语法糖，复杂的高级特性，会有更多的依赖（如语言的版本）</li>
+</ol>
+<p>该篇是「<strong>炫技系列</strong>」的第二篇内容，在这个系列里，我将总结盘点一下，我所见过的那些炫技操作。在这里，如果你是 Python 发烧友，你可以学到一些写出超酷的代码书写技巧。同时，看了这些内容，对你在阅读别人的代码时，也许会有些帮助。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E5%90%88%E5%B9%B6%E5%AD%97%E5%85%B8%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="解百忧"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">解百忧</p>
+  <div class="site-description" itemprop="description">分享学习记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiebaiyou" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;jiebaiyou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiebaiyou@gmail.com" title="E-Mail &amp;rarr; mailto:jiebaiyou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.orivon.com/" title="http:&#x2F;&#x2F;www.orivon.com" rel="noopener" target="_blank">Orivon</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">解百忧</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

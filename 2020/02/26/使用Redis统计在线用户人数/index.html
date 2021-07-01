@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="​    在构建应用的时候， 我们经常需要对用户的一举一动进行记录， 而其中一个比较重要的操作， 就是对在线的用户进行记录。 ​    本文将介绍四种使用 Redis 对在线用户进行记录的方案， 这些方案虽然都可以对在线用户的数量进行统计， 但每个方案都有一些自己特有的操作， 并且各个方案的性能特征以及资源消耗也各有不同。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Redis统计在线用户人数">
+<meta property="og:url" content="https://www.jiebaiyou.com/2020/02/26/%E4%BD%BF%E7%94%A8Redis%E7%BB%9F%E8%AE%A1%E5%9C%A8%E7%BA%BF%E7%94%A8%E6%88%B7%E4%BA%BA%E6%95%B0/index.html">
+<meta property="og:site_name" content="解百忧 · 随记">
+<meta property="og:description" content="​    在构建应用的时候， 我们经常需要对用户的一举一动进行记录， 而其中一个比较重要的操作， 就是对在线的用户进行记录。 ​    本文将介绍四种使用 Redis 对在线用户进行记录的方案， 这些方案虽然都可以对在线用户的数量进行统计， 但每个方案都有一些自己特有的操作， 并且各个方案的性能特征以及资源消耗也各有不同。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-26T02:01:50.000Z">
+<meta property="article:modified_time" content="2021-06-30T09:57:22.151Z">
+<meta property="article:author" content="解百忧">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content=" docker">
+<meta property="article:tag" content=" nginx">
+<meta property="article:tag" content=" mysql">
+<meta property="article:tag" content=" shell">
+<meta property="article:tag" content=" python">
+<meta property="article:tag" content=" OpsDev">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.jiebaiyou.com/2020/02/26/%E4%BD%BF%E7%94%A8Redis%E7%BB%9F%E8%AE%A1%E5%9C%A8%E7%BA%BF%E7%94%A8%E6%88%B7%E4%BA%BA%E6%95%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>使用Redis统计在线用户人数 | 解百忧 · 随记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解百忧 · 随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">那些比你走得远的人，并不比你聪慧，只是每天多走了一点。坚持，是最强大的力量。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/jiebaiyou" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/02/26/%E4%BD%BF%E7%94%A8Redis%E7%BB%9F%E8%AE%A1%E5%9C%A8%E7%BA%BF%E7%94%A8%E6%88%B7%E4%BA%BA%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Redis统计在线用户人数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-26 10:01:50" itemprop="dateCreated datePublished" datetime="2020-02-26T10:01:50+08:00">2020-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>​    在构建应用的时候， 我们经常需要对用户的一举一动进行记录， 而其中一个比较重要的操作， 就是对在线的用户进行记录。</p>
+<p>​    本文将介绍四种使用 Redis 对在线用户进行记录的方案， 这些方案虽然都可以对在线用户的数量进行统计， 但每个方案都有一些自己特有的操作， 并且各个方案的性能特征以及资源消耗也各有不同。</p>
+<a id="more"></a>
+
+<h3 id="方案-1-：使用有序集合"><a href="#方案-1-：使用有序集合" class="headerlink" title="方案 1 ：使用有序集合"></a>方案 1 ：使用有序集合</h3><p>每当一个用户上线时， 我们就执行 <a href="http://redisdoc.com/sorted_set/zadd.html" target="_blank" rel="noopener">ZADD</a> 命令， 将这个用户以及它的在线时间添加到指定的有序集合中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZADD &quot;online_users&quot; &lt;user_id&gt; &lt;current_timestamp&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过使用 <a href="http://redisdoc.com/sorted_set/zscore.html" target="_blank" rel="noopener">ZSCORE</a> 命令检查指定时间的用户在有序集合中是否有相关联的分值， 我们可以知道该用户是否在线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSCORE &quot;online_users&quot; &lt;current_timestamp&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而通过执行 <a href="http://redisdoc.com/sorted_set/zcard.html" target="_blank" rel="noopener">ZCARD</a> 命令， 我们可以知道总共有多用户在线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZCARD &quot;online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>使用有序集合储存在线用户的强大之处在于， 它是本文介绍的所有方案当中， 能够执行最多聚合操作的一个方案， 原因在于， 这一方案既可以通过有序集合的成员（也即是用户的 ID）进行聚合操作， 也可以根据有序集合的分值（也即是用户的登录时间）进行聚合操作。</p>
+<p>首先， 通过 <a href="http://redisdoc.com/sorted_set/zinterstore.html" target="_blank" rel="noopener">ZINTERSTORE</a> 和 <a href="http://redisdoc.com/sorted_set/zunionstore.html" target="_blank" rel="noopener">ZUNIONSTORE</a> 命令， 我们可以对多个记录了在线用户的有序集合进行聚合计算：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 计算出 7 天之内都有上线的用户，并将它储存到 7_days_both_online_users 有序集合当中</span><br><span class="line">ZINTERSTORE 7_days_both_online_users 7 &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ... &quot;day_7_online_users&quot;</span><br><span class="line"></span><br><span class="line"># 计算出 7 天之内总共有多少人上线了</span><br><span class="line">ZUNIONSTORE 7_days_total_online_users 7 &quot;day_1_online_users&quot; ... &quot;day_7_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>此外， 通过 <a href="http://redisdoc.com/sorted_set/zcount.html" target="_blank" rel="noopener">ZCOUNT</a> 命令， 我们可以统计出在指定的时间段之内有多少用户在线， 而 <a href="http://redisdoc.com/sorted_set/zrangebyscore.html" target="_blank" rel="noopener">ZRANGEBYSCORE</a> 命令则可以让我们获取到这些用户的名单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 统计指定时间段内上线的用户数量</span><br><span class="line">ZCOUNT &quot;online_users&quot; &lt;start_timestamp&gt; &lt;end_timestamp&gt;</span><br><span class="line"></span><br><span class="line"># 获取指定时间段内上线的用户名单</span><br><span class="line">ZRANGEBYSCORE &quot;online_users&quot; &lt;start_timestamp&gt; &lt;end_timestamp&gt; WITHSCORES</span><br></pre></td></tr></table></figure>
+
+<p>通过这一方法， 我们可以知道网站在不同时间段的上线人数以及上线用户名单， 比如说， 我们可以用这个方法来分别获知网站在早晨、上午、中午、下午和夜晚的上线人数。</p>
+<h3 id="方案-2-：使用集合"><a href="#方案-2-：使用集合" class="headerlink" title="方案 2 ：使用集合"></a>方案 2 ：使用集合</h3><p>正如上一节所说， 使用有序集合能够同时储存在线用户的名单以及各个用户的上线时间， 但如果我们只想要记录在线用户的名单， 而不想要储存用户的上线时间， 那么也可以使用集合来代替有序集合， 对在线的用户进行记录。</p>
+<p>在这种情况下， 每当一个用户上线时， 我们就执行以下 <a href="http://redisdoc.com/set/sadd.html" target="_blank" rel="noopener">SADD</a> 命令， 将它添加到在线用户名单当中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SADD &quot;online_users&quot; &lt;user_id&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过使用 <a href="http://redisdoc.com/set/sismember.html" target="_blank" rel="noopener">SISMEMBER</a> 命令， 我们可以检查一个指定的用户当前是否在线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SISMEMBER &quot;online_users&quot; &lt;user_id&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而统计在线人数的工作则可以通过执行 <a href="http://redisdoc.com/set/scard.html" target="_blank" rel="noopener">SCARD</a> 命令来完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SCARD &quot;online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>通过集合运算操作， 我们可以像有序集合方案一样， 对不同时间段或者日期的在线用户名单进行聚合计算。 比如说， 通过 <a href="http://redisdoc.com/set/sinter.html" target="_blank" rel="noopener">SINTER</a> 或者 <a href="http://redisdoc.com/set/sinterstore.html" target="_blank" rel="noopener">SINTERSTORE</a> 命令， 我们可以计算出一周都有在线的用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SINTER &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ... &quot;day_7_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>此外， 通过 <a href="http://redisdoc.com/set/sunion.html" target="_blank" rel="noopener">SUNION</a> 命令或者 <a href="http://redisdoc.com/set/sunionstore.html" target="_blank" rel="noopener">SUNIONSTORE</a> 命令， 我们可以计算出一周内在线用户的总数量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUNION &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ... &quot;day_7_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>而通过执行 <a href="http://redisdoc.com/set/sdiff.html" target="_blank" rel="noopener">SDIFF</a> 命令或者 <a href="http://redisdoc.com/set/sdiffstore.html" target="_blank" rel="noopener">SDIFFSTORE</a> 命令， 我们可以知道哪些用户今天上线了， 但是昨天没有上线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SDIFF &quot;today_online_users&quot; &quot;yesterday_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>又或者工作日上线了， 但是假日没有上线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 计算工作日上线名单</span><br><span class="line">SINTERSTORE &quot;weekday_online_users&quot; &quot;monday_online_users&quot; &quot;tuesday_online_users&quot; ... &quot;friday_online_users&quot;</span><br><span class="line"># 计算假日上线名单</span><br><span class="line">SINTERSTORE &quot;holiday_online_users&quot; &quot;saturday_online_users&quot; &quot;sunday_online_users&quot;</span><br><span class="line"># 计算工作日上线但是假日未上线的名单</span><br><span class="line">SDIFF &quot;weekday_online_users&quot; &quot;holiday_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>诸如此类。</p>
+<h3 id="方案-3-：使用-HyperLogLog"><a href="#方案-3-：使用-HyperLogLog" class="headerlink" title="方案 3 ：使用 HyperLogLog"></a>方案 3 ：使用 HyperLogLog</h3><p>虽然使用有序集合和集合能够很好地完成记录在线人数的工作， 但以上这两个方案都有一个明显的缺点， 那就是， 这两个方案耗费的内存会随着被统计用户数量的增多而增多： 如果你的网站用户数量比较多， 又或者你需要记录多天/多个时段的在线用户名单并进行聚合计算， 那么这两个方案可能会消耗你大量内存。</p>
+<p>另一方面， 在有些情况下， 我们只想要知道在线用户的人数， 而不需要知道具体的在线用户名单， 这时有序集合和集合储存的信息就会显得多余了。</p>
+<p>在需要尽可能地节约内存并且只需要知道在线用户数量的情况下， 我们可以使用 HyperLogLog 来对在线用户进行统计： HyperLogLog 是一个概率算法， 它可以对元素的基数进行估算， 并且每个 HyperLogLog 只需要耗费 12 KB 内存， 对于用户数量非常多但是内存却非常紧张的系统， 这一方案无疑是最佳之选。</p>
+<p>在这一方案下， 我们使用 <a href="http://redisdoc.com/hyperloglog/pfadd.html" target="_blank" rel="noopener">PFADD</a> 命令去记录在线的用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PFADD &quot;online_users&quot; &lt;user_id&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用 <a href="http://redisdoc.com/hyperloglog/pfcount.html" target="_blank" rel="noopener">PFCOUNT</a> 命令获取在线人数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PFCOUNT &quot;online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>因为 HyperLogLog 也提供了计算交集的 <a href="http://redisdoc.com/hyperloglog/pfmerge.html" target="_blank" rel="noopener">PFMERGE</a> 命令， 所以我们也可以用这个命令计算出多个给定时间段或日期之内， 上线的总人数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 统计 7 天之内总共有多少人上线了</span><br><span class="line">PFMERGE &quot;7_days_both_online_users&quot; &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ... &quot;day_7_online_users&quot;</span><br><span class="line">PFCOUNT &quot;7_days_both_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方案-4-：使用位图（bitmap）"><a href="#方案-4-：使用位图（bitmap）" class="headerlink" title="方案 4 ：使用位图（bitmap）"></a>方案 4 ：使用位图（bitmap）</h3><p>回顾上面介绍的三个方案， 我们可以得出以上结论：</p>
+<ul>
+<li>使用有序集合或者集合能够储存具体的在线用户名单， 但是却需要消耗大量的内存；</li>
+<li>而使用 HyperLogLog 虽然能够有效地减少统计在线用户所需的内存， 但是它却没办法准确地记录具体的在线用户名单。</li>
+</ul>
+<p>那么是否存在一种既能够获得在线用户名单， 又可以尽量减少内存消耗的方法存在呢？ 这种方法的确存在 —— 使用 Redis 的位图就可以办到。</p>
+<p>Redis 的位图就是一个由二进制位组成的数组， 通过将数组中的每个二进制位与用户 ID 进行一一对应， 我们可以使用位图去记录每个用户是否在线。</p>
+<p>当一个用户上线时， 我们就使用 <a href="http://redisdoc.com/string/setbit.html" target="_blank" rel="noopener">SETBIT</a> 命令， 将这个用户对应的二进制位设置为 1 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 此处的 user_id 必须为数字，因为它会被用作索引</span><br><span class="line">SETBIT &quot;online_users&quot; &lt;user_id&gt; 1</span><br></pre></td></tr></table></figure>
+
+<p>通过使用 <a href="http://redisdoc.com/string/getbit.html" target="_blank" rel="noopener">GETBIT</a> 命令去检查一个二进制位的值是否为 1 ， 我们可以知道指定的用户是否在线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GETBIT &quot;online_users&quot; &lt;user_id&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而通过 <a href="http://redisdoc.com/string/bitcount.html" target="_blank" rel="noopener">BITCOUNT</a> 命令， 我们可以统计出位图中有多少个二进制位被设置成了 1 ， 也即是有多少个用户在线：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BITCOUNT &quot;online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>跟集合一样， 用户也能够对多个位图进行聚合计算 —— 通过 <a href="http://redisdoc.com/string/bitop.html" target="_blank" rel="noopener">BITOP</a> 命令， 用户可以对一个或多个位图执行逻辑并、逻辑或、逻辑异或或者逻辑非操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 计算出 7 天都在线的用户</span><br><span class="line">BITOP &quot;AND&quot; &quot;7_days_both_online_users&quot; &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ... &quot;day_7_online_users&quot;</span><br><span class="line"></span><br><span class="line"># 计算出 7 在的在线用户总人数</span><br><span class="line">BITOP &quot;OR&quot; &quot;7_days_total_online_users&quot; &quot;day_1_online_users&quot; &quot;day_2_online_users&quot; ... &quot;day_7_online_users&quot;</span><br><span class="line"></span><br><span class="line"># 计算出两天当中只有其中一天在线的用户</span><br><span class="line">BITOP &quot;XOR&quot; &quot;only_one_day_online&quot; &quot;day_1_online_users&quot; &quot;day_2_online_users&quot;</span><br></pre></td></tr></table></figure>
+
+<p>HyperLogLog 方案记录一个用户是否在线需要花费 1 个二进制位， 对于用户数为 100 万的网站来说， 使用这一方案只需要耗费 125 KB 内存， 而对于用户数为 1000 万的网站来说， 使用这一方案也只需要花费 1.25 MB 内存。</p>
+<p>虽然位图节约内存的效果不及 HyperLogLog 那么显著， 但是使用位图可以准确地判断一个用户是否上线， 并且能够像集合和有序集合一样， 对在线用户名单进行聚合计算。 因此对于想要尽量节约内存， 但又需要准确地知道用户是否在线， 又或者需要对用户的在线名单进行聚合计算的应用来说， 使用位图可以说是最佳之选。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以下表格总结了以上四个方案的特点：</p>
+<table>
+<thead>
+<tr>
+<th align="left">方案</th>
+<th align="left">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">有序集合</td>
+<td align="left">能够同时储存在线用户的名单以及用户的上线时间，能够执行非常多的聚合计算操作，但是耗费的内存也非常多。</td>
+</tr>
+<tr>
+<td align="left">集合</td>
+<td align="left">能够储存在线用户的名单，也能够执行聚合计算，消耗的内存比有序集合少，但是跟有序集合一样，这个方案消耗的内存也会随着用户数量的增多而增多。</td>
+</tr>
+<tr>
+<td align="left">HyperLogLog</td>
+<td align="left">无论需要统计的用户有多少，只需要耗费 12 KB 内存，但由于概率算法的特性，只能给出在线人数的估算值，并且也无法获取准确的在线用户名单。</td>
+</tr>
+<tr>
+<td align="left">位图</td>
+<td align="left">在尽可能节约内存的情况下，记录在线用户的名单，并且能够对这些名单执行聚合操作。</td>
+</tr>
+</tbody></table>
+<p>因为 Redis 同时支持多种数据结构， 所以一个问题常常可以在 Redis 里面找多种不同的解法， 并且每种解法都有各自的优点和缺点， 本文介绍的问题就是一个很好的例子。</p>
+<p>关于统计在线用户的方法就介绍到这里， 希望这些方案会给大家带来帮助和启发。</p>
+<p>本文转发自：<a href="https://blog.csdn.net/zwjyyy1203/article/details/80342874" target="_blank" rel="noopener">https://blog.csdn.net/zwjyyy1203/article/details/80342874</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/01/14/git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/" rel="next" title="git 常用命令整理">
+                  <i class="fa fa-chevron-left"></i> git 常用命令整理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/03/25/python-print-array%E6%97%B6array%E4%B8%AD%E9%97%B4%E6%98%AF%E7%9C%81%E7%95%A5%E5%8F%B7%E6%B2%A1%E6%9C%89%E8%BE%93%E5%87%BA%E5%85%A8%E9%83%A8%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="prev" title="python print array时array中间是省略号没有输出全部的解决方法">
+                  python print array时array中间是省略号没有输出全部的解决方法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#方案-1-：使用有序集合"><span class="nav-number">1.</span> <span class="nav-text">方案 1 ：使用有序集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案-2-：使用集合"><span class="nav-number">2.</span> <span class="nav-text">方案 2 ：使用集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案-3-：使用-HyperLogLog"><span class="nav-number">3.</span> <span class="nav-text">方案 3 ：使用 HyperLogLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案-4-：使用位图（bitmap）"><span class="nav-number">4.</span> <span class="nav-text">方案 4 ：使用位图（bitmap）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="解百忧"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">解百忧</p>
+  <div class="site-description" itemprop="description">分享学习记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiebaiyou" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;jiebaiyou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiebaiyou@gmail.com" title="E-Mail &amp;rarr; mailto:jiebaiyou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.orivon.com/" title="http:&#x2F;&#x2F;www.orivon.com" rel="noopener" target="_blank">Orivon</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">解百忧</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

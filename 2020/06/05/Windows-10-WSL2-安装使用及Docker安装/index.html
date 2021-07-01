@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="1. WSL2 子系统安装使用 WLS2 需要 Windows 10 Version 2004 Build 19041 或更高版本，使用 Windows Update 自动更新到2004版本。如果没有检测到更新，可以去微软官网下载 易升 工具并安装运行。工具会检测到更新并安装。 如果需要使用 Docker for Windows，需要下载 WLS Updata 补丁并安装。  1.1 启用Linu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 10 WSL2 安装使用及Docker安装">
+<meta property="og:url" content="https://www.jiebaiyou.com/2020/06/05/Windows-10-WSL2-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%8F%8ADocker%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="解百忧 · 随记">
+<meta property="og:description" content="1. WSL2 子系统安装使用 WLS2 需要 Windows 10 Version 2004 Build 19041 或更高版本，使用 Windows Update 自动更新到2004版本。如果没有检测到更新，可以去微软官网下载 易升 工具并安装运行。工具会检测到更新并安装。 如果需要使用 Docker for Windows，需要下载 WLS Updata 补丁并安装。  1.1 启用Linu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-05T02:06:45.000Z">
+<meta property="article:modified_time" content="2021-06-30T09:57:22.139Z">
+<meta property="article:author" content="解百忧">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="wls">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.jiebaiyou.com/2020/06/05/Windows-10-WSL2-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%8F%8ADocker%E5%AE%89%E8%A3%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Windows 10 WSL2 安装使用及Docker安装 | 解百忧 · 随记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解百忧 · 随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">那些比你走得远的人，并不比你聪慧，只是每天多走了一点。坚持，是最强大的力量。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/jiebaiyou" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/06/05/Windows-10-WSL2-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%8F%8ADocker%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows 10 WSL2 安装使用及Docker安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-05 10:06:45" itemprop="dateCreated datePublished" datetime="2020-06-05T10:06:45+08:00">2020-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-WSL2-子系统安装使用"><a href="#1-WSL2-子系统安装使用" class="headerlink" title="1. WSL2 子系统安装使用"></a>1. WSL2 子系统安装使用</h2><blockquote>
+<p>WLS2 需要 Windows 10 Version 2004 Build 19041 或更高版本，使用 Windows Update 自动更新到2004版本。如果没有检测到更新，可以去微软官网下载<a href="https://software-download.microsoft.com/download/pr/MediaCreationTool2004.exe" target="_blank" rel="noopener"> 易升 </a>工具并安装运行。工具会检测到更新并安装。</p>
+<p>如果需要使用 Docker for Windows，需要下载<a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" target="_blank" rel="noopener"> WLS Updata </a>补丁并安装。</p>
+</blockquote>
+<h4 id="1-1-启用Linux子系统"><a href="#1-1-启用Linux子系统" class="headerlink" title="1.1 启用Linux子系统"></a>1.1 启用Linux子系统</h4><p>打开 <code>控制面板</code> -&gt; <code>程序</code> -&gt; <code>启用或关闭Windows功能</code>。找到 <code>适用于Linux的Windows子系统</code> 和 <code>虚拟机平台</code>，勾选这两项之后确定，并重新启动计算机。</p>
+<p>也可以通过命令行启用，以<code>管理员身份</code>打开 PowerShell，输入如下命令，并 <code>重启电脑</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 开启 虚拟机平台 可选组件</span><br><span class="line">Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform</span><br><span class="line"># 开启 适用于Linux的Windows子系统 可选组件</span><br><span class="line">dism.exe &#x2F;online &#x2F;enable-feature &#x2F;featurename:Microsoft-Windows-Subsystem-Linux &#x2F;all &#x2F;norestart</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h4 id="1-2-安装Ubuntu-20-04"><a href="#1-2-安装Ubuntu-20-04" class="headerlink" title="1.2 安装Ubuntu 20.04"></a>1.2 安装Ubuntu 20.04</h4><p>打开 <code>Microsoft Store</code>搜索  <code>Linux</code>，选择 <code>Ubuntu 20.04</code> 并点击 <code>安装</code>：</p>
+<p>安装过程中，请设置用户名及密码，如果需要使用root用户，则需要执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> passwd root</span><br><span class="line">New password:</span><br><span class="line">Retype new password:</span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
+
+<!--more-->
+
+<p>为了更方便的使用子系统，推荐安装 Terminal </p>
+<h4 id="1-3-安装Windows-Terminal"><a href="#1-3-安装Windows-Terminal" class="headerlink" title="1.3 安装Windows Terminal"></a>1.3 安装Windows Terminal</h4><p>打开 <code>Microsoft Store</code>， 搜索 <code>Windows Terminal</code>，选择 <code>安装</code>.</p>
+<h4 id="1-4-WSL常用命令"><a href="#1-4-WSL常用命令" class="headerlink" title="1.4 WSL常用命令"></a>1.4 WSL常用命令</h4><h5 id="1-4-1-查看现有的WSL"><a href="#1-4-1-查看现有的WSL" class="headerlink" title="1.4.1 查看现有的WSL"></a>1.4.1 查看现有的WSL</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wsl -l -v <span class="comment"># 或 wsl --list --verbose </span></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">  NAME                   STATE           VERSION</span><br><span class="line">* docker-desktop         Stopped         2</span><br><span class="line">  Ubuntu-20.04           Stopped         2</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-2-WSL1转化为WSL2"><a href="#1-4-2-WSL1转化为WSL2" class="headerlink" title="1.4.2 WSL1转化为WSL2"></a>1.4.2 WSL1转化为WSL2</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wsl --<span class="built_in">set</span>-version $已经使用的WSL的名字 2</span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">正在进行转换，这可能需要几分钟时间...</span><br><span class="line">有关与 WSL 2 的主要区别的信息，请访问 https://aka.ms/wsl2</span><br><span class="line">转换完成。</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-3-将WSL2设置为默认"><a href="#1-4-3-将WSL2设置为默认" class="headerlink" title="1.4.3 将WSL2设置为默认"></a>1.4.3 将WSL2设置为默认</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wsl --<span class="built_in">set</span>-default-version 2</span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">有关与 WSL 2 的主要区别的信息，请访问 https://aka.ms/wsl2</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-4-立即终止所有正在运行的发行版和WSL2虚拟机"><a href="#1-4-4-立即终止所有正在运行的发行版和WSL2虚拟机" class="headerlink" title="1.4.4 立即终止所有正在运行的发行版和WSL2虚拟机"></a>1.4.4 立即终止所有正在运行的发行版和WSL2虚拟机</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-5-获取宿主Windows的IP"><a href="#1-4-5-获取宿主Windows的IP" class="headerlink" title="1.4.5 获取宿主Windows的IP"></a>1.4.5 获取宿主Windows的IP</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># WSL2使用的是虚拟机技术和WSL第一版本不一样，和宿主windows不在同一个网络内</span></span><br><span class="line"><span class="comment"># 获取宿主windows的ip</span></span><br><span class="line"><span class="built_in">export</span> windows_host=`ipconfig.exe | grep -n4 WSL  | tail -n 1 | awk -F<span class="string">":"</span> <span class="string">'&#123; print $2 &#125;'</span>  | sed <span class="string">'s/^[ \r\n\t]*//;s/[ \r\n\t]*$//'</span>`</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-6-全面设置WSL内的代理"><a href="#1-4-6-全面设置WSL内的代理" class="headerlink" title="1.4.6 全面设置WSL内的代理"></a>1.4.6 全面设置WSL内的代理</h5><p>假设你的宿主Windows代理端口是1080</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> ALL_PROXY=socks5://<span class="variable">$windows_host</span>:1080</span><br><span class="line"><span class="built_in">export</span> HTTP_PROXY=<span class="variable">$ALL_PROXY</span></span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="variable">$ALL_PROXY</span></span><br><span class="line"><span class="built_in">export</span> HTTPS_PROXY=<span class="variable">$ALL_PROXY</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="variable">$ALL_PROXY</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-7-设置git的代理"><a href="#1-4-7-设置git的代理" class="headerlink" title="1.4.7 设置git的代理"></a>1.4.7 设置git的代理</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="string">"`git config --global --get proxy.https`"</span> != <span class="string">"socks5://<span class="variable">$windows_host</span>:1080"</span> ]; <span class="keyword">then</span></span><br><span class="line">    git config --global proxy.https socks5://<span class="variable">$windows_host</span>:1080</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-8-设置docker内的代理"><a href="#1-4-8-设置docker内的代理" class="headerlink" title="1.4.8 设置docker内的代理"></a>1.4.8 设置docker内的代理</h5><p>在/etc/default/docker有</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">"socks5://[windows_host]:1080"</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">"socks5://[windows_host]:1080"</span></span><br><span class="line">sudo sed -i -E <span class="string">"s#socks5.*?1080#socks5://<span class="variable">$windows_host</span>:1080#"</span> /etc/default/docker</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-9-设置WSL内的DNS-默认是系统自己创建的"><a href="#1-4-9-设置WSL内的DNS-默认是系统自己创建的" class="headerlink" title="1.4.9 设置WSL内的DNS, 默认是系统自己创建的"></a>1.4.9 设置WSL内的DNS, 默认是系统自己创建的</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash -c <span class="string">'echo -e "nameserver 114.114.114.114\nnameserver 8.8.8.8\nnameserver 8.8.4.4" &gt; /etc/resolv.conf'</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-10-打通Window与Ubuntu网络"><a href="#1-4-10-打通Window与Ubuntu网络" class="headerlink" title="1.4.10 打通Window与Ubuntu网络"></a>1.4.10 打通Window与Ubuntu网络</h5><p>以 <code>管理员身份</code> 打开 PowerShell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># x.x.x.x 为 Ubuntu IP，请替换</span></span><br><span class="line">netsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=x.x.x.x</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-11-WSL、WSL2-导出迁移"><a href="#1-4-11-WSL、WSL2-导出迁移" class="headerlink" title="1.4.11 WSL、WSL2 导出迁移"></a>1.4.11 WSL、WSL2 导出迁移</h5><p>WSL2虚拟机长时间使用占用空间过大导致C盘爆满，把他迁移到E盘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># EXPORT 导出</span><br><span class="line">wsl --export Alpine .&#x2F;Alpine.tar</span><br><span class="line"># IMPORT 导入</span><br><span class="line">mkdir e:\newAlpine</span><br><span class="line">wsl --import Alpine e:\newAlpine Alpine.tar</span><br><span class="line">explorer.exe e:\newAlpine</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="2-Docker-安装"><a href="#2-Docker-安装" class="headerlink" title="2. Docker 安装"></a>2. Docker 安装</h2><h4 id="2-1-更新操作系统"><a href="#2-1-更新操作系统" class="headerlink" title="2.1 更新操作系统"></a>2.1 更新操作系统</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade -y</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-安装常用软件"><a href="#2-2-安装常用软件" class="headerlink" title="2.2 安装常用软件"></a>2.2 安装常用软件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -y install git curl wget unzip lrzsz net-tools</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-安装Docker前准备"><a href="#2-2-安装Docker前准备" class="headerlink" title="2.2 安装Docker前准备"></a>2.2 安装Docker前准备</h4><h5 id="2-2-1-卸载旧版本"><a href="#2-2-1-卸载旧版本" class="headerlink" title="2.2.1 卸载旧版本"></a>2.2.1 卸载旧版本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-2-安装依赖使apt能够使用基于https的仓库"><a href="#2-2-2-安装依赖使apt能够使用基于https的仓库" class="headerlink" title="2.2.2 安装依赖使apt能够使用基于https的仓库"></a>2.2.2 安装依赖使apt能够使用基于https的仓库</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg-agent \</span><br><span class="line">    software-properties-common -y</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-3-添加docker的离线-gpg-key"><a href="#2-2-3-添加docker的离线-gpg-key" class="headerlink" title="2.2.3 添加docker的离线 gpg key"></a>2.2.3 添加docker的离线 gpg key</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-4-验证key的信息"><a href="#2-2-4-验证key的信息" class="headerlink" title="2.2.4 验证key的信息"></a>2.2.4 验证key的信息</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line">    </span><br><span class="line">pub   rsa4096 2017-02-22 [SCEA]</span><br><span class="line">      9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">uid   [ unknown] Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">sub   rsa4096 2017-02-22 [S]</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-5-设置docker各版本的安装源（此处是-stable-版本）"><a href="#2-2-5-设置docker各版本的安装源（此处是-stable-版本）" class="headerlink" title="2.2.5 设置docker各版本的安装源（此处是 stable 版本）"></a>2.2.5 设置docker各版本的安装源（此处是 stable 版本）</h5><p>To add the <strong>nightly</strong> or <strong>test</strong> repository, add the word <code>nightly</code> or <code>test</code> (or both) after the word <code>stable</code> in the commands below.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-开始安装-docker"><a href="#2-3-开始安装-docker" class="headerlink" title="2.3 开始安装 docker"></a>2.3 开始安装 docker</h4><h5 id="2-3-1-更新软件目录"><a href="#2-3-1-更新软件目录" class="headerlink" title="2.3.1 更新软件目录"></a>2.3.1 更新软件目录</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-3-2-安装最新版本的-docker"><a href="#2-3-2-安装最新版本的-docker" class="headerlink" title="2.3.2 安装最新版本的 docker"></a>2.3.2 安装最新版本的 docker</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io -y</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-3-3-启动测试"><a href="#2-3-3-启动测试" class="headerlink" title="2.3.3 启动测试"></a>2.3.3 启动测试</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 docker 守护进程</span></span><br><span class="line">sudo service docker start</span><br><span class="line"><span class="comment"># 运行测试</span></span><br><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-免sudo使用docker命令"><a href="#2-4-免sudo使用docker命令" class="headerlink" title="2.4 免sudo使用docker命令"></a>2.4 免sudo使用docker命令</h4><p>如果在一台新机器上面安装docker时候发现在安装完成之后爆出类似于下面的错误</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Got permission denied <span class="keyword">while</span> trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.26/images/json: dial unix /var/run/docker.sock: connect: permission denied</span><br></pre></td></tr></table></figure>
+
+<p>报错显示权限不够、那么如何解决这个问题呢？</p>
+<p>官方文档给出了解决方案，那就是将你的用户添加到 <code>docker</code> 这个用户组里面即可</p>
+<h5 id="2-4-1-添加docker-group组"><a href="#2-4-1-添加docker-group组" class="headerlink" title="2.4.1 添加docker group组"></a>2.4.1 添加docker group组</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker</span><br></pre></td></tr></table></figure>
+
+<p>#####　2.4.2 将用户加入该group内</p>
+<p>退出并重新登录就生效啦。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gpasswd -a <span class="variable">$&#123;USER&#125;</span> docker</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-4-3-重启docker服务"><a href="#2-4-3-重启docker服务" class="headerlink" title="2.4.3 重启docker服务"></a>2.4.3 重启docker服务</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service docker restart</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-4-4-切换当前会话到新group或者重启会话"><a href="#2-4-4-切换当前会话到新group或者重启会话" class="headerlink" title="2.4.4 切换当前会话到新group或者重启会话"></a>2.4.4 切换当前会话到新group或者重启会话</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newgrp - docker</span><br></pre></td></tr></table></figure>
+
+<p>现在配置就完成了、可以免 sudo 使用，docker 命令了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/wls/" rel="tag"># wls</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/06/05/Linux%E2%80%94%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-%E6%9C%8D%E5%8A%A1-%E8%84%9A%E6%9C%AC/" rel="next" title="Linux—添加开机启动(服务/脚本)">
+                  <i class="fa fa-chevron-left"></i> Linux—添加开机启动(服务/脚本)
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/06/05/Nginx%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E4%B8%AD%E6%96%87%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" rel="prev" title="Nginx配置参数中文详细说明">
+                  Nginx配置参数中文详细说明 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-WSL2-子系统安装使用"><span class="nav-number">1.</span> <span class="nav-text">1. WSL2 子系统安装使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-启用Linux子系统"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.1 启用Linux子系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装Ubuntu-20-04"><span class="nav-number">1.0.2.</span> <span class="nav-text">1.2 安装Ubuntu 20.04</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-安装Windows-Terminal"><span class="nav-number">1.0.3.</span> <span class="nav-text">1.3 安装Windows Terminal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-WSL常用命令"><span class="nav-number">1.0.4.</span> <span class="nav-text">1.4 WSL常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-1-查看现有的WSL"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1.4.1 查看现有的WSL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-2-WSL1转化为WSL2"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">1.4.2 WSL1转化为WSL2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-3-将WSL2设置为默认"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">1.4.3 将WSL2设置为默认</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-4-立即终止所有正在运行的发行版和WSL2虚拟机"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">1.4.4 立即终止所有正在运行的发行版和WSL2虚拟机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-5-获取宿主Windows的IP"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">1.4.5 获取宿主Windows的IP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-6-全面设置WSL内的代理"><span class="nav-number">1.0.4.6.</span> <span class="nav-text">1.4.6 全面设置WSL内的代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-7-设置git的代理"><span class="nav-number">1.0.4.7.</span> <span class="nav-text">1.4.7 设置git的代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-8-设置docker内的代理"><span class="nav-number">1.0.4.8.</span> <span class="nav-text">1.4.8 设置docker内的代理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-9-设置WSL内的DNS-默认是系统自己创建的"><span class="nav-number">1.0.4.9.</span> <span class="nav-text">1.4.9 设置WSL内的DNS, 默认是系统自己创建的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-10-打通Window与Ubuntu网络"><span class="nav-number">1.0.4.10.</span> <span class="nav-text">1.4.10 打通Window与Ubuntu网络</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-11-WSL、WSL2-导出迁移"><span class="nav-number">1.0.4.11.</span> <span class="nav-text">1.4.11 WSL、WSL2 导出迁移</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker-安装"><span class="nav-number">2.</span> <span class="nav-text">2. Docker 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-更新操作系统"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 更新操作系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-安装常用软件"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 安装常用软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-安装Docker前准备"><span class="nav-number">2.0.3.</span> <span class="nav-text">2.2 安装Docker前准备</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-卸载旧版本"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">2.2.1 卸载旧版本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-安装依赖使apt能够使用基于https的仓库"><span class="nav-number">2.0.3.2.</span> <span class="nav-text">2.2.2 安装依赖使apt能够使用基于https的仓库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-3-添加docker的离线-gpg-key"><span class="nav-number">2.0.3.3.</span> <span class="nav-text">2.2.3 添加docker的离线 gpg key</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-4-验证key的信息"><span class="nav-number">2.0.3.4.</span> <span class="nav-text">2.2.4 验证key的信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-5-设置docker各版本的安装源（此处是-stable-版本）"><span class="nav-number">2.0.3.5.</span> <span class="nav-text">2.2.5 设置docker各版本的安装源（此处是 stable 版本）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-开始安装-docker"><span class="nav-number">2.0.4.</span> <span class="nav-text">2.3 开始安装 docker</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-更新软件目录"><span class="nav-number">2.0.4.1.</span> <span class="nav-text">2.3.1 更新软件目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-安装最新版本的-docker"><span class="nav-number">2.0.4.2.</span> <span class="nav-text">2.3.2 安装最新版本的 docker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-3-启动测试"><span class="nav-number">2.0.4.3.</span> <span class="nav-text">2.3.3 启动测试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-免sudo使用docker命令"><span class="nav-number">2.0.5.</span> <span class="nav-text">2.4 免sudo使用docker命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-1-添加docker-group组"><span class="nav-number">2.0.5.1.</span> <span class="nav-text">2.4.1 添加docker group组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-3-重启docker服务"><span class="nav-number">2.0.5.2.</span> <span class="nav-text">2.4.3 重启docker服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-4-切换当前会话到新group或者重启会话"><span class="nav-number">2.0.5.3.</span> <span class="nav-text">2.4.4 切换当前会话到新group或者重启会话</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="解百忧"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">解百忧</p>
+  <div class="site-description" itemprop="description">分享学习记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiebaiyou" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;jiebaiyou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiebaiyou@gmail.com" title="E-Mail &amp;rarr; mailto:jiebaiyou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.orivon.com/" title="http:&#x2F;&#x2F;www.orivon.com" rel="noopener" target="_blank">Orivon</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">解百忧</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

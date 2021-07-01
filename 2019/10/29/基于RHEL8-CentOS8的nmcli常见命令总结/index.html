@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="开始前建议在使用前先安装命令补全包，tab就可以补全命令了  1yum install bash-completion -y">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于RHEL8&#x2F;CentOS8的nmcli常见命令总结">
+<meta property="og:url" content="https://www.jiebaiyou.com/2019/10/29/%E5%9F%BA%E4%BA%8ERHEL8-CentOS8%E7%9A%84nmcli%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="解百忧 · 随记">
+<meta property="og:description" content="开始前建议在使用前先安装命令补全包，tab就可以补全命令了  1yum install bash-completion -y">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-29T10:40:16.000Z">
+<meta property="article:modified_time" content="2021-06-30T09:57:22.152Z">
+<meta property="article:author" content="解百忧">
+<meta property="article:tag" content="centos">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.jiebaiyou.com/2019/10/29/%E5%9F%BA%E4%BA%8ERHEL8-CentOS8%E7%9A%84nmcli%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>基于RHEL8/CentOS8的nmcli常见命令总结 | 解百忧 · 随记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解百忧 · 随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">那些比你走得远的人，并不比你聪慧，只是每天多走了一点。坚持，是最强大的力量。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/jiebaiyou" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2019/10/29/%E5%9F%BA%E4%BA%8ERHEL8-CentOS8%E7%9A%84nmcli%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于RHEL8/CentOS8的nmcli常见命令总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-29 18:40:16" itemprop="dateCreated datePublished" datetime="2019-10-29T18:40:16+08:00">2019-10-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>开始前建议在使用前先安装命令补全包，<code>tab</code>就可以补全命令了</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install bash-completion -y</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>看一下帮助，了解一下命令的简写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@redhat ~]# nmcli -h</span><br><span class="line">用法：nmcli [选项] 对象 </span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">  -o[verview]                    概览模式（隐藏默认值）</span><br><span class="line">  -t[erse]                       简洁输出</span><br><span class="line">  -p[retty]                      整齐输出</span><br><span class="line">  -m[ode] tabular|multiline      输出模式</span><br><span class="line">  -c[olors] auto|yes|no          是否在输出中使用颜色</span><br><span class="line">  -f[ields] |all|common          指定要输出的字段</span><br><span class="line">  -g[et-values] |all|common      -m tabular -t -f 的快捷方式</span><br><span class="line">  -e[scape] yes|no               在值中转义列分隔符</span><br><span class="line">  -a[sk]                         询问缺少的参数</span><br><span class="line">  -s[how-secrets]                允许显示密码</span><br><span class="line">  -w[ait]                        为完成的操作设置超时等待时间</span><br><span class="line">  -v[ersion]                     显示程序版本</span><br><span class="line">  -h[elp]                        输出此帮助</span><br><span class="line"></span><br><span class="line">对象：</span><br><span class="line">  g[eneral]       网络管理器（NetworkManager）的常规状态和操作</span><br><span class="line">  n[etworking]    整体联网控制</span><br><span class="line">  r[adio]         无线网络管理器开关</span><br><span class="line">  c[onnection]    网络管理器的连接</span><br><span class="line">  d[evice]        由网络管理器管理的设备</span><br><span class="line">  a[gent]         网络管理器的密钥（secret）代理或 polkit 代理</span><br><span class="line">  m[onitor]       监视网络管理器更改</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以下提及的ifcfg均指代/etc/sysconfig/network-scripts/ifcfg-ethX及/etc/sysconfig/network-scripts/route-ethX</p>
+</blockquote>
+<h4 id="查看ip（类似于ifconfig、ip-addr）"><a href="#查看ip（类似于ifconfig、ip-addr）" class="headerlink" title="查看ip（类似于ifconfig、ip addr）"></a>查看ip（类似于ifconfig、ip addr）</h4><p>nmcli</p>
+<h4 id="创建connection，配置静态ip（等同于配置ifcfg，其中BOOTPROTO-none，并ifup启动）"><a href="#创建connection，配置静态ip（等同于配置ifcfg，其中BOOTPROTO-none，并ifup启动）" class="headerlink" title="创建connection，配置静态ip（等同于配置ifcfg，其中BOOTPROTO=none，并ifup启动）"></a>创建connection，配置静态ip（等同于配置ifcfg，其中BOOTPROTO=none，并ifup启动）</h4><p>nmcli connection add type ethernet con-name ethX ifname ethX ipv4.addr 192.168.1.100/24 ipv4.gateway 192.168.1.1 ipv4.method manual</p>
+<h4 id="创建connection，配置动态ip（等同于配置ifcfg，其中BOOTPROTO-dhcp，并ifup启动）"><a href="#创建connection，配置动态ip（等同于配置ifcfg，其中BOOTPROTO-dhcp，并ifup启动）" class="headerlink" title="创建connection，配置动态ip（等同于配置ifcfg，其中BOOTPROTO=dhcp，并ifup启动）"></a>创建connection，配置动态ip（等同于配置ifcfg，其中BOOTPROTO=dhcp，并ifup启动）</h4><p>nmcli connection add type ethernet con-name ethX ifname ethX ipv4.method auto</p>
+<h4 id="修改ip（非交互式）"><a href="#修改ip（非交互式）" class="headerlink" title="修改ip（非交互式）"></a>修改ip（非交互式）</h4><p>nmcli connection modify ethX ipv4.addr ‘192.168.1.200/24’<br>nmcli connection up ethX</p>
+<h4 id="修改ip（交互式）"><a href="#修改ip（交互式）" class="headerlink" title="修改ip（交互式）"></a>修改ip（交互式）</h4><p>nmcli connection edit ethX<br>nmcli&gt; goto ipv4.addresses<br>nmcli ipv4.addresses&gt; change<br>Edit ‘addresses’ value: 192.168.1.200/24<br>Do you also want to set ‘ipv4.method’ to ‘manual’? [yes]: yes<br>nmcli ipv4&gt; save<br>nmcli ipv4&gt; activate<br>nmcli ipv4&gt; quit</p>
+<h4 id="启用connection（相当于ifup）"><a href="#启用connection（相当于ifup）" class="headerlink" title="启用connection（相当于ifup）"></a>启用connection（相当于ifup）</h4><p>nmcli connection up ethX</p>
+<h4 id="停止connection（相当于ifdown）"><a href="#停止connection（相当于ifdown）" class="headerlink" title="停止connection（相当于ifdown）"></a>停止connection（相当于ifdown）</h4><p>nmcli connection down</p>
+<h4 id="删除connection（类似于ifdown并删除ifcfg）"><a href="#删除connection（类似于ifdown并删除ifcfg）" class="headerlink" title="删除connection（类似于ifdown并删除ifcfg）"></a>删除connection（类似于ifdown并删除ifcfg）</h4><p>nmcli connection delete ethX</p>
+<h4 id="查看connection列表"><a href="#查看connection列表" class="headerlink" title="查看connection列表"></a>查看connection列表</h4><p>nmcli connection show<br>nmcli connection</p>
+<h4 id="查看connection详细信息"><a href="#查看connection详细信息" class="headerlink" title="查看connection详细信息"></a>查看connection详细信息</h4><p>nmcli connection show ethX</p>
+<h4 id="重载所有ifcfg或route到connection（不会立即生效）"><a href="#重载所有ifcfg或route到connection（不会立即生效）" class="headerlink" title="重载所有ifcfg或route到connection（不会立即生效）"></a>重载所有ifcfg或route到connection（不会立即生效）</h4><p>nmcli connection reload</p>
+<h4 id="重载指定ifcfg或route到connection（不会立即生效）"><a href="#重载指定ifcfg或route到connection（不会立即生效）" class="headerlink" title="重载指定ifcfg或route到connection（不会立即生效）"></a>重载指定ifcfg或route到connection（不会立即生效）</h4><p>nmcli connection load /etc/sysconfig/network-scripts/ifcfg-ethX<br>nmcli connection load /etc/sysconfig/network-scripts/route-ethX</p>
+<h4 id="立即生效connection，有3种方法"><a href="#立即生效connection，有3种方法" class="headerlink" title="立即生效connection，有3种方法"></a>立即生效connection，有3种方法</h4><p>nmcli connection up ethX<br>nmcli device reapply ethX<br>nmcli device connect ethX</p>
+<h4 id="查看device列表"><a href="#查看device列表" class="headerlink" title="查看device列表"></a>查看device列表</h4><p>nmcli device</p>
+<h4 id="查看所有device详细信息"><a href="#查看所有device详细信息" class="headerlink" title="查看所有device详细信息"></a>查看所有device详细信息</h4><p>nmcli device show</p>
+<h4 id="查看指定device的详细信息"><a href="#查看指定device的详细信息" class="headerlink" title="查看指定device的详细信息"></a>查看指定device的详细信息</h4><p>nmcli device show ethX</p>
+<h4 id="激活网卡"><a href="#激活网卡" class="headerlink" title="激活网卡"></a>激活网卡</h4><p>nmcli device connect ethX</p>
+<h4 id="关闭无线网络（NM默认启用无线网络）"><a href="#关闭无线网络（NM默认启用无线网络）" class="headerlink" title="关闭无线网络（NM默认启用无线网络）"></a>关闭无线网络（NM默认启用无线网络）</h4><p>nmcli radio all off</p>
+<h4 id="查看NM纳管状态"><a href="#查看NM纳管状态" class="headerlink" title="查看NM纳管状态"></a>查看NM纳管状态</h4><p>nmcli networking</p>
+<h4 id="开启NM纳管"><a href="#开启NM纳管" class="headerlink" title="开启NM纳管"></a>开启NM纳管</h4><p>nmcli networking on</p>
+<h4 id="关闭NM纳管（谨慎执行）"><a href="#关闭NM纳管（谨慎执行）" class="headerlink" title="关闭NM纳管（谨慎执行）"></a>关闭NM纳管（谨慎执行）</h4><p>nmcli networking off</p>
+<h4 id="监听事件"><a href="#监听事件" class="headerlink" title="监听事件"></a>监听事件</h4><p>nmcli monitor</p>
+<h4 id="查看NM本身状态"><a href="#查看NM本身状态" class="headerlink" title="查看NM本身状态"></a>查看NM本身状态</h4><p>nmcli</p>
+<h4 id="检测NM是否在线可用"><a href="#检测NM是否在线可用" class="headerlink" title="检测NM是否在线可用"></a>检测NM是否在线可用</h4><p>nm-online</p>
+<p>转载修改自：<a href="https://blog.51cto.com/cyent/2332161" target="_blank" rel="noopener">https://blog.51cto.com/cyent/2332161</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/centos/" rel="tag"># centos</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/29/git%E7%9B%AE%E5%BD%95%E8%BF%87%E5%A4%A7%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="next" title=".git目录过大的解决方法">
+                  <i class="fa fa-chevron-left"></i> .git目录过大的解决方法
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/10/30/CentOS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7%E5%A4%87%E5%BF%98/" rel="prev" title="CentOS实用技巧备忘">
+                  CentOS实用技巧备忘 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看ip（类似于ifconfig、ip-addr）"><span class="nav-number">1.</span> <span class="nav-text">查看ip（类似于ifconfig、ip addr）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建connection，配置静态ip（等同于配置ifcfg，其中BOOTPROTO-none，并ifup启动）"><span class="nav-number">2.</span> <span class="nav-text">创建connection，配置静态ip（等同于配置ifcfg，其中BOOTPROTO&#x3D;none，并ifup启动）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建connection，配置动态ip（等同于配置ifcfg，其中BOOTPROTO-dhcp，并ifup启动）"><span class="nav-number">3.</span> <span class="nav-text">创建connection，配置动态ip（等同于配置ifcfg，其中BOOTPROTO&#x3D;dhcp，并ifup启动）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改ip（非交互式）"><span class="nav-number">4.</span> <span class="nav-text">修改ip（非交互式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改ip（交互式）"><span class="nav-number">5.</span> <span class="nav-text">修改ip（交互式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用connection（相当于ifup）"><span class="nav-number">6.</span> <span class="nav-text">启用connection（相当于ifup）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停止connection（相当于ifdown）"><span class="nav-number">7.</span> <span class="nav-text">停止connection（相当于ifdown）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除connection（类似于ifdown并删除ifcfg）"><span class="nav-number">8.</span> <span class="nav-text">删除connection（类似于ifdown并删除ifcfg）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看connection列表"><span class="nav-number">9.</span> <span class="nav-text">查看connection列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看connection详细信息"><span class="nav-number">10.</span> <span class="nav-text">查看connection详细信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重载所有ifcfg或route到connection（不会立即生效）"><span class="nav-number">11.</span> <span class="nav-text">重载所有ifcfg或route到connection（不会立即生效）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重载指定ifcfg或route到connection（不会立即生效）"><span class="nav-number">12.</span> <span class="nav-text">重载指定ifcfg或route到connection（不会立即生效）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#立即生效connection，有3种方法"><span class="nav-number">13.</span> <span class="nav-text">立即生效connection，有3种方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看device列表"><span class="nav-number">14.</span> <span class="nav-text">查看device列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看所有device详细信息"><span class="nav-number">15.</span> <span class="nav-text">查看所有device详细信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看指定device的详细信息"><span class="nav-number">16.</span> <span class="nav-text">查看指定device的详细信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#激活网卡"><span class="nav-number">17.</span> <span class="nav-text">激活网卡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭无线网络（NM默认启用无线网络）"><span class="nav-number">18.</span> <span class="nav-text">关闭无线网络（NM默认启用无线网络）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看NM纳管状态"><span class="nav-number">19.</span> <span class="nav-text">查看NM纳管状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启NM纳管"><span class="nav-number">20.</span> <span class="nav-text">开启NM纳管</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭NM纳管（谨慎执行）"><span class="nav-number">21.</span> <span class="nav-text">关闭NM纳管（谨慎执行）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监听事件"><span class="nav-number">22.</span> <span class="nav-text">监听事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看NM本身状态"><span class="nav-number">23.</span> <span class="nav-text">查看NM本身状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检测NM是否在线可用"><span class="nav-number">24.</span> <span class="nav-text">检测NM是否在线可用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="解百忧"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">解百忧</p>
+  <div class="site-description" itemprop="description">分享学习记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiebaiyou" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;jiebaiyou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiebaiyou@gmail.com" title="E-Mail &amp;rarr; mailto:jiebaiyou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.orivon.com/" title="http:&#x2F;&#x2F;www.orivon.com" rel="noopener" target="_blank">Orivon</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">解百忧</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

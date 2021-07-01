@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="初始化版本库，并提交到远程服务器端1234567mkdir git_projectcd git_projectgit init #本地初始化touch READMEgit add README #添加文件git commit -m &#39;first commit&#39;git push  1、常用的Git命令git add–interactive交互式添加git apply应用补丁git a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git 常用命令整理">
+<meta property="og:url" content="https://www.jiebaiyou.com/2020/01/14/git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="解百忧 · 随记">
+<meta property="og:description" content="初始化版本库，并提交到远程服务器端1234567mkdir git_projectcd git_projectgit init #本地初始化touch READMEgit add README #添加文件git commit -m &#39;first commit&#39;git push  1、常用的Git命令git add–interactive交互式添加git apply应用补丁git a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-14T08:35:30.000Z">
+<meta property="article:modified_time" content="2021-06-30T09:57:22.142Z">
+<meta property="article:author" content="解百忧">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.jiebaiyou.com/2020/01/14/git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>git 常用命令整理 | 解百忧 · 随记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解百忧 · 随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">那些比你走得远的人，并不比你聪慧，只是每天多走了一点。坚持，是最强大的力量。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/jiebaiyou" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2020/01/14/git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          git 常用命令整理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-14 16:35:30" itemprop="dateCreated datePublished" datetime="2020-01-14T16:35:30+08:00">2020-01-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="初始化版本库，并提交到远程服务器端"><a href="#初始化版本库，并提交到远程服务器端" class="headerlink" title="初始化版本库，并提交到远程服务器端"></a>初始化版本库，并提交到远程服务器端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir git_project</span><br><span class="line">cd git_project</span><br><span class="line">git init #本地初始化</span><br><span class="line">touch README</span><br><span class="line">git add README #添加文件</span><br><span class="line">git commit -m &#39;first commit&#39;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<h4 id="1、常用的Git命令"><a href="#1、常用的Git命令" class="headerlink" title="1、常用的Git命令"></a>1、常用的Git命令</h4><p><code>git add–interactive</code>交互式添加<br><code>git apply</code>应用补丁<br><code>git am</code>应用邮件格式补丁<br><code>git annotate</code>同义词，等同于 <code>git blame</code></p>
+<a id="more"></a>
+
+<p><code>git archive</code>文件归档打包<br><code>git bisect</code>二分查找<br><code>git blame</code>文件逐行追溯<br><code>git branch</code>分支管理<br><code>git cat-file</code>版本库对象研究工具<br><code>git checkout</code>检出到工作区、切换或创建分支<br><code>git cherry-pick</code>提交拣选<br><code>git citool</code>图形化提交，相当于 <code>git gui</code> 命令<br><code>git clean</code>清除工作区未跟踪文件<br><code>git clone</code>克隆版本库<br><code>git commit</code>提交<br><code>git config</code>查询和修改配置<br><code>git describe</code>通过里程碑直观地显示提交ID<br><code>git diff</code>差异比较<br><code>git difftool</code>调用图形化差异比较工具<br><code>git fetch</code>获取远程版本库的提交<br><code>git format-patch</code>创建邮件格式的补丁文件。参见 <code>git am</code> 命令<br><code>git grep</code>文件内容搜索定位工具<br><code>git gui</code>基于Tcl/Tk的图形化工具，侧重提交等操作<br><code>git help</code>帮助<br><code>git init</code>版本库初始化<br><code>git init-db</code>同义词，等同于<code>git init</code><br><code>git log</code>显示提交日志<br><code>git merge</code>分支合并<br><code>git mergetool</code>图形化冲突解决<br><code>git mv</code>重命名<br><code>git pull</code>拉回远程版本库的提交<br><code>git push</code>推送至远程版本库<br><code>git rebase</code>分支变基<br><code>git rebase–interactive</code>交互式分支变基<br><code>git reflog</code>分支等引用变更记录管理<br><code>git remote</code>远程版本库管理<br><code>git repo-config</code>同义词，等同于 <code>git config</code><br><code>git reset</code>重置改变分支“游标”指向<br><code>git rev-parse</code>将各种引用表示法转换为哈希值等<br><code>git revert</code>反转提交<br><code>git rm</code>删除文件<br><code>git show</code>显示各种类型的对象<br><code>git stage</code>同义词，等同于 <code>git add</code><br><code>git stash</code>保存和恢复进度<br><code>git status</code>显示工作区文件状态<br><code>git tag</code>里程碑管理</p>
+<h4 id="2、对象库操作相关命令"><a href="#2、对象库操作相关命令" class="headerlink" title="2、对象库操作相关命令"></a>2、对象库操作相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git commit-tree</code>从树对象创建提交<br><code>git hash-object</code>从标准输入或文件计算哈希值或创建对象<br><code>git ls-files</code>显示工作区和暂存区文件<br><code>git ls-tree</code>显示树对象包含的文件<br><code>git mktag</code>读取标准输入创建一个里程碑对象<br><code>git mktree</code>读取标准输入创建一个树对象<br><code>git read-tree</code>读取树对象到暂存区<br><code>git update-index</code>工作区内容注册到暂存区及暂存区管理<br><code>git unpack-file</code>创建临时文件包含指定 blob 的内容<br><code>git write-tree</code>从暂存区创建一个树对象</p>
+<h4 id="3、引用操作相关命令"><a href="#3、引用操作相关命令" class="headerlink" title="3、引用操作相关命令"></a>3、引用操作相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git check-ref-format</code>检查引用名称是否符合规范<br><code>git for-each-ref</code>引用迭代器，用于shell编程<br><code>git ls-remote</code>显示远程版本库的引用<br><code>git name-rev</code>将提交ID显示为友好名称<br><code>git peek-remote</code>过时命令，请使用 <code>git ls-remote</code><br><code>git rev-list</code>显示版本范围<br><code>git show-branch</code>显示分支列表及拓扑关系<br><code>git show-ref</code>显示本地引用<br><code>git symbolic-ref</code>显示或者设置符号引用<br><code>git update-ref</code>更新引用的指向<br><code>git verify-tag</code>校验 GPG 签名的Tag</p>
+<h4 id="4、版本库管理相关命令"><a href="#4、版本库管理相关命令" class="headerlink" title="4、版本库管理相关命令"></a>4、版本库管理相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git count-objects</code>显示松散对象的数量和磁盘占用<br><code>git filter-branch</code>版本库重构<br><code>git fsck</code>对象库完整性检查<br><code>git fsck-objects</code>同义词，等同于 <code>git fsck</code><br><code>git gc</code>版本库存储优化<br><code>git index-pack</code>从打包文件创建对应的索引文件<br><code>git lost-found</code>过时，请使用 <code>git fsck –lost-found</code>命令<br><code>git pack-objects</code>从标准输入读入对象ID，打包到文件<br><code>git pack-redundant</code>查找多余的 <code>pack</code> 文件<br><code>git pack-refs</code>将引用打包到 .<code>git/packed-refs</code> 文件中<br><code>git prune</code>从对象库删除过期对象<br><code>git prune-packed</code>将已经打包的松散对象删除<br><code>git relink</code>为本地版本库中相同的对象建立硬连接<br><code>git repac</code>k将版本库未打包的松散对象打包<br><code>git show-index</code>读取包的索引文件，显示打包文件中的内容<br><code>git unpack-objects</code>从打包文件释放文件<br><code>git verify-pack</code>校验对象库打包文件</p>
+<h4 id="5、数据传输相关命令"><a href="#5、数据传输相关命令" class="headerlink" title="5、数据传输相关命令"></a>5、数据传输相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git fetch-pack</code>执行 <code>git fetch 或 git pull</code>命令时在本地执行此命令，用于从其他版本库获取缺失的对象<br><code>git receive-pack</code>执行 <code>git push</code> 命令时在远程执行的命令，用于接受推送的数据<br><code>git send-pack</code>执行 <code>git push</code> 命令时在本地执行的命令，用于向其他版本库推送数据<br><code>git upload-archive</code>执行 <code>git archive –remote</code>命令基于远程版本库创建归档时，远程版本库执行此命令传送归档<br><code>git upload-pack</code>执行 <code>git fetch 或 git pull</code> 命令时在远程执行此命令，将对象打包、上传</p>
+<h4 id="6、邮件相关命令"><a href="#6、邮件相关命令" class="headerlink" title="6、邮件相关命令"></a>6、邮件相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git imap-send</code>将补丁通过 IMAP 发送<br><code>git mailinfo</code>从邮件导出提交说明和补丁<br><code>git mailsplit</code>将 mbox 或 Maildir 格式邮箱中邮件逐一提取为文件<br><code>git request-pull</code>创建包含提交间差异和执行PULL操作地址的信息<br><code>git send-email</code>发送邮件</p>
+<h4 id="7、协议相关命令"><a href="#7、协议相关命令" class="headerlink" title="7、协议相关命令"></a>7、协议相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git daemon实现</code>git协议<br><code>git http-backend</code>实现HTTP协议的CGI程序，支持智能HTTP协议<br><code>git instaweb</code>即时启动浏览器通过 <code>gitweb 浏览当前版本库</code><br><code>git shell</code>受限制的shell，提供仅执行git命令的SSH访问<br><code>git update-server-info</code>更新哑协议需要的辅助文件<br><code>git http-fetch</code>通过HTTP协议获取版本库<br><code>git http-push</code>通过HTTP/DAV协议推送<br><code>git remote-ext</code>由git命令调用，通过外部命令提供扩展协议支持<br><code>git remote-fd</code>由git命令调用，使用文件描述符作为协议接口<br><code>git remote-ftp</code>由git命令调用，提供对FTP协议的支持<br><code>git remote-ftps</code>由git命令调用，提供对FTPS协议的支持<br><code>git remote-http</code>由git命令调用，提供对HTTP协议的支持<br><code>git remote-https</code>由git命令调用，提供对HTTPS协议的支持<br><code>git remote-test</code>git协议扩展示例脚本</p>
+<h4 id="8、版本库转换和交互相关命令"><a href="#8、版本库转换和交互相关命令" class="headerlink" title="8、版本库转换和交互相关命令"></a>8、版本库转换和交互相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git archimport</code>导入Arch版本库到git<br><code>git bundle</code>提交打包和解包，以便在不同版本库间传递<br><code>git cvsexportcommit</code>将git的一个提交作为一个CVS检出<br><code>git cvsimport</code>导入CVS版本库到git。或者使用 cvs2git<br><code>git cvsserver</code>git的CVS协议模拟器，可供CVS命令访问git版本库<br><code>git fast-export</code>将提交导出为<code>git-fast-import</code> 格式<br><code>git fast-import</code>其他版本库迁移至git的通用工具<br><code>git svn</code>git 作为前端操作 Subversion</p>
+<h4 id="9、合并相关的辅助命令"><a href="#9、合并相关的辅助命令" class="headerlink" title="9、合并相关的辅助命令"></a>9、合并相关的辅助命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git merge-base</code>供其他脚本调用，找到两个或多个提交最近的共同祖先<br><code>git merge-file</code>针对文件的两个不同版本执行三向文件合并<br><code>git merge-index</code>对index中的冲突文件调用指定的冲突解决工具<br><code>git merge-octopus</code>合并两个以上分支。参见 <code>git merge 的octopus</code>合并策略<br><code>git merge-one-file</code>由 <code>git merge-index</code> 调用的标准辅助程序<br><code>git merge-ours</code>合并使用本地版本，抛弃他人版本。参见 <code>git merge 的ours</code>合并策略<br><code>git merge-recursive</code>针对两个分支的三向合并。参见 <code>git merge 的recursive</code>合并策略<br><code>git merge-resolve</code>针对两个分支的三向合并。参见 <code>git merge 的resolve</code>合并策略<br><code>git merge-subtree</code>子树合并。参见 <code>git merge 的 subtree</code>合并策略<br><code>git merge-tree</code>显式三向合并结果，不改变暂存区<br><code>git fmt-merge-msg</code>供执行合并操作的脚本调用，用于创建一个合并提交说明<br><code>git rerere</code>重用所记录的冲突解决方案</p>
+<h4 id="10、-杂项"><a href="#10、-杂项" class="headerlink" title="10、 杂项"></a>10、 杂项</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git bisect–helper</code>由 <code>git bisect</code>命令调用，确认二分查找进度<br><code>git check-attr</code>显示某个文件是否设置了某个属性<br><code>git checkout-index</code>从暂存区拷贝文件至工作区<br><code>git cherry</code>查找没有合并到上游的提交<br><code>git diff-files</code>比较暂存区和工作区，相当于 <code>git diff –raw</code><br><code>git diff-index</code>比较暂存区和版本库，相当于 <code>git diff –cached –raw</code><br><code>git diff-tree</code>比较两个树对象，相当于 <code>git diff –raw A B</code><br><code>git difftool–helper</code>由 <code>git difftool</code>命令调用，默认要使用的差异比较工具<br><code>git get-tar-commit-id</code>从 <code>git archive</code>创建的 tar 包中提取提交ID<br><code>git gui–askpass</code>命令 <code>git gui</code>的获取用户口令输入界面<br><code>git notes</code>提交评论管理<br><code>git patch-id</code>补丁过滤行号和空白字符后生成补丁唯一ID<br><code>git quiltimport</code>将Quilt补丁列表应用到当前分支<br><code>git replace</code>提交替换<br><code>git shortlog</code>对 <code>git log</code> 的汇总输出，适合于产品发布说明<br><code>git stripspace</code>删除空行，供其他脚本调用<br><code>git submodule</code>子模组管理<br><code>git tar-tree</code>过时命令，请使用 <code>git archive</code><br><code>git var</code>显示 git 环境变量<br><code>git web–browse</code>启动浏览器以查看目录或文件<br><code>git whatchanged</code>显示提交历史及每次提交的改动<br><code>git-mergetool–lib</code>包含于其他脚本中，提供合并/差异比较工具的选择和执行<br><code>git-parse-remote</code>包含于其他脚本中，提供操作远程版本库的函数<br><code>git-sh-setup</code>包含于其他脚本中，提供 shell 编程的函数库</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/01/14/%E9%AB%98%E9%A2%91%E4%BD%BF%E7%94%A8%E7%9A%84-Git-%E5%91%BD%E4%BB%A4%E9%9B%86%E5%90%88%EF%BC%8C%E7%9C%8B%E5%AE%8C%E8%87%AA%E4%BF%A1-git-push%EF%BC%81/" rel="next" title="高频使用的 Git 命令集合，看完自信 git push！">
+                  <i class="fa fa-chevron-left"></i> 高频使用的 Git 命令集合，看完自信 git push！
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/02/26/%E4%BD%BF%E7%94%A8Redis%E7%BB%9F%E8%AE%A1%E5%9C%A8%E7%BA%BF%E7%94%A8%E6%88%B7%E4%BA%BA%E6%95%B0/" rel="prev" title="使用Redis统计在线用户人数">
+                  使用Redis统计在线用户人数 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化版本库，并提交到远程服务器端"><span class="nav-number">1.</span> <span class="nav-text">初始化版本库，并提交到远程服务器端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1、常用的Git命令"><span class="nav-number">2.</span> <span class="nav-text">1、常用的Git命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、对象库操作相关命令"><span class="nav-number">3.</span> <span class="nav-text">2、对象库操作相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、引用操作相关命令"><span class="nav-number">4.</span> <span class="nav-text">3、引用操作相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、版本库管理相关命令"><span class="nav-number">5.</span> <span class="nav-text">4、版本库管理相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、数据传输相关命令"><span class="nav-number">6.</span> <span class="nav-text">5、数据传输相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、邮件相关命令"><span class="nav-number">7.</span> <span class="nav-text">6、邮件相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、协议相关命令"><span class="nav-number">8.</span> <span class="nav-text">7、协议相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、版本库转换和交互相关命令"><span class="nav-number">9.</span> <span class="nav-text">8、版本库转换和交互相关命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、合并相关的辅助命令"><span class="nav-number">10.</span> <span class="nav-text">9、合并相关的辅助命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10、-杂项"><span class="nav-number">11.</span> <span class="nav-text">10、 杂项</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="解百忧"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">解百忧</p>
+  <div class="site-description" itemprop="description">分享学习记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiebaiyou" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;jiebaiyou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiebaiyou@gmail.com" title="E-Mail &amp;rarr; mailto:jiebaiyou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.orivon.com/" title="http:&#x2F;&#x2F;www.orivon.com" rel="noopener" target="_blank">Orivon</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">解百忧</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
