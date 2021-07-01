@@ -50,15 +50,15 @@
   };
 </script>
 
-  <meta name="description" content="git 删除错误提交的commit方法:  123git reset --hard  [commit_id]git push origin HEAD --force 说明: 根据–soft –mixed –hard，会对working tree和index和HEAD进行重置:">
+  <meta name="description" content="git 删除错误提交的commit方法:  123git reset --hard  [commit_id]git push origin HEAD --force  说明: 根据–soft –mixed –hard，会对working tree和index和HEAD进行重置:  git reset –mixed：此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git 删除错误提交的commit">
 <meta property="og:url" content="https://www.jiebaiyou.com/2020/01/13/git-%E5%88%A0%E9%99%A4%E9%94%99%E8%AF%AF%E6%8F%90%E4%BA%A4%E7%9A%84commit/index.html">
 <meta property="og:site_name" content="解百忧 · 随记">
-<meta property="og:description" content="git 删除错误提交的commit方法:  123git reset --hard  [commit_id]git push origin HEAD --force 说明: 根据–soft –mixed –hard，会对working tree和index和HEAD进行重置:">
+<meta property="og:description" content="git 删除错误提交的commit方法:  123git reset --hard  [commit_id]git push origin HEAD --force  说明: 根据–soft –mixed –hard，会对working tree和index和HEAD进行重置:  git reset –mixed：此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-13T06:05:44.000Z">
-<meta property="article:modified_time" content="2021-06-30T09:57:22.141Z">
+<meta property="article:modified_time" content="2021-07-01T00:53:48.399Z">
 <meta property="article:author" content="解百忧">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -247,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-30 17:57:22" itemprop="dateModified" datetime="2021-06-30T17:57:22+08:00">2021-06-30</time>
+                <time title="修改时间：2021-07-01 08:53:48" itemprop="dateModified" datetime="2021-07-01T08:53:48+08:00">2021-07-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,30 +281,52 @@
       
         <h3 id="git-删除错误提交的commit"><a href="#git-删除错误提交的commit" class="headerlink" title="git 删除错误提交的commit"></a>git 删除错误提交的commit</h3><p>方法: </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard  [commit_id]</span><br><span class="line"></span><br><span class="line">git push origin HEAD --force</span><br></pre></td></tr></table></figure>
+
 <p>说明:</p>
 <p>根据–soft –mixed –hard，会对working tree和index和HEAD进行重置:</p>
-<a id="more"></a>
-
 <ul>
 <li><p>git reset –mixed：此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息</p>
 </li>
 <li><p>git reset –soft：回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可</p>
 </li>
 <li><p>git reset –hard：彻底回退到某个版本，本地的源码也会变为上一个版本的内容</p>
+<p>HEAD 最近一个提交<br>HEAD^ 上一次<br>[commit_id]  每次commit的SHA1值. 可以用<code>git log</code> 看到,也可以在页面上commit标签页里找到.</p>
 </li>
 </ul>
-<p>  HEAD 最近一个提交<br>  HEAD^ 上一次<br>  [commit_id]  每次commit的SHA1值. 可以用<code>git log</code> 看到,也可以在页面上commit标签页里找到.</p>
+<a id="more"></a>
+
 <h3 id="commit合并"><a href="#commit合并" class="headerlink" title="commit合并"></a>commit合并</h3><p>引用自：<a href="https://www.douban.com/note/318248317/" target="_blank" rel="noopener">http://www.douban.com/note/318248317/</a></p>
 <p>有时commit太多，而且可能一个commit只是提交一个小bug，那么合并commit势在必行。<br>有两种方法：<br>一是在提交最后一个修改的commit使用参数，这时之前的一个commit将会合并到这个即将提交的commit中来：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git commit -a --amend -m &quot;my message here&quot;如果之前有一个提交，并且信息为:</span><br><span class="line"></span><br><span class="line">git commit -a -m &quot;my last commit message&quot;</span><br></pre></td></tr></table></figure>
+
 <p>则这个commit message将不存在。但该commit的信息已经合并到”my message here”中了。</p>
 <p>第二个是，如果你提交了最后的修改，这时可用：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^ #或HEAD^意为取消最后commit</span><br><span class="line"></span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
 <p>这将会把最后一个commit合并到前一个提交中去，例如（由上往下读）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git add b.text</span><br><span class="line"></span><br><span class="line">git commit -a -m &quot;my message here&quot;</span><br><span class="line"></span><br><span class="line">git add a.text</span><br><span class="line"></span><br><span class="line">git commit -a -m &quot;my last commit message&quot;</span><br></pre></td></tr></table></figure>
+
 <p>那么最后存在的将是”my last commit message”。也可后退n个，合并到前面第n+1个commit中去：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~n #后退到第n，我也不清楚具体含义。</span><br><span class="line"></span><br><span class="line">git commit --amend [-m &quot;new message&quot;]</span><br></pre></td></tr></table></figure>
+
 <p>我觉得最方面的是调用reflog查看操作历史，找到具体的commit id，然后直接git reset –hard [commit_id]就回到你要的版本！</p>
+<h3 id="如何撤回GIT已提交的代码？"><a href="#如何撤回GIT已提交的代码？" class="headerlink" title="如何撤回GIT已提交的代码？"></a>如何撤回GIT已提交的代码？</h3><h4 id="如何操作？"><a href="#如何操作？" class="headerlink" title="如何操作？"></a>如何操作？</h4><p>这种情况属于已push后发现提交错误。</p>
+<p>我们可以使用下面这行命令来回到上一个版本：</p>
+<p>git reset –soft HEAD~1</p>
+<p>来解释一下参数：</p>
+<p><strong>–soft</strong></p>
+<p>撤销commit，不撤销add。</p>
+<p><strong>–mixed</strong></p>
+<p>撤销commit ，撤销add，但不删除工作空间改动代码。</p>
+<p><strong>–hard</strong></p>
+<p>撤销commit，撤销add，且删除工作空间改动代码。</p>
+<p><strong>HEAD~N</strong></p>
+<p>N替换成想要回退几个版本。如HEAD~2表示回退两个版本。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>在reset后重新推送代码时，需要用</p>
+<p>git push –force来强制更新远端分支。</p>
+<p><strong>演示如下：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~1</span><br><span class="line">(这里改动内容...)</span><br><span class="line">git commit -m &quot;update&quot;</span><br><span class="line">git push --force</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -370,7 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-删除错误提交的commit"><span class="nav-number">1.</span> <span class="nav-text">git 删除错误提交的commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#commit合并"><span class="nav-number">2.</span> <span class="nav-text">commit合并</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#git-删除错误提交的commit"><span class="nav-number">1.</span> <span class="nav-text">git 删除错误提交的commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#commit合并"><span class="nav-number">2.</span> <span class="nav-text">commit合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何撤回GIT已提交的代码？"><span class="nav-number">3.</span> <span class="nav-text">如何撤回GIT已提交的代码？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何操作？"><span class="nav-number">3.1.</span> <span class="nav-text">如何操作？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后"><span class="nav-number">3.2.</span> <span class="nav-text">最后</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -386,7 +408,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -399,7 +421,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
