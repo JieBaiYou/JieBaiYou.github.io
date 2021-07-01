@@ -646,10 +646,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-06-30 17:59:40 / 修改时间：18:00:41" itemprop="dateCreated datePublished" datetime="2021-06-30T17:59:40+08:00">2021-06-30</time>
+              <time title="创建时间：2021-06-30 17:59:40" itemprop="dateCreated datePublished" datetime="2021-06-30T17:59:40+08:00">2021-06-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-01 09:05:11" itemprop="dateModified" datetime="2021-07-01T09:05:11+08:00">2021-07-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -680,114 +686,14 @@
 <h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><blockquote>
 <p>-P 设置默认策略:iptables -P INPUT (DROP|ACCEPT)<br>-F 清空规则链<br>-L 查看规则链<br>-A 在规则链的末尾加入新规则<br>-I num 在规则链的头部加入新规则<br>-D num 删除某一条规则<br>-s 匹配来源地址IP/MASK，加叹号”!”表示除这个IP外。<br>-d 匹配目标地址<br>-i 网卡名称 匹配从这块网卡流入的数据<br>-o 网卡名称 匹配从这块网卡流出的数据<br>-p 匹配协议,如tcp,udp,icmp<br>–dport num 匹配目标端口号<br>–sport num 匹配来源端口号</p>
 </blockquote>
-<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><h5 id="1-删除已有规则"><a href="#1-删除已有规则" class="headerlink" title="1. 删除已有规则"></a>1. 删除已有规则</h5><p>在开始创建iptables规则之前，你也许需要删除已有规则。命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -F</span><br><span class="line">(or)</span><br><span class="line">iptables –flush</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-设置链的默认策略"><a href="#2-设置链的默认策略" class="headerlink" title="2.设置链的默认策略"></a>2.设置链的默认策略</h5><p>链的默认政策设置为”ACCEPT”（接受），若要将INPUT,FORWARD,OUTPUT链设置成”DROP”（拒绝），命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P FORWARD DROP</span><br><span class="line">iptables -P OUTPUT DROP</span><br></pre></td></tr></table></figure>
-
-<p>当INPUT链和OUTPUT链都设置成DROP时，对于每一个防火墙规则，我们都应该定义两个规则。例如：一个传入另一个传出。在下面所有的例子中，由于我们已将DROP设置成INPUT链和OUTPUT链的默认策略，每种情况我们都将制定两条规则。当然，如果你相信你的内部用户,则可以省略上面的最后一行。例如：默认不丢弃所有出站的数据包。在这种情况下,对于每一个防火墙规则要求,你只需要制定一个规则——只对进站的数据包制定规则。</p>
-<h5 id="3-阻止指定IP地址"><a href="#3-阻止指定IP地址" class="headerlink" title="3. 阻止指定IP地址"></a>3. 阻止指定IP地址</h5><p>例：丢弃来自IP地址x.x.x.x的包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BLOCK_THIS_IP&#x3D;&quot;x.x.x.x&quot;</span><br><span class="line">iptables -A INPUT -s &quot;$BLOCK_THIS_IP&quot; -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>注：当你在log里发现来自某ip地址的异常记录，可以通过此命令暂时阻止该地址的访问以做更深入分析</p>
-<p>例：阻止来自IP地址x.x.x.x eth0 tcp的包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -s &quot;$BLOCK_THIS_IP&quot; -j DROP</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp -s &quot;$BLOCK_THIS_IP&quot; -j DROP</span><br></pre></td></tr></table></figure>
-
-<h5 id="4-允许所有SSH的连接请求"><a href="#4-允许所有SSH的连接请求" class="headerlink" title="4. 允许所有SSH的连接请求"></a>4. 允许所有SSH的连接请求</h5><p>例：允许所有来自外部的SSH连接请求，即只允许进入eth0接口，并且目标端口为22的数据包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="5-仅允许来自指定网络的SSH连接请求"><a href="#5-仅允许来自指定网络的SSH连接请求" class="headerlink" title="5. 仅允许来自指定网络的SSH连接请求"></a>5. 仅允许来自指定网络的SSH连接请求</h5><p>例：仅允许来自于192.168.100.0/24域的用户的ssh连接请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.0&#x2F;24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="6-允许http和https的连接请求"><a href="#6-允许http和https的连接请求" class="headerlink" title="6.允许http和https的连接请求"></a>6.允许http和https的连接请求</h5><p>例：允许所有来自web - http的连接请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>例：允许所有来自web - https的连接请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="7-使用multiport-将多个规则结合在一起"><a href="#7-使用multiport-将多个规则结合在一起" class="headerlink" title="7. 使用multiport 将多个规则结合在一起"></a>7. 使用multiport 将多个规则结合在一起</h5><p>允许多个端口从外界连入，除了为每个端口都写一条独立的规则外，我们可以用multiport将其组合成一条规则。如下所示：</p>
-<p>例：允许所有ssh,http,https的流量访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp -m multiport --sports 22,80,443 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="8-允许从本地发起的SSH请求"><a href="#8-允许从本地发起的SSH请求" class="headerlink" title="8. 允许从本地发起的SSH请求"></a>8. 允许从本地发起的SSH请求</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>请注意,这与允许ssh连入的规则略有不同。本例在OUTPUT链上，我们允许NEW和ESTABLISHED状态。在INPUT链上，我们只允许ESTABLISHED状态。ssh连入的规则与之相反。</p>
-<h5 id="9-仅允许从本地发起到一个指定的网络域的SSH请求"><a href="#9-仅允许从本地发起到一个指定的网络域的SSH请求" class="headerlink" title="9. 仅允许从本地发起到一个指定的网络域的SSH请求"></a>9. 仅允许从本地发起到一个指定的网络域的SSH请求</h5><p>例：仅允许从内部连接到网域192.168.100.0/24</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p tcp -d 192.168.100.0&#x2F;24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="10-允许从本地发起的HTTPS连接请求"><a href="#10-允许从本地发起的HTTPS连接请求" class="headerlink" title="10. 允许从本地发起的HTTPS连接请求"></a>10. 允许从本地发起的HTTPS连接请求</h5><p>下面的规则允许输出安全的网络流量。如果你想允许用户访问互联网，这是非常有必要的。在服务器上，这些规则能让你使用wget从外部下载一些文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A INPUT -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>注：对于HTTP web流量的外联请求，只需要将上述命令中的端口从443改成80即可。</p>
-<h5 id="11-负载平衡传入的网络流量"><a href="#11-负载平衡传入的网络流量" class="headerlink" title="11. 负载平衡传入的网络流量"></a>11. 负载平衡传入的网络流量</h5><p>使用iptables可以实现传入web流量的负载均衡，我们可以传入web流量负载平衡使用iptables防火墙规则。<br>例：使用iptables nth将HTTPS流量负载平衡至三个不同的ip地址。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 0 -j DNAT --to-destination 192.168.1.101:443iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 1 -j DNAT --to-destination 192.168.1.102:443iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 2 -j DNAT --to-destination 192.168.1.103:443</span><br></pre></td></tr></table></figure>
-
-<h5 id="12-允许外部主机ping内部主机"><a href="#12-允许外部主机ping内部主机" class="headerlink" title="12. 允许外部主机ping内部主机"></a>12. 允许外部主机ping内部主机</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPTiptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="13-允许内部主机ping外部主机"><a href="#13-允许内部主机ping外部主机" class="headerlink" title="13. 允许内部主机ping外部主机"></a>13. 允许内部主机ping外部主机</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPTiptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="14-允许回环访问"><a href="#14-允许回环访问" class="headerlink" title="14. 允许回环访问"></a>14. 允许回环访问</h5><p>例：在服务器上允许127.0.0.1回环访问。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i lo -j ACCEPTiptables -A OUTPUT -o lo -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="15-允许内部网络域外部网络的通信"><a href="#15-允许内部网络域外部网络的通信" class="headerlink" title="15. 允许内部网络域外部网络的通信"></a>15. 允许内部网络域外部网络的通信</h5><p>防火墙服务器上的其中一个网卡连接到外部，另一个网卡连接到内部服务器，使用以下规则允许内部网络与外部网络的通信。此例中，eth1连接到外部网络(互联网)，eth0连接到内部网络(例如:192.168.1.x)。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="16-允许出站的DNS连接"><a href="#16-允许出站的DNS连接" class="headerlink" title="16. 允许出站的DNS连接"></a>16. 允许出站的DNS连接</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPTiptables -A INPUT -p udp -i eth0 --sport 53 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="17-允许NIS连接"><a href="#17-允许NIS连接" class="headerlink" title="17. 允许NIS连接"></a>17. 允许NIS连接</h5><p>如果你使用NIS管理用户帐户，你需要允许NIS连接。如果你不允许NIS相关的ypbind连接请求，即使SSH连接请求已被允许，用户仍然无法登录。NIS的端口是动态的，先使用命令rpcinfo –p来知道端口号，此例中为853和850端口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpcinfo -p | grep ypbind</span><br></pre></td></tr></table></figure>
-
-<p>例：允许来自111端口以及ypbind使用端口的连接请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 111 -j ACCEPTiptables -A INPUT -p udp --dport 111 -j ACCEPTiptables -A INPUT -p tcp --dport 853 -j ACCEPTiptables -A INPUT -p udp --dport 853 -j ACCEPTiptables -A INPUT -p tcp --dport 850 -j ACCEPTiptables -A INPUT -p udp --dport 850 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>注：当你重启ypbind之后端口将不同，上述命令将无效。有两种解决方案：1）使用你NIS的静态IP 2）编写shell脚本通过“rpcinfo - p”命令自动获取动态端口号,并在上述iptables规则中使用。</p>
-<h5 id="18-允许来自指定网络的rsync连接请求"><a href="#18-允许来自指定网络的rsync连接请求" class="headerlink" title="18. 允许来自指定网络的rsync连接请求"></a>18. 允许来自指定网络的rsync连接请求</h5><p>例：允许来自网络192.168.101.0/24的rsync连接请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.101.0&#x2F;24 --dport 873 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 873 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="19-允许来自指定网络的MySQL连接请求"><a href="#19-允许来自指定网络的MySQL连接请求" class="headerlink" title="19. 允许来自指定网络的MySQL连接请求"></a>19. 允许来自指定网络的MySQL连接请求</h5><p>很多情况下，MySQL数据库与web服务跑在同一台服务器上。有时候我们仅希望DBA和开发人员从内部网络（192.168.100.0/24）直接登录数据库，可尝试以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.100.0&#x2F;24 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="20-允许Sendmail-Postfix邮件服务"><a href="#20-允许Sendmail-Postfix邮件服务" class="headerlink" title="20. 允许Sendmail, Postfix邮件服务"></a>20. 允许Sendmail, Postfix邮件服务</h5><p>Sendmail和postfix都使用了25端口，因此我们只需要允许来自25端口的连接请求即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="21-允许IMAP和IMAPS"><a href="#21-允许IMAP和IMAPS" class="headerlink" title="21. 允许IMAP和IMAPS"></a>21. 允许IMAP和IMAPS</h5><p>例：允许IMAP/IMAP2流量，端口为143</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 143 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 143 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>例：允许IMAPS流量，端口为993</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 993 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 993 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="22-允许POP3和POP3S"><a href="#22-允许POP3和POP3S" class="headerlink" title="22. 允许POP3和POP3S"></a>22. 允许POP3和POP3S</h5><p>例：允许POP3访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 110 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 110 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>例：允许POP3S访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 995 -m state --state NEW,ESTABLISHED -j ACCEPTiptables -A OUTPUT -o eth0 -p tcp --sport 995 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="23-防止DoS攻击"><a href="#23-防止DoS攻击" class="headerlink" title="23. 防止DoS攻击"></a>23. 防止DoS攻击</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 80 -m limit --limit 25&#x2F;minute --limit-burst 100 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>上述例子中：</p>
-<blockquote>
-<p>-m limit: 启用limit扩展<br>–limit 25/minute: 允许最多每分钟25个连接（根据需求更改）。<br>–limit-burst 100: 只有当连接达到limit-burst水平(此例为100)时才启用上述limit/minute限制。</p>
-</blockquote>
-<h5 id="24-端口转发"><a href="#24-端口转发" class="headerlink" title="24. 端口转发"></a>24. 端口转发</h5><p>例：将来自422端口的流量全部转到22端口。</p>
-<p>这意味着我们既能通过422端口又能通过22端口进行ssh连接。启用DNAT转发。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22</span><br></pre></td></tr></table></figure>
-
-<p>除此之外，还需要允许连接到422端口的请求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<h5 id="25-记录丢弃的数据表"><a href="#25-记录丢弃的数据表" class="headerlink" title="25. 记录丢弃的数据表"></a>25. 记录丢弃的数据表</h5><p>第一步：新建名为LOGGING的链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -N LOGGING</span><br></pre></td></tr></table></figure>
-
-<p>第二步：将所有来自INPUT链中的数据包跳转到LOGGING链中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -j LOGGING</span><br></pre></td></tr></table></figure>
-
-<p>第三步：为这些包自定义个前缀，命名为”IPTables Packet Dropped”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A LOGGING -m limit --limit 2&#x2F;min -j LOG --log-prefix &quot;IPTables Packet Dropped: &quot; --log-level 7</span><br></pre></td></tr></table></figure>
-
-<p>第四步：丢弃这些数据包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A LOGGING -j DROP</span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/30/25%E6%9D%A1%E6%9C%89%E7%94%A8%E7%9A%84iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
