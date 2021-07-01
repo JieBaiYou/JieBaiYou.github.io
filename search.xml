@@ -2788,7 +2788,7 @@ recv num 1
   <entry>
     <title>python路径操作新标准：pathlib 模块</title>
     <url>/2021/05/25/python%E8%B7%AF%E5%BE%84%E6%93%8D%E4%BD%9C%E6%96%B0%E6%A0%87%E5%87%86%EF%BC%9Apathlib-%E6%A8%A1%E5%9D%97/</url>
-    <content><![CDATA[<h1 id="python路径操作新标准：pathlib-模块"><a href="#python路径操作新标准：pathlib-模块" class="headerlink" title="python路径操作新标准：pathlib 模块"></a>python路径操作新标准：pathlib 模块</h1><p>之前如果要使用 python 操作文件路径，我总是会条件反射导入 os.path。 而现在，我会更加喜欢用新式的 pathlib, 虽然用得还是没有 os.path 熟练，但是以后会坚持使用。</p>
+    <content><![CDATA[<h3 id="python路径操作新标准：pathlib-模块"><a href="#python路径操作新标准：pathlib-模块" class="headerlink" title="python路径操作新标准：pathlib 模块"></a>python路径操作新标准：pathlib 模块</h3><p>之前如果要使用 python 操作文件路径，我总是会条件反射导入 os.path。 而现在，我会更加喜欢用新式的 pathlib, 虽然用得还是没有 os.path 熟练，但是以后会坚持使用。</p>
 <p>pathlib 库从 python3.4 开始，到 python3.6 已经比较成熟。如果你的新项目可以直接用 3.6 以上，建议用 pathlib。相比于老式的 os.path 有几个优势：</p>
 <ol>
 <li>老的路径操作函数管理比较混乱，有的是导入 os, 有的又是在 os.path 当中，而新的用法统一可以用 pathlib 管理。</li>
@@ -2796,6 +2796,8 @@ recv num 1
 <li>老用法主要是函数形式，返回的数据类型通常是字符串。但是路径和字符串并不等价，所以在使用 os 操作路径的时候常常还要引入其他类库协助操作。新用法是面向对象，处理起来更灵活方便。</li>
 <li>pathlib 简化了很多操作，用起来更轻松。</li>
 </ol>
+<a id="more"></a>
+
 <p>举个例子， 把所有的 txt 文本全部移动到 archive 目录当中（archive 目录必须存在)。</p>
 <p><img src="https://i.loli.net/2020/05/09/yxBn1KPYm7AJU3O.png" alt="image.png">image.png</p>
 <p>使用原来的用法：</p>
@@ -2807,7 +2809,7 @@ recv num 1
 <p>这篇文章列举了 pathlib 的主要用法，细节知识有点多，我只会介绍 pathlib 的用法，不会每个都列举和 os 的区别。但是我会在文章最后放上主要操作使用 pathlib 和 os 的对比图。</p>
 <p>最主要的路径操作，你可以参考国外一位大神总结的图：</p>
 <p><img src="https://i.loli.net/2020/05/11/Uwqg4IrtELPD8ak.png" alt="pathlib_cheatsheet.png">pathlib_cheatsheet.png</p>
-<h2 id="1-路径获取"><a href="#1-路径获取" class="headerlink" title="1 路径获取"></a><strong>1 路径获取</strong></h2><ul>
+<h3 id="1-路径获取"><a href="#1-路径获取" class="headerlink" title="1 路径获取"></a><strong>1 路径获取</strong></h3><ul>
 <li>获取当前工作目录</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; import pathlib</span><br><span class="line">&gt;&gt;&gt; pathlib.Path.cwd()</span><br><span class="line">C:\Users\me\study</span><br><span class="line"># WindowsPath(&#39;C:\Users\me\study&#39;)</span><br></pre></td></tr></table></figure>
@@ -2858,7 +2860,7 @@ recv num 1
 <p>找出最后修改的文件的例子：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; path &#x3D; Path.cwd()&gt;&gt;&gt; max(        [(f.stat().st_mtime, f)          for f in path.iterdir()          if f.is_file()]    )1589171135.860173 C:\Users\me\study\demo_03.py</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-路径组成部分"><a href="#2-路径组成部分" class="headerlink" title="2 路径组成部分"></a><strong>2 路径组成部分</strong></h2><p>获取路径的组成部分非常方便：</p>
+<h3 id="2-路径组成部分"><a href="#2-路径组成部分" class="headerlink" title="2 路径组成部分"></a><strong>2 路径组成部分</strong></h3><p>获取路径的组成部分非常方便：</p>
 <ul>
 <li>.name 文件名，包含后缀名，如果是目录则获取目录名。</li>
 <li>.stem 文件名，不包含后缀。</li>
@@ -2897,7 +2899,7 @@ recv num 1
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; file.relative_to(&#39;archive&#39;)dmeo.txt</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-子路径扫描"><a href="#3-子路径扫描" class="headerlink" title="3 子路径扫描"></a><strong>3 子路径扫描</strong></h2><ul>
+<h3 id="3-子路径扫描"><a href="#3-子路径扫描" class="headerlink" title="3 子路径扫描"></a><strong>3 子路径扫描</strong></h3><ul>
 <li>dir_path.iterdir() 可以扫描某个目录下的所有路径（文件和子目录)， 打印的会是处理过的绝对路径。</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; cwd &#x3D; Path.cwd()&gt;&gt;&gt; [path for path in cwd.iterdir() if cwd.is_dir()][    WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;archive&#39;),     WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;demo_01.py&#39;),     WindowsPath(&#39;C:&#x2F;Users&#x2F;me&#x2F;study&#x2F;new_archive&#39;)]</span><br></pre></td></tr></table></figure>
@@ -2918,13 +2920,13 @@ recv num 1
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;&#x2F;archive&#x2F;demo.txt&#39;)&gt;&gt;&gt; file.match(&#39;*.txt&#39;)True</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-路径拼接"><a href="#4-路径拼接" class="headerlink" title="4 路径拼接"></a><strong>4 路径拼接</strong></h2><p>pathlib 支持用 <code>/</code> 拼接路径。熟悉魔术方法的同学应该很容易理解其中的原理。</p>
+<h3 id="4-路径拼接"><a href="#4-路径拼接" class="headerlink" title="4 路径拼接"></a><strong>4 路径拼接</strong></h3><p>pathlib 支持用 <code>/</code> 拼接路径。熟悉魔术方法的同学应该很容易理解其中的原理。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Path.home() &#x2F; &#39;dir&#39; &#x2F; &#39;file.txt&#39;C:\Users\me\dir\file.txt</span><br></pre></td></tr></table></figure>
 
 <p>如果用不惯 <code>/</code> ，也可以用类似 os.path.join 的方法：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Path.home().joinpath(&#39;dir&#39;, &#39;file.txt&#39;)C:\Users\me\dir\file.txt</span><br></pre></td></tr></table></figure>
 
-<h2 id="5-路径测试（判断）"><a href="#5-路径测试（判断）" class="headerlink" title="5 路径测试（判断）"></a><strong>5 路径测试（判断）</strong></h2><ul>
+<h3 id="5-路径测试（判断）"><a href="#5-路径测试（判断）" class="headerlink" title="5 路径测试（判断）"></a><strong>5 路径测试（判断）</strong></h3><ul>
 <li>是否为文件</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).is_file()True&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).parent.is_file()False</span><br></pre></td></tr></table></figure>
@@ -2939,7 +2941,7 @@ recv num 1
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Path(&quot;archive&#x2F;demo.txt&quot;).existsTrue&gt;&gt;&gt; Path(&quot;archive&#x2F;dem.txt&quot;).existsFalse</span><br></pre></td></tr></table></figure>
 
-<h2 id="6-文件操作"><a href="#6-文件操作" class="headerlink" title="6 文件操作"></a><strong>6 文件操作</strong></h2><ul>
+<h3 id="6-文件操作"><a href="#6-文件操作" class="headerlink" title="6 文件操作"></a><strong>6 文件操作</strong></h3><ul>
 <li>创建文件 touch</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; file &#x3D; Path(&#39;hello.txt&#39;)&gt;&gt;&gt; file.touch(exist_ok&#x3D;True)None&gt;&gt;&gt; file.touch(exist_ok&#x3D;False)FileExistsError: [Errno 17] File exists: &#39;hello.txt&#39;</span><br></pre></td></tr></table></figure>
@@ -3017,7 +3019,7 @@ recv num 1
 <p>不管是移动文件还是删除文件，都不会给任何提示。所以在进行此类操作的时候要特别小心。</p>
 <p>对文件进行操作最好还是用 shutil 模块。</p>
 </blockquote>
-<h2 id="7-附件：常用的-pathlib-和-os-对比图"><a href="#7-附件：常用的-pathlib-和-os-对比图" class="headerlink" title="7 附件：常用的 pathlib 和 os 对比图"></a><strong>7 附件：常用的 pathlib 和 os 对比图</strong></h2><table>
+<h3 id="7-附件：常用的-pathlib-和-os-对比图"><a href="#7-附件：常用的-pathlib-和-os-对比图" class="headerlink" title="7 附件：常用的 pathlib 和 os 对比图"></a><strong>7 附件：常用的 pathlib 和 os 对比图</strong></h3><table>
 <thead>
 <tr>
 <th align="center">操作</th>
@@ -3136,6 +3138,12 @@ recv num 1
 <li><a href="http://www.ityouknow.com/python/2019/10/19/python-pathlib-035.html" target="_blank" rel="noopener">pathlib 模块</a></li>
 </ul>
 ]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
   </entry>
   <entry>
     <title>zsh及oh-my-zsh安装使用备忘</title>
