@@ -460,6 +460,27 @@
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile指令ADD和COPY介绍</title>
+    <url>/2019/10/27/Dockerfile%E6%8C%87%E4%BB%A4ADD%E5%92%8CCOPY%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h4 id="一、ADD指令"><a href="#一、ADD指令" class="headerlink" title="一、ADD指令"></a>一、ADD指令</h4><p>ADD指令的功能是将主机构建环境（上下文）目录中的文件和目录、以及一个URL标记的文件 拷贝到镜像中。</p>
+<a id="more"></a>
+
+<p>其格式是： ADD  源路径  目标路径<br>如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#test</span><br><span class="line">FROM ubuntu</span><br><span class="line">MAINTAINER hello</span><br><span class="line">ADD test1.txt test1.txt</span><br><span class="line">ADD test1.txt test1.txt.bak</span><br><span class="line">ADD test1.txt &#x2F;mydir&#x2F;</span><br><span class="line">ADD data1  data1</span><br><span class="line">ADD data2  data2</span><br><span class="line">ADD zip.tar &#x2F;myzip</span><br></pre></td></tr></table></figure>
+<p>有如下注意事项：<br>1、如果源路径是个文件，且目标路径是以 / 结尾， 则docker会把目标路径当作一个目录，会把源文件拷贝到该目录下。<br>如果目标路径不存在，则会自动创建目标路径。</p>
+<p>2、如果源路径是个文件，且目标路径是不是以 / 结尾，则docker会把目标路径当作一个文件。<br>如果目标路径不存在，会以目标路径为名创建一个文件，内容同源文件；<br>如果目标文件是个存在的文件，会用源文件覆盖它，当然只是内容覆盖，文件名还是目标文件名。<br>如果目标文件实际是个存在的目录，则会源文件拷贝到该目录下。 注意，这种情况下，最好显示的以 / 结尾，以避免混淆。</p>
+<p>3、如果源路径是个目录，且目标路径不存在，则docker会自动以目标路径创建一个目录，把源路径目录下的文件拷贝进来。<br>如果目标路径是个已经存在的目录，则docker会把源路径目录下的文件拷贝到该目录下。</p>
+<p>4、如果源文件是个归档文件（压缩文件），则docker会自动帮解压。</p>
+<h4 id="二、COPY指令"><a href="#二、COPY指令" class="headerlink" title="二、COPY指令"></a>二、COPY指令</h4><p>COPY指令和ADD指令功能和使用方式类似。只是COPY指令不会做自动解压工作。</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker 容器数据卷挂载小结</title>
     <url>/2019/10/26/Docker-%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%8C%82%E8%BD%BD%E5%B0%8F%E7%BB%93/</url>
     <content><![CDATA[<blockquote>
@@ -569,24 +590,33 @@
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile指令ADD和COPY介绍</title>
-    <url>/2019/10/27/Dockerfile%E6%8C%87%E4%BB%A4ADD%E5%92%8CCOPY%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h4 id="一、ADD指令"><a href="#一、ADD指令" class="headerlink" title="一、ADD指令"></a>一、ADD指令</h4><p>ADD指令的功能是将主机构建环境（上下文）目录中的文件和目录、以及一个URL标记的文件 拷贝到镜像中。</p>
-<a id="more"></a>
+    <title>Go语言北京UTC+8时间问题</title>
+    <url>/2021/07/01/Go%E8%AF%AD%E8%A8%80%E5%8C%97%E4%BA%ACUTC-8%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="Go语言-北京UTC-8-时间问题"><a href="#Go语言-北京UTC-8-时间问题" class="headerlink" title="Go语言 北京UTC+8 时间问题"></a>Go语言 北京UTC+8 时间问题</h2><p>go语言(golang)时间问题：</p>
+<p>获取系统当前时间（2017-06-05 16:22:30.628247233 +0800 CST）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curNow :&#x3D; time.Now().Local()</span><br></pre></td></tr></table></figure>
 
-<p>其格式是： ADD  源路径  目标路径<br>如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#test</span><br><span class="line">FROM ubuntu</span><br><span class="line">MAINTAINER hello</span><br><span class="line">ADD test1.txt test1.txt</span><br><span class="line">ADD test1.txt test1.txt.bak</span><br><span class="line">ADD test1.txt &#x2F;mydir&#x2F;</span><br><span class="line">ADD data1  data1</span><br><span class="line">ADD data2  data2</span><br><span class="line">ADD zip.tar &#x2F;myzip</span><br></pre></td></tr></table></figure>
-<p>有如下注意事项：<br>1、如果源路径是个文件，且目标路径是以 / 结尾， 则docker会把目标路径当作一个目录，会把源文件拷贝到该目录下。<br>如果目标路径不存在，则会自动创建目标路径。</p>
-<p>2、如果源路径是个文件，且目标路径是不是以 / 结尾，则docker会把目标路径当作一个文件。<br>如果目标路径不存在，会以目标路径为名创建一个文件，内容同源文件；<br>如果目标文件是个存在的文件，会用源文件覆盖它，当然只是内容覆盖，文件名还是目标文件名。<br>如果目标文件实际是个存在的目录，则会源文件拷贝到该目录下。 注意，这种情况下，最好显示的以 / 结尾，以避免混淆。</p>
-<p>3、如果源路径是个目录，且目标路径不存在，则docker会自动以目标路径创建一个目录，把源路径目录下的文件拷贝进来。<br>如果目标路径是个已经存在的目录，则docker会把源路径目录下的文件拷贝到该目录下。</p>
-<p>4、如果源文件是个归档文件（压缩文件），则docker会自动帮解压。</p>
-<h4 id="二、COPY指令"><a href="#二、COPY指令" class="headerlink" title="二、COPY指令"></a>二、COPY指令</h4><p>COPY指令和ADD指令功能和使用方式类似。只是COPY指令不会做自动解压工作。</p>
+<p>得出的结果有时会出现：2017-06-05 8:22:30.628247233 +0800 CST，与当前系统时间相差8小时</p>
+<p>解决问题：</p>
+<p>只要在 init中 或者 相关时间调用函数的代码使用之前加入如下代码：</p>
+<p>方案一、</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">timelocal &#x3D; time.FixedZone(&quot;CST&quot;, 3600*8)</span><br><span class="line">time.Local &#x3D; timelocal</span><br></pre></td></tr></table></figure>
+
+  <a id="more"></a>
+
+<p>方案二、</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">timelocal &#x3D; time.LoadLocation(&quot;Asia&#x2F;Chongqing&quot;)</span><br><span class="line">time.Local &#x3D; timelocal</span><br></pre></td></tr></table></figure>
+
+<p> 之后获取</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curNow :&#x3D; time.Now().Local()</span><br></pre></td></tr></table></figure>
+
+<p>就正常了。</p>
 ]]></content>
       <categories>
         <category>技术分享</category>
       </categories>
       <tags>
-        <tag>docker</tag>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -1018,36 +1048,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Go语言北京UTC+8时间问题</title>
-    <url>/2021/07/01/Go%E8%AF%AD%E8%A8%80%E5%8C%97%E4%BA%ACUTC-8%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="Go语言-北京UTC-8-时间问题"><a href="#Go语言-北京UTC-8-时间问题" class="headerlink" title="Go语言 北京UTC+8 时间问题"></a>Go语言 北京UTC+8 时间问题</h2><p>go语言(golang)时间问题：</p>
-<p>获取系统当前时间（2017-06-05 16:22:30.628247233 +0800 CST）：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curNow :&#x3D; time.Now().Local()</span><br></pre></td></tr></table></figure>
-
-<p>得出的结果有时会出现：2017-06-05 8:22:30.628247233 +0800 CST，与当前系统时间相差8小时</p>
-<p>解决问题：</p>
-<p>只要在 init中 或者 相关时间调用函数的代码使用之前加入如下代码：</p>
-<p>方案一、</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">timelocal &#x3D; time.FixedZone(&quot;CST&quot;, 3600*8)</span><br><span class="line">time.Local &#x3D; timelocal</span><br></pre></td></tr></table></figure>
-
-  <a id="more"></a>
-
-<p>方案二、</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">timelocal &#x3D; time.LoadLocation(&quot;Asia&#x2F;Chongqing&quot;)</span><br><span class="line">time.Local &#x3D; timelocal</span><br></pre></td></tr></table></figure>
-
-<p> 之后获取</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curNow :&#x3D; time.Now().Local()</span><br></pre></td></tr></table></figure>
-
-<p>就正常了。</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>go</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux CURL命令使用示例</title>
     <url>/2019/11/07/Linux-CURL%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/</url>
     <content><![CDATA[<blockquote>
@@ -1099,24 +1099,22 @@
       </tags>
   </entry>
   <entry>
-    <title>MAC下删除Docker容器日志方法</title>
-    <url>/2020/04/13/MAC%E4%B8%8B%E5%88%A0%E9%99%A4Docker%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p><strong>第一步. 取容器的日志路径</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect fr2 | grep LogPath</span><br><span class="line"><span class="string">"LogPath"</span>: <span class="string">"/var/lib/docker/containers/</span></span><br><span class="line"><span class="string">b03099af97b289629f00e677ab58a740699b7c982b470d589ecdcbf52cd4e674/b03099af97b289629f00e677</span></span><br><span class="line"><span class="string">ab58a740699b7c982b470d589ecdcbf52cd4e674-json.log"</span>,</span><br></pre></td></tr></table></figure>
+    <title>Linux Shell取之前的日期及时间</title>
+    <url>/2019/11/13/Linux-Shell%E5%8F%96%E4%B9%8B%E5%89%8D%E7%9A%84%E6%97%A5%E6%9C%9F%E5%8F%8A%E6%97%B6%E9%97%B4/</url>
+    <content><![CDATA[<blockquote>
+<p> 写脚本时经常用到取之前日期的情况，解决方法总结如下：</p>
+</blockquote>
+<a id="more"></a>
 
-<p><strong>第二步.进入VM</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty</span><br></pre></td></tr></table></figure>
-
-<p><strong>第三步.清空日志文件</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="literal">true</span> &gt; /var/lib/docker/containers/b03099af97b289629f00e677ab58a740699b7c982b470d589ecdcbf52cd4e6</span><br><span class="line">74/b03099af97b289629f00e677ab58a740699b7c982b470d589ecdcbf52cd4e674-json.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash </span><br><span class="line">#一月前  </span><br><span class="line">historyTime&#x3D;$(date &quot;+%Y-%m-%d %H&quot; -d &#39;1 month ago&#39;)  </span><br><span class="line">echo $&#123;historyTime&#125;  </span><br><span class="line"></span><br><span class="line">#一个月前时间戳</span><br><span class="line">historyTimeStamp&#x3D;$(date -d &quot;$historyTime&quot; +%s)  </span><br><span class="line">echo $&#123;historyTimeStamp&#125;  </span><br><span class="line"></span><br><span class="line">#一周前  </span><br><span class="line">historyWeek&#x3D;$(date &quot;+%Y-%m-%d %H&quot; -d &#39;7 day ago&#39;) </span><br><span class="line">echo $&#123;historyWeek&#125; </span><br><span class="line"></span><br><span class="line">#本月一月一日  </span><br><span class="line">date_this_month&#x3D;&#96;date +%Y%m01&#96;  </span><br><span class="line">echo $data_this_month </span><br><span class="line"></span><br><span class="line">#一天前  </span><br><span class="line">date_today&#x3D;&#96;date -d &#39;1 day ago&#39; +%Y%m%d&#96;  </span><br><span class="line">echo $date_today </span><br><span class="line"></span><br><span class="line">#一小时前  </span><br><span class="line">one_Hour&#x3D;$(date &quot;+%Y-%m-%d %H&quot; -d &#39;-1 hours&#39;) </span><br><span class="line">echo $one_Hour</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
         <category>技术分享</category>
       </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>mac</tag>
+        <tag>linux</tag>
+        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -1170,6 +1168,62 @@
         <tag>rc.local</tag>
         <tag>profile</tag>
         <tag>开机启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux下使用convert批量压缩图片</title>
+    <url>/2019/10/27/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8convert%E6%89%B9%E9%87%8F%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[<blockquote>
+<p>convert的功能相当强大，先来个示例，再慢慢研究其它的功能</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">find &#x2F;www&#x2F;images  -regex &#39;.*\(jpg\|JPG\|png\|PNG\|jpeg\)&#39; -size +1000k -mtime -1 \</span><br><span class="line">    -exec convert -quality 75 &#123;&#125; &#123;&#125; \; </span><br><span class="line"># 参数解释    </span><br><span class="line">&#x2F;www&#x2F;images            # 要压缩图片的目录</span><br><span class="line">-regex &#39;.*\(jpg...|jpeg\)&#39;  # 正则匹配需要压缩的文件扩展名</span><br><span class="line">-size +1000k                # 要压缩图片的最小尺寸</span><br><span class="line">-mtime -1                   # -mtime -n +n (按文件更改时间来查找文件，-n指n天以内，+n指n天以前)</span><br><span class="line">-quality 75         # 压缩后的图片质量</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p><strong>安装</strong><br>如果系统中没有convert命令，就需要先安装了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CentOS:yum install ImageMagick #注意包名大小写</span><br><span class="line">Ubuntu:apt install imagemagick</span><br></pre></td></tr></table></figure>
+
+<p><strong>转换图像格式</strong><br>支持JPG, BMP, PCX, GIF, PNG, TIFF, XPM和XWD等类型，下面举几个例子: </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert xxx.jpg xxx.png  #将jpeg转成png文件 </span><br><span class="line">convert xxx.gif xxx.bmp  #将gif转换成bmp图像 </span><br><span class="line">convert xxx.tiff xxx.pcx #将tiff转换成pcx图像</span><br></pre></td></tr></table></figure>
+
+<p><strong>改变图像的大小</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -resize 1024x768 xxx.jpg xxx1.jpg #将图像的像素改为1024*768，注意1024与768之间是小写字母x </span><br><span class="line">convert -sample 50%x50% xxx.jpg xxx1.jpg  #将图像的缩减为原来的50%*50%</span><br></pre></td></tr></table></figure>
+
+<p><strong>旋转图像</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -rotate 270 sky.jpg sky-final.jpg #将图像顺时针旋转270度</span><br></pre></td></tr></table></figure>
+
+<p><strong>加边框</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -raise 5x5 input.jpg output.jpg</span><br><span class="line">convert +raise 5x5 input.jpg output.jpg</span><br></pre></td></tr></table></figure>
+
+<p><strong>添加文字水印</strong><br>使用-draw选项还可以在图像里面添加文字：<br>在图像的10,80 位置采用60磅的全黑Helvetica字体写上 Hello, World!<br>convert还有其他很多有趣和强大的功能，大家不妨可以试试。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -fill black -pointsize 60 -font helvetica -draw &#39;text 10,80 &quot;Hello, World!&quot; hello.jpg helloworld.jpg</span><br></pre></td></tr></table></figure>
+<p><strong>批量图像格式转换</strong><br>如果想将某目录下的所有jpg文件转换为png文件，在命令行模式下输入: </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for x in *.JPG; do</span><br><span class="line">    convert -sample 25% &quot;$x&quot; &quot;$&#123;x%.JPG&#125;_converted.jpg&quot;</span><br><span class="line">    rm &quot;$x&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC下删除Docker容器日志方法</title>
+    <url>/2020/04/13/MAC%E4%B8%8B%E5%88%A0%E9%99%A4Docker%E5%AE%B9%E5%99%A8%E6%97%A5%E5%BF%97%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p><strong>第一步. 取容器的日志路径</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect fr2 | grep LogPath</span><br><span class="line"><span class="string">"LogPath"</span>: <span class="string">"/var/lib/docker/containers/</span></span><br><span class="line"><span class="string">b03099af97b289629f00e677ab58a740699b7c982b470d589ecdcbf52cd4e674/b03099af97b289629f00e677</span></span><br><span class="line"><span class="string">ab58a740699b7c982b470d589ecdcbf52cd4e674-json.log"</span>,</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二步.进入VM</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三步.清空日志文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="literal">true</span> &gt; /var/lib/docker/containers/b03099af97b289629f00e677ab58a740699b7c982b470d589ecdcbf52cd4e6</span><br><span class="line">74/b03099af97b289629f00e677ab58a740699b7c982b470d589ecdcbf52cd4e674-json.log</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>mac</tag>
       </tags>
   </entry>
   <entry>
@@ -1244,6 +1298,129 @@
 <p>这种情况要么通过 input () 函数捕捉输入自己主动结束程序，要么就在 cmd 下运行 exe 文件，从而通过 cmd 看到效果</p>
 <h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>掌握了 Pyinstaller 后，你就可以将任意程序打包发送给他人了，最后欢迎学习 HackPython 的教学课程并感觉您的阅读与支持。</p>
 <p>👋👋</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OAuth 2.0 的四种方式</title>
+    <url>/2021/07/01/OAuth-2-0-%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<p><strong>OAuth 2.0 的四种方式</strong></p>
+<p><a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html" target="_blank" rel="noopener">上一篇文章</a>介绍了 OAuth 2.0 是一种授权机制，主要用来颁发令牌（token）。本文接着介绍颁发令牌的实务操作。</p>
+<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C892a10c9886346128386c51a6a75d377%5Cg2019040901.jpeg" alt="img"></p>
+<p>下面我假定，你已经理解了 OAuth 2.0 的含义和设计思想，否则请先阅读这个系列的<a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html" target="_blank" rel="noopener">上一篇文章</a>。</p>
+<a id="more"></a>
+
+<p><strong>RFC 6749</strong></p>
+<p>OAuth 2.0 的标准是 <a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">RFC 6749</a> 文件。该文件先解释了 OAuth 是什么。</p>
+<p>OAuth 引入了一个授权层，用来分离两种不同的角色：客户端和资源所有者。……资源所有者同意以后，资源服务器可以向客户端颁发令牌。客户端通过令牌，去请求数据。</p>
+<p>这段话的意思就是，<strong>OAuth 的核心就是向第三方应用颁发令牌。</strong>然后，RFC 6749 接着写道：</p>
+<p>（由于互联网有多种场景，）本标准定义了获得令牌的四种授权方式（authorization grant ）。</p>
+<p>也就是说，<strong>OAuth 2.0 规定了四种获得令牌的流程。你可以选择最适合自己的那一种，向第三方应用颁发令牌。</strong>下面就是这四种授权方式。</p>
+<ul>
+<li>授权码（authorization-code）</li>
+<li>隐藏式（implicit）</li>
+<li>密码式（password）：</li>
+<li>客户端凭证（client credentials）</li>
+</ul>
+<p>注意，不管哪一种授权方式，第三方应用申请令牌之前，都必须先到系统备案，说明自己的身份，然后会拿到两个身份识别码：客户端 ID（client ID）和客户端密钥（client secret）。这是为了防止令牌被滥用，没有备案过的第三方应用，是不会拿到令牌的。</p>
+<p><strong>第一种授权方式：授权码</strong></p>
+<p><strong>授权码（authorization code）方式，指的是第三方应用先申请一个授权码，然后再用该码获取令牌。</strong></p>
+<p>这种方式是最常用的流程，安全性也最高，它适用于那些有后端的 Web 应用。授权码通过前端传送，令牌则是储存在后端，而且所有与资源服务器的通信都在后端完成。这样的前后端分离，可以避免令牌泄漏。</p>
+<p>第一步，A 网站提供一个链接，用户点击后就会跳转到 B 网站，授权用户数据给 A 网站使用。下面就是 A 网站跳转 B 网站的一个示意链接。</p>
+<p><a href="https://b.com/oauth/authorize" target="_blank" rel="noopener">https://b.com/oauth/authorize</a>?  response_type=code&amp;  client_id=CLIENT_ID&amp;  redirect_uri=CALLBACK_URL&amp;  scope=read</p>
+<p>上面 URL 中，response_type参数表示要求返回授权码（code），client_id参数让 B 知道是谁在请求，redirect_uri参数是 B 接受或拒绝请求后的跳转网址，scope参数表示要求的授权范围（这里是只读）。</p>
+<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C500c00e1e4e84bbda154e4a36d23db07%5Cg2019040902.jpeg" alt="img"></p>
+<p>第二步，用户跳转后，B 网站会要求用户登录，然后询问是否同意给予 A 网站授权。用户表示同意，这时 B 网站就会跳回redirect_uri参数指定的网址。跳转时，会传回一个授权码，就像下面这样。</p>
+<p><a href="https://a.com/callback?code=AUTHORIZATION_CODE" target="_blank" rel="noopener">https://a.com/callback?code=AUTHORIZATION_CODE</a></p>
+<p>上面 URL 中，code参数就是授权码。</p>
+<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cc3213a63478649b68a0257d85a9216f9%5Cg2019040907.jpeg" alt="img"></p>
+<p>第三步，A 网站拿到授权码以后，就可以在后端，向 B 网站请求令牌。</p>
+<p><a href="https://b.com/oauth/token" target="_blank" rel="noopener">https://b.com/oauth/token</a>? client_id=CLIENT_ID&amp; client_secret=CLIENT_SECRET&amp; grant_type=authorization_code&amp; code=AUTHORIZATION_CODE&amp; redirect_uri=CALLBACK_URL</p>
+<p>上面 URL 中，client_id参数和client_secret参数用来让 B 确认 A 的身份（client_secret参数是保密的，因此只能在后端发请求），grant_type参数的值是AUTHORIZATION_CODE，表示采用的授权方式是授权码，code参数是上一步拿到的授权码，redirect_uri参数是令牌颁发后的回调网址。</p>
+<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C533bf0085b40433a9bb26ca5c71255a9%5Cg2019040904.jpeg" alt="img"></p>
+<p>第四步，B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
+<p>{      “access_token”:”ACCESS_TOKEN”,  “token_type”:”bearer”,  “expires_in”:2592000,  “refresh_token”:”REFRESH_TOKEN”,  “scope”:”read”,  “uid”:100101,  “info”:{…} }</p>
+<p>上面 JSON 数据中，access_token字段就是令牌，A 网站在后端拿到了。</p>
+<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cba2144d76e8541428697c84dfc941588%5Cg2019040905.jpeg" alt="img"></p>
+<p><strong>第二种方式：隐藏式</strong></p>
+<p>有些 Web 应用是纯前端应用，没有后端。这时就不能用上面的方式了，必须将令牌储存在前端。<strong>RFC 6749 就规定了第二种方式，允许直接向前端颁发令牌。这种方式没有授权码这个中间步骤，所以称为（授权码）”隐藏式”（implicit）。</strong></p>
+<p>第一步，A 网站提供一个链接，要求用户跳转到 B 网站，授权用户数据给 A 网站使用。</p>
+<p><a href="https://b.com/oauth/authorize" target="_blank" rel="noopener">https://b.com/oauth/authorize</a>?  response_type=token&amp;  client_id=CLIENT_ID&amp;  redirect_uri=CALLBACK_URL&amp;  scope=read</p>
+<p>上面 URL 中，response_type参数为token，表示要求直接返回令牌。</p>
+<p>第二步，用户跳转到 B 网站，登录后同意给予 A 网站授权。这时，B 网站就会跳回redirect_uri参数指定的跳转网址，并且把令牌作为 URL 参数，传给 A 网站。</p>
+<p><a href="https://a.com/callback#token=ACCESS_TOKEN" target="_blank" rel="noopener">https://a.com/callback#token=ACCESS_TOKEN</a></p>
+<p>上面 URL 中，token参数就是令牌，A 网站因此直接在前端拿到令牌。</p>
+<p>注意，令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</p>
+<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cb2c75dc3bcc64ee38ac2e2aa3d913e85%5Cg2019040906.jpeg" alt="img"></p>
+<p>这种方式把令牌直接传给前端，是很不安全的。因此，只能用于一些安全要求不高的场景，并且令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</p>
+<p><strong>第三种方式：密码式</strong></p>
+<p><strong>如果你高度信任某个应用，RFC 6749 也允许用户把用户名和密码，直接告诉该应用。该应用就使用你的密码，申请令牌，这种方式称为”密码式”（password）。</strong></p>
+<p>第一步，A 网站要求用户提供 B 网站的用户名和密码。拿到以后，A 就直接向 B 请求令牌。</p>
+<p><a href="https://oauth.b.com/token" target="_blank" rel="noopener">https://oauth.b.com/token</a>?  grant_type=password&amp;  username=USERNAME&amp;  password=PASSWORD&amp;  client_id=CLIENT_ID</p>
+<p>上面 URL 中，grant_type参数是授权方式，这里的password表示”密码式”，username和password是 B 的用户名和密码。</p>
+<p>第二步，B 网站验证身份通过后，直接给出令牌。注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
+<p>这种方式需要用户给出自己的用户名/密码，显然风险很大，因此只适用于其他授权方式都无法采用的情况，而且必须是用户高度信任的应用。</p>
+<p><strong>第四种方式：凭证式</strong></p>
+<p><strong>最后一种方式是凭证式（client credentials），适用于没有前端的命令行应用，即在命令行下请求令牌。</strong></p>
+<p>第一步，A 应用在命令行向 B 发出请求。</p>
+<p><a href="https://oauth.b.com/token" target="_blank" rel="noopener">https://oauth.b.com/token</a>?  grant_type=client_credentials&amp;  client_id=CLIENT_ID&amp;  client_secret=CLIENT_SECRET</p>
+<p>上面 URL 中，grant_type参数等于client_credentials表示采用凭证式，client_id和client_secret用来让 B 确认 A 的身份。</p>
+<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
+<p>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。</p>
+<p><strong>令牌的使用</strong></p>
+<p>A 网站拿到令牌以后，就可以向 B 网站的 API 请求数据了。</p>
+<p>此时，每个发到 API 的请求，都必须带有令牌。具体做法是在请求的头信息，加上一个Authorization字段，令牌就放在这个字段里面。</p>
+<p>curl -H “Authorization: Bearer ACCESS_TOKEN” \ “<a href="https://api.b.com&quot;" target="_blank" rel="noopener">https://api.b.com&quot;</a></p>
+<p>上面命令中，ACCESS_TOKEN就是拿到的令牌。</p>
+<p><strong>更新令牌</strong></p>
+<p>令牌的有效期到了，如果让用户重新走一遍上面的流程，再申请一个新的令牌，很可能体验不好，而且也没有必要。OAuth 2.0 允许用户自动更新令牌。</p>
+<p>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
+<p><a href="https://b.com/oauth/token" target="_blank" rel="noopener">https://b.com/oauth/token</a>?  grant_type=refresh_token&amp;  client_id=CLIENT_ID&amp;  client_secret=CLIENT_SECRET&amp;  refresh_token=REFRESH_TOKEN</p>
+<p>上面 URL 中，grant_type参数为refresh_token表示要求更新令牌，client_id参数和client_secret参数用于确认身份，refresh_token参数就是用于更新令牌的令牌。</p>
+<p>B 网站验证通过以后，就会颁发新的令牌。</p>
+<p>写到这里，颁发令牌的四种方式就介绍完了。<a href="http://www.ruanyifeng.com/blog/2019/04/github-oauth.html" target="_blank" rel="noopener">下一篇文章</a>会编写一个真实的 Demo，演示如何通过 OAuth 2.0 向 GitHub 的 API 申请令牌，然后再用令牌获取数据。</p>
+<p>作者： <a href="http://www.ruanyifeng.com" target="_blank" rel="noopener">阮一峰</a></p>
+<p>（正文完）</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>oauth</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python中查找指定目录下的文件</title>
+    <url>/2019/12/16/Python%E4%B8%AD%E6%9F%A5%E6%89%BE%E6%8C%87%E5%AE%9A%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findConfigFile</span><span class="params">(dir, name)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> relpath, dirs, files <span class="keyword">in</span> os.walk(dir):</span><br><span class="line">        <span class="keyword">if</span> name <span class="keyword">in</span> files:</span><br><span class="line">            full_path = os.path.join(dir, relpath, name)</span><br><span class="line">            <span class="keyword">return</span> os.path.normpath(os.path.abspath(full_path))</span><br><span class="line"></span><br><span class="line">config = findConfigFile(<span class="string">'/dir/'</span>, <span class="string">'config.py'</span>)</span><br><span class="line">print(config)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c13/p09_find_files_by_name.html" target="_blank" rel="noopener">https://python3-cookbook.readthedocs.io/zh_CN/latest/c13/p09_find_files_by_name.html</a></p>
+<p>还有其它几种方式:</p>
+<p>os.listdir(path)<br>查看指定path下的文件，一般结合os.path.isfile(path)(是否为文件)使用递归对目录进行遍历<br>使用介绍 <a href="http://www.runoob.com/python/os-listdir.html" target="_blank" rel="noopener">http://www.runoob.com/python/os-listdir.html</a></p>
+<p>os.walk(top, topdown=True, οnerrοr=None, followlinks=False)<br>一般只传入第一个参数，即要遍历的路径，topdown指明遍历的顺序，该方法对于每个目录返回一个三元组，(dirpath, dirnames, filenames)。第一个是路径，第二个是路径下面的目录，第三个是路径下面的非目录（对于windows来说也就是文件）。通过for循环即可完成目录的递归了。<br>使用介绍 <a href="http://www.runoob.com/python/os-walk.html" target="_blank" rel="noopener">http://www.runoob.com/python/os-walk.html</a></p>
+<p>glob.glob(path)<br>返回所有匹配的文件路径列表。它只有一个参数path，定义了文件路径匹配规则，这里可以是绝对路径，也可以是相对路径。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[root@test ~]<span class="comment"># python3</span></span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line">glob.glob(<span class="string">'./*.py'</span>)</span><br><span class="line">[<span class="string">'./1.py'</span>, <span class="string">'./3.py'</span>, <span class="string">'./2.py'</span>]</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python脚本任务用时</title>
+    <url>/2019/10/27/Python%E8%84%9A%E6%9C%AC%E4%BB%BB%E5%8A%A1%E7%94%A8%E6%97%B6/</url>
+    <content><![CDATA[<blockquote>
+<p>很简单，别忘了导入time模块</p>
+</blockquote>
+<h5 id="第一种方法："><a href="#第一种方法：" class="headerlink" title="第一种方法："></a>第一种方法：</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">start = time.time()</span><br><span class="line">(要执行的代码...)</span><br><span class="line">end = time.time()</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'添加任务用时：'</span>, end - start)</span><br></pre></td></tr></table></figure>
+<h5 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># import time</span></span><br><span class="line"><span class="comment"># 函数运行时间装饰器</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_time</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="comment"># 定义嵌套函数，用来打印出装饰的函数的执行时间</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># 定义开始时间和结束时间，将func夹在中间执行，取得其返回值</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        func_return = func(*args, **kwargs)</span><br><span class="line">        end = time.time()</span><br><span class="line">        <span class="comment"># 打印方法名称和其执行时间</span></span><br><span class="line">        log.info(<span class="string">f'函数名:<span class="subst">&#123;func.__name__&#125;</span>() 执行时间: <span class="subst">&#123;end - start&#125;</span>s'</span>) <span class="comment">#日志输出</span></span><br><span class="line">        print(<span class="string">f'函数名:<span class="subst">&#123;func.__name__&#125;</span>() 执行时间: <span class="subst">&#123;end - start&#125;</span>s'</span>) <span class="comment">#打印输出</span></span><br><span class="line">        <span class="comment"># 返回func的返回值</span></span><br><span class="line">        <span class="keyword">return</span> func_return</span><br><span class="line">    <span class="comment"># 返回嵌套的函数</span></span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>技术分享</category>
@@ -1662,24 +1839,6 @@ recv num 1
         <tag>python</tag>
         <tag>asyncio</tag>
         <tag>协程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python中查找指定目录下的文件</title>
-    <url>/2019/12/16/Python%E4%B8%AD%E6%9F%A5%E6%89%BE%E6%8C%87%E5%AE%9A%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findConfigFile</span><span class="params">(dir, name)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> relpath, dirs, files <span class="keyword">in</span> os.walk(dir):</span><br><span class="line">        <span class="keyword">if</span> name <span class="keyword">in</span> files:</span><br><span class="line">            full_path = os.path.join(dir, relpath, name)</span><br><span class="line">            <span class="keyword">return</span> os.path.normpath(os.path.abspath(full_path))</span><br><span class="line"></span><br><span class="line">config = findConfigFile(<span class="string">'/dir/'</span>, <span class="string">'config.py'</span>)</span><br><span class="line">print(config)</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><a href="https://python3-cookbook.readthedocs.io/zh_CN/latest/c13/p09_find_files_by_name.html" target="_blank" rel="noopener">https://python3-cookbook.readthedocs.io/zh_CN/latest/c13/p09_find_files_by_name.html</a></p>
-<p>还有其它几种方式:</p>
-<p>os.listdir(path)<br>查看指定path下的文件，一般结合os.path.isfile(path)(是否为文件)使用递归对目录进行遍历<br>使用介绍 <a href="http://www.runoob.com/python/os-listdir.html" target="_blank" rel="noopener">http://www.runoob.com/python/os-listdir.html</a></p>
-<p>os.walk(top, topdown=True, οnerrοr=None, followlinks=False)<br>一般只传入第一个参数，即要遍历的路径，topdown指明遍历的顺序，该方法对于每个目录返回一个三元组，(dirpath, dirnames, filenames)。第一个是路径，第二个是路径下面的目录，第三个是路径下面的非目录（对于windows来说也就是文件）。通过for循环即可完成目录的递归了。<br>使用介绍 <a href="http://www.runoob.com/python/os-walk.html" target="_blank" rel="noopener">http://www.runoob.com/python/os-walk.html</a></p>
-<p>glob.glob(path)<br>返回所有匹配的文件路径列表。它只有一个参数path，定义了文件路径匹配规则，这里可以是绝对路径，也可以是相对路径。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[root@test ~]<span class="comment"># python3</span></span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line">glob.glob(<span class="string">'./*.py'</span>)</span><br><span class="line">[<span class="string">'./1.py'</span>, <span class="string">'./3.py'</span>, <span class="string">'./2.py'</span>]</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -2126,23 +2285,6 @@ recv num 1
       </tags>
   </entry>
   <entry>
-    <title>Python脚本任务用时</title>
-    <url>/2019/10/27/Python%E8%84%9A%E6%9C%AC%E4%BB%BB%E5%8A%A1%E7%94%A8%E6%97%B6/</url>
-    <content><![CDATA[<blockquote>
-<p>很简单，别忘了导入time模块</p>
-</blockquote>
-<h5 id="第一种方法："><a href="#第一种方法：" class="headerlink" title="第一种方法："></a>第一种方法：</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">start = time.time()</span><br><span class="line">(要执行的代码...)</span><br><span class="line">end = time.time()</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'添加任务用时：'</span>, end - start)</span><br></pre></td></tr></table></figure>
-<h5 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># import time</span></span><br><span class="line"><span class="comment"># 函数运行时间装饰器</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_time</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="comment"># 定义嵌套函数，用来打印出装饰的函数的执行时间</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># 定义开始时间和结束时间，将func夹在中间执行，取得其返回值</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        func_return = func(*args, **kwargs)</span><br><span class="line">        end = time.time()</span><br><span class="line">        <span class="comment"># 打印方法名称和其执行时间</span></span><br><span class="line">        log.info(<span class="string">f'函数名:<span class="subst">&#123;func.__name__&#125;</span>() 执行时间: <span class="subst">&#123;end - start&#125;</span>s'</span>) <span class="comment">#日志输出</span></span><br><span class="line">        print(<span class="string">f'函数名:<span class="subst">&#123;func.__name__&#125;</span>() 执行时间: <span class="subst">&#123;end - start&#125;</span>s'</span>) <span class="comment">#打印输出</span></span><br><span class="line">        <span class="comment"># 返回func的返回值</span></span><br><span class="line">        <span class="keyword">return</span> func_return</span><br><span class="line">    <span class="comment"># 返回嵌套的函数</span></span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis中批量删除Key</title>
     <url>/2019/11/20/Redis%E4%B8%AD%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4Key/</url>
     <content><![CDATA[<p>最近在自己的阿里云服务器上跑一个Redis容器，不小心监听了宿主机器的0.0.0.0地址，而且Redis server裸奔没密码，被嗅探到并植入了一堆辣鸡Key，网卡流量跑了接近1TB。还好是docker跑的，因为容器的隔离，宿主机器没被植入啥后门。修复的措施也比较简单，直接rm了docker容器，重新跑了一个redis，把端口修改为只监听127.0.0.1的本机地址，问题解决。</p>
@@ -2167,6 +2309,32 @@ recv num 1
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Shell/Python中创建随机密码</title>
+    <url>/2019/12/16/Shell-Python%E4%B8%AD%E5%88%9B%E5%BB%BA%E9%9A%8F%E6%9C%BA%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<blockquote>
+<p>生成16位数字+字母大小写密码</p>
+</blockquote>
+<h5 id="SHELL"><a href="#SHELL" class="headerlink" title="SHELL"></a>SHELL</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">head -c 160 /dev/urandom | tr -dc a-z0-9A-Z |head -c 16</span><br><span class="line">cat /dev/urandom | tr -dc <span class="string">'a-zA-Z0-9'</span> | fold -w 16 | sed 1q</span><br></pre></td></tr></table></figure>
+
+<h5 id="PYTHON"><a href="#PYTHON" class="headerlink" title="PYTHON"></a>PYTHON</h5><blockquote>
+<p>python3中为string.ascii_letters,而python2下则可以使用string.letters和string.ascii_letters</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> choice</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPassword</span><span class="params">(length=<span class="number">8</span>, chars=string.ascii_letters + string.digits)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join([choice(chars) <span class="keyword">for</span> i <span class="keyword">in</span> range(length)])</span><br><span class="line"></span><br><span class="line">print(getPassword(<span class="number">16</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -2213,32 +2381,6 @@ recv num 1
         <tag>shell</tag>
         <tag>字符串</tag>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Shell/Python中创建随机密码</title>
-    <url>/2019/12/16/Shell-Python%E4%B8%AD%E5%88%9B%E5%BB%BA%E9%9A%8F%E6%9C%BA%E5%AF%86%E7%A0%81/</url>
-    <content><![CDATA[<blockquote>
-<p>生成16位数字+字母大小写密码</p>
-</blockquote>
-<h5 id="SHELL"><a href="#SHELL" class="headerlink" title="SHELL"></a>SHELL</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">head -c 160 /dev/urandom | tr -dc a-z0-9A-Z |head -c 16</span><br><span class="line">cat /dev/urandom | tr -dc <span class="string">'a-zA-Z0-9'</span> | fold -w 16 | sed 1q</span><br></pre></td></tr></table></figure>
-
-<h5 id="PYTHON"><a href="#PYTHON" class="headerlink" title="PYTHON"></a>PYTHON</h5><blockquote>
-<p>python3中为string.ascii_letters,而python2下则可以使用string.letters和string.ascii_letters</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> choice</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPassword</span><span class="params">(length=<span class="number">8</span>, chars=string.ascii_letters + string.digits)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join([choice(chars) <span class="keyword">for</span> i <span class="keyword">in</span> range(length)])</span><br><span class="line"></span><br><span class="line">print(getPassword(<span class="number">16</span>))</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -2426,55 +2568,6 @@ recv num 1
       </tags>
   </entry>
   <entry>
-    <title>docker entrypoint入口文件详解</title>
-    <url>/2020/01/13/docker-entrypoint%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<p>在编写Dockerfile的时候，包含一个entrypoint配置，该配置的作用是在容器启动之前做一些初始化配置，或者一些自定义的配置等。通常是一个脚本，然后在脚本里配置相关预定义项。这篇文档就详细说一说entrypoint入口文件的编写技巧。</p>
-<p>下面以mysql官方镜像中的entrypoint文件docker-entrypoint.sh为例，文件地址为：<br><a href="https://raw.githubusercontent.com/docker-library/mysql/607b2a65aa76adf495730b9f7e6f28f146a9f95f/5.7/docker-entrypoint.sh" target="_blank" rel="noopener">docker-entrypoint.sh</a></p>
-<h2 id="set-e"><a href="#set-e" class="headerlink" title="set -e"></a>set -e</h2><p>你写的每个脚本都应该在文件开头加上<code>set -e</code>, 这句语句告诉bash如果任何语句的执行结果不是true则应该退出. 这样的好处是防止错误像滚雪球般变大导致一个致命的错误, 而这些错误本应该在之前就被处理掉. 如果要增加可读性, 可以使用<code>set -o errexit</code>, 它的作用与<code>set -e</code>相同</p>
-<a id="more"></a>
-
-<h2 id="set-o-pipefail"><a href="#set-o-pipefail" class="headerlink" title="set -o pipefail"></a>set -o pipefail</h2><p>设计用途同上, 就是希望在执行错误之后立即退出, 不要再向下执行了. 而 -o pipefail 的作用域是管道, 也就是说在 Linux 脚本中的管道, 如果前面的命令执行出了问题, 应该立即退出</p>
-<h2 id="shopt-s-nullglob"><a href="#shopt-s-nullglob" class="headerlink" title="shopt -s nullglob"></a>shopt -s nullglob</h2><p>在使用 Linux 中的通配符时 <code>* ?</code>等 如果没有匹配到任何文件, 不会报 No such file or directory 而是将命令后面的参数去掉执行</p>
-<h2 id="if-“-1-0-1-”-‘-‘-then…"><a href="#if-“-1-0-1-”-‘-‘-then…" class="headerlink" title="if [ “${1:0:1}” = ‘-‘ ]; then…"></a>if [ “${1:0:1}” = ‘-‘ ]; then…</h2><p>这是一个判断语句, 在官方文件中, 上一行已经给出了注释: <code>if command starts with an option, prepend mysqld</code></p>
-<p>这个判断语句是 <code>${1:0:1}</code> 意思是判断 <code>$1</code>(调用该脚本的第一个参数), 偏移量0(不偏移), 取一个字符(取字符串的长度)</p>
-<p>如果判断出来调用这个脚本后面所跟的参数第一个字符是-中横线的话, 就认为后面的所有字符串都是 mysqld 的启动参数</p>
-<p>上面的这个操作类似于 Python 的字符串切片</p>
-<h1 id="set-–-mysqld-“-”"><a href="#set-–-mysqld-“-”" class="headerlink" title="set – mysqld “$@”"></a>set – mysqld “$@”</h1><p>在上面判断完第一个参数是-开头之后, 紧接着就执行了 set – mysqld “$@” 这个命令. 使用了 set – 的用法. set –会将他后面所有以空格区分的字符串, 按顺序分别存储到$1, $2, $3 变量中, 其中新的$@为set –后面的全部内容</p>
-<p>举例来说: <code>bash docker-entrypoint.sh -f xxx.conf</code></p>
-<p>在这种情况下, <code>set -- mysqld &quot;$@&quot;</code> 中的 $@ 的值为 <code>-f xxx.conf</code></p>
-<p>当执行完 <code>set -- mysqld &quot;$@&quot;</code> 这条命令后:</p>
-<ul>
-<li><code>$1=mysqld</code></li>
-<li><code>$2=-f</code></li>
-<li><code>$3=xxx.conf</code></li>
-<li><code>$@=mysqld -f xxx.conf</code></li>
-</ul>
-<p>可以看到, 当执行 docker-entrypoint.sh脚本的时候后面加了 -x形式的参数之后, $@的值发生的改变, 在原有$@值的基础之上, 在前面又预添加了 mysqld 命令</p>
-<h2 id="exec-“-”"><a href="#exec-“-”" class="headerlink" title="exec “$@”"></a>exec “$@”</h2><p>几乎在每个<code>docker-entrypoint.sh</code>脚本的最后一行, 执行的都是 <code>exec &quot;$@&quot;</code>命令</p>
-<p>这个命令的意义在于你已经为你的镜像预想到了应该有的调用情况, 当实际使用镜像的人执行了你没有预料到的可执行命令时, 将会走到脚本的这最后一行, 去执行用户新的可执行命令</p>
-<h2 id="情况判断"><a href="#情况判断" class="headerlink" title="情况判断"></a>情况判断</h2><p>上面直接说了脚本的最后一行, 在之前的脚本中, 需要充分的去考虑你自己的脚本可能会被调用的情况. 还是拿 MySQL 官方的 dockerfile 来说, 他判断以下情况:</p>
-<ul>
-<li>开头是 <code>-</code> , 认为是参数的情况</li>
-<li>开头是 mysqld, 且用户 id 为0 (root 用户) 的情况</li>
-<li>开头是 mysqld 的情况</li>
-<li>判断完自己应用的所有调用形态之后, 最后应该加上<code>exec &quot;$@&quot;</code> 命令兜底</li>
-</ul>
-<h2 id="mysql"><a href="#mysql" class="headerlink" title="${mysql[@]}"></a>${mysql[@]}</h2><p>Shell 中的数组, 直接执行 <code>${mysql[@]}</code> 会把这个数组当做可执行程序来执行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&#x3D;( mysql --protocol&#x3D;socket -uroot -hlocalhost --socket&#x3D;&quot;$&#123;SOCKET&#125;&quot; )</span><br><span class="line">echo $&#123;mysql[1]&#125;</span><br><span class="line">-- output: mysql</span><br><span class="line">echo $&#123;mysql[2]&#125;</span><br><span class="line">--output: --protocol&#x3D;socket</span><br><span class="line">echo $&#123;mysql[3]&#125;</span><br><span class="line">--output: -uroot</span><br><span class="line">echo $&#123;mysql[4]&#125;</span><br><span class="line">--output: -hlocalhost</span><br><span class="line">echo $&#123;mysql[@]&#125;</span><br><span class="line">--output: mysql --protocol&#x3D;socket -uroot -hlocalhost --socket&#x3D;</span><br></pre></td></tr></table></figure>
-
-<h2 id="exec-gosu-mysql-“-BASH-SOURCE”-“-”"><a href="#exec-gosu-mysql-“-BASH-SOURCE”-“-”" class="headerlink" title="exec gosu mysql “$BASH_SOURCE” “$@”"></a>exec gosu mysql “$BASH_SOURCE” “$@”</h2><p>这里的 gosu 命令, 是 Linux 中 sudo 命令的轻量级”替代品”</p>
-<p>gosu 是一个 golang 语言开发的工具, 用来取代 shell 中的 sudo 命令. su 和 sudo 命令有一些缺陷, 主要是会引起不确定的 TTY, 对信号量的转发也存在问题. 如果仅仅为了使用特定的用户运行程序, 使用 su 或 sudo 显得太重了, 为此 gosu 应运而生.</p>
-<p>gosu 直接借用了 libcontainer 在容器中启动应用程序的原理, 使用 /etc/passwd 处理应用程序. gosu 首先找出指定的用户或用户组, 然后切换到该用户或用户组. 接下来, 使用 exec 启动应用程序. 到此为止, gosu 完成了它的工作, 不会参与到应用程序后面的声明周期中. 使用这种方式避免了 gosu 处理 TTY 和转发信号量的问题, 把这两个工作直接交给了应用程序去完成</p>
-<p>引用自：<a href="https://www.cnblogs.com/breezey/p/8812197.html" target="_blank" rel="noopener">https://www.cnblogs.com/breezey/p/8812197.html</a></p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>docker entrypoint</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git 删除错误提交的commit</title>
     <url>/2020/01/13/git-%E5%88%A0%E9%99%A4%E9%94%99%E8%AF%AF%E6%8F%90%E4%BA%A4%E7%9A%84commit/</url>
     <content><![CDATA[<h3 id="git-删除错误提交的commit"><a href="#git-删除错误提交的commit" class="headerlink" title="git 删除错误提交的commit"></a>git 删除错误提交的commit</h3><p>方法: </p>
@@ -2534,6 +2627,69 @@ recv num 1
       </tags>
   </entry>
   <entry>
+    <title>docker entrypoint入口文件详解</title>
+    <url>/2020/01/13/docker-entrypoint%E5%85%A5%E5%8F%A3%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<p>在编写Dockerfile的时候，包含一个entrypoint配置，该配置的作用是在容器启动之前做一些初始化配置，或者一些自定义的配置等。通常是一个脚本，然后在脚本里配置相关预定义项。这篇文档就详细说一说entrypoint入口文件的编写技巧。</p>
+<p>下面以mysql官方镜像中的entrypoint文件docker-entrypoint.sh为例，文件地址为：<br><a href="https://raw.githubusercontent.com/docker-library/mysql/607b2a65aa76adf495730b9f7e6f28f146a9f95f/5.7/docker-entrypoint.sh" target="_blank" rel="noopener">docker-entrypoint.sh</a></p>
+<h2 id="set-e"><a href="#set-e" class="headerlink" title="set -e"></a>set -e</h2><p>你写的每个脚本都应该在文件开头加上<code>set -e</code>, 这句语句告诉bash如果任何语句的执行结果不是true则应该退出. 这样的好处是防止错误像滚雪球般变大导致一个致命的错误, 而这些错误本应该在之前就被处理掉. 如果要增加可读性, 可以使用<code>set -o errexit</code>, 它的作用与<code>set -e</code>相同</p>
+<a id="more"></a>
+
+<h2 id="set-o-pipefail"><a href="#set-o-pipefail" class="headerlink" title="set -o pipefail"></a>set -o pipefail</h2><p>设计用途同上, 就是希望在执行错误之后立即退出, 不要再向下执行了. 而 -o pipefail 的作用域是管道, 也就是说在 Linux 脚本中的管道, 如果前面的命令执行出了问题, 应该立即退出</p>
+<h2 id="shopt-s-nullglob"><a href="#shopt-s-nullglob" class="headerlink" title="shopt -s nullglob"></a>shopt -s nullglob</h2><p>在使用 Linux 中的通配符时 <code>* ?</code>等 如果没有匹配到任何文件, 不会报 No such file or directory 而是将命令后面的参数去掉执行</p>
+<h2 id="if-“-1-0-1-”-‘-‘-then…"><a href="#if-“-1-0-1-”-‘-‘-then…" class="headerlink" title="if [ “${1:0:1}” = ‘-‘ ]; then…"></a>if [ “${1:0:1}” = ‘-‘ ]; then…</h2><p>这是一个判断语句, 在官方文件中, 上一行已经给出了注释: <code>if command starts with an option, prepend mysqld</code></p>
+<p>这个判断语句是 <code>${1:0:1}</code> 意思是判断 <code>$1</code>(调用该脚本的第一个参数), 偏移量0(不偏移), 取一个字符(取字符串的长度)</p>
+<p>如果判断出来调用这个脚本后面所跟的参数第一个字符是-中横线的话, 就认为后面的所有字符串都是 mysqld 的启动参数</p>
+<p>上面的这个操作类似于 Python 的字符串切片</p>
+<h1 id="set-–-mysqld-“-”"><a href="#set-–-mysqld-“-”" class="headerlink" title="set – mysqld “$@”"></a>set – mysqld “$@”</h1><p>在上面判断完第一个参数是-开头之后, 紧接着就执行了 set – mysqld “$@” 这个命令. 使用了 set – 的用法. set –会将他后面所有以空格区分的字符串, 按顺序分别存储到$1, $2, $3 变量中, 其中新的$@为set –后面的全部内容</p>
+<p>举例来说: <code>bash docker-entrypoint.sh -f xxx.conf</code></p>
+<p>在这种情况下, <code>set -- mysqld &quot;$@&quot;</code> 中的 $@ 的值为 <code>-f xxx.conf</code></p>
+<p>当执行完 <code>set -- mysqld &quot;$@&quot;</code> 这条命令后:</p>
+<ul>
+<li><code>$1=mysqld</code></li>
+<li><code>$2=-f</code></li>
+<li><code>$3=xxx.conf</code></li>
+<li><code>$@=mysqld -f xxx.conf</code></li>
+</ul>
+<p>可以看到, 当执行 docker-entrypoint.sh脚本的时候后面加了 -x形式的参数之后, $@的值发生的改变, 在原有$@值的基础之上, 在前面又预添加了 mysqld 命令</p>
+<h2 id="exec-“-”"><a href="#exec-“-”" class="headerlink" title="exec “$@”"></a>exec “$@”</h2><p>几乎在每个<code>docker-entrypoint.sh</code>脚本的最后一行, 执行的都是 <code>exec &quot;$@&quot;</code>命令</p>
+<p>这个命令的意义在于你已经为你的镜像预想到了应该有的调用情况, 当实际使用镜像的人执行了你没有预料到的可执行命令时, 将会走到脚本的这最后一行, 去执行用户新的可执行命令</p>
+<h2 id="情况判断"><a href="#情况判断" class="headerlink" title="情况判断"></a>情况判断</h2><p>上面直接说了脚本的最后一行, 在之前的脚本中, 需要充分的去考虑你自己的脚本可能会被调用的情况. 还是拿 MySQL 官方的 dockerfile 来说, 他判断以下情况:</p>
+<ul>
+<li>开头是 <code>-</code> , 认为是参数的情况</li>
+<li>开头是 mysqld, 且用户 id 为0 (root 用户) 的情况</li>
+<li>开头是 mysqld 的情况</li>
+<li>判断完自己应用的所有调用形态之后, 最后应该加上<code>exec &quot;$@&quot;</code> 命令兜底</li>
+</ul>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="${mysql[@]}"></a>${mysql[@]}</h2><p>Shell 中的数组, 直接执行 <code>${mysql[@]}</code> 会把这个数组当做可执行程序来执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysql&#x3D;( mysql --protocol&#x3D;socket -uroot -hlocalhost --socket&#x3D;&quot;$&#123;SOCKET&#125;&quot; )</span><br><span class="line">echo $&#123;mysql[1]&#125;</span><br><span class="line">-- output: mysql</span><br><span class="line">echo $&#123;mysql[2]&#125;</span><br><span class="line">--output: --protocol&#x3D;socket</span><br><span class="line">echo $&#123;mysql[3]&#125;</span><br><span class="line">--output: -uroot</span><br><span class="line">echo $&#123;mysql[4]&#125;</span><br><span class="line">--output: -hlocalhost</span><br><span class="line">echo $&#123;mysql[@]&#125;</span><br><span class="line">--output: mysql --protocol&#x3D;socket -uroot -hlocalhost --socket&#x3D;</span><br></pre></td></tr></table></figure>
+
+<h2 id="exec-gosu-mysql-“-BASH-SOURCE”-“-”"><a href="#exec-gosu-mysql-“-BASH-SOURCE”-“-”" class="headerlink" title="exec gosu mysql “$BASH_SOURCE” “$@”"></a>exec gosu mysql “$BASH_SOURCE” “$@”</h2><p>这里的 gosu 命令, 是 Linux 中 sudo 命令的轻量级”替代品”</p>
+<p>gosu 是一个 golang 语言开发的工具, 用来取代 shell 中的 sudo 命令. su 和 sudo 命令有一些缺陷, 主要是会引起不确定的 TTY, 对信号量的转发也存在问题. 如果仅仅为了使用特定的用户运行程序, 使用 su 或 sudo 显得太重了, 为此 gosu 应运而生.</p>
+<p>gosu 直接借用了 libcontainer 在容器中启动应用程序的原理, 使用 /etc/passwd 处理应用程序. gosu 首先找出指定的用户或用户组, 然后切换到该用户或用户组. 接下来, 使用 exec 启动应用程序. 到此为止, gosu 完成了它的工作, 不会参与到应用程序后面的声明周期中. 使用这种方式避免了 gosu 处理 TTY 和转发信号量的问题, 把这两个工作直接交给了应用程序去完成</p>
+<p>引用自：<a href="https://www.cnblogs.com/breezey/p/8812197.html" target="_blank" rel="noopener">https://www.cnblogs.com/breezey/p/8812197.html</a></p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>docker entrypoint</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 放弃本地修改，强制拉取更新</title>
+    <url>/2020/01/07/git-%E6%94%BE%E5%BC%83%E6%9C%AC%E5%9C%B0%E4%BF%AE%E6%94%B9%EF%BC%8C%E5%BC%BA%E5%88%B6%E6%8B%89%E5%8F%96%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<p>开发时，对于本地的项目中修改不做保存操作，可以用到git pull的强制覆盖，具体代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch --all</span><br><span class="line">git reset --hard origin/master</span><br><span class="line">git pull //可以省略</span><br></pre></td></tr></table></figure>
+<p>git fetch 指令是下载远程仓库最新内容，不做合并<br>git reset 指令把HEAD指向master最新版本</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git 常用命令整理</title>
     <url>/2020/01/14/git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<h4 id="初始化版本库，并提交到远程服务器端"><a href="#初始化版本库，并提交到远程服务器端" class="headerlink" title="初始化版本库，并提交到远程服务器端"></a>初始化版本库，并提交到远程服务器端</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir git_project</span><br><span class="line">cd git_project</span><br><span class="line">git init #本地初始化</span><br><span class="line">touch README</span><br><span class="line">git add README #添加文件</span><br><span class="line">git commit -m &#39;first commit&#39;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
@@ -2551,20 +2707,6 @@ recv num 1
 <h4 id="8、版本库转换和交互相关命令"><a href="#8、版本库转换和交互相关命令" class="headerlink" title="8、版本库转换和交互相关命令"></a>8、版本库转换和交互相关命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git archimport</code>导入Arch版本库到git<br><code>git bundle</code>提交打包和解包，以便在不同版本库间传递<br><code>git cvsexportcommit</code>将git的一个提交作为一个CVS检出<br><code>git cvsimport</code>导入CVS版本库到git。或者使用 cvs2git<br><code>git cvsserver</code>git的CVS协议模拟器，可供CVS命令访问git版本库<br><code>git fast-export</code>将提交导出为<code>git-fast-import</code> 格式<br><code>git fast-import</code>其他版本库迁移至git的通用工具<br><code>git svn</code>git 作为前端操作 Subversion</p>
 <h4 id="9、合并相关的辅助命令"><a href="#9、合并相关的辅助命令" class="headerlink" title="9、合并相关的辅助命令"></a>9、合并相关的辅助命令</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git merge-base</code>供其他脚本调用，找到两个或多个提交最近的共同祖先<br><code>git merge-file</code>针对文件的两个不同版本执行三向文件合并<br><code>git merge-index</code>对index中的冲突文件调用指定的冲突解决工具<br><code>git merge-octopus</code>合并两个以上分支。参见 <code>git merge 的octopus</code>合并策略<br><code>git merge-one-file</code>由 <code>git merge-index</code> 调用的标准辅助程序<br><code>git merge-ours</code>合并使用本地版本，抛弃他人版本。参见 <code>git merge 的ours</code>合并策略<br><code>git merge-recursive</code>针对两个分支的三向合并。参见 <code>git merge 的recursive</code>合并策略<br><code>git merge-resolve</code>针对两个分支的三向合并。参见 <code>git merge 的resolve</code>合并策略<br><code>git merge-subtree</code>子树合并。参见 <code>git merge 的 subtree</code>合并策略<br><code>git merge-tree</code>显式三向合并结果，不改变暂存区<br><code>git fmt-merge-msg</code>供执行合并操作的脚本调用，用于创建一个合并提交说明<br><code>git rerere</code>重用所记录的冲突解决方案</p>
 <h4 id="10、-杂项"><a href="#10、-杂项" class="headerlink" title="10、 杂项"></a>10、 杂项</h4><p><strong>命令</strong> <strong>简要说明</strong><br><code>git bisect–helper</code>由 <code>git bisect</code>命令调用，确认二分查找进度<br><code>git check-attr</code>显示某个文件是否设置了某个属性<br><code>git checkout-index</code>从暂存区拷贝文件至工作区<br><code>git cherry</code>查找没有合并到上游的提交<br><code>git diff-files</code>比较暂存区和工作区，相当于 <code>git diff –raw</code><br><code>git diff-index</code>比较暂存区和版本库，相当于 <code>git diff –cached –raw</code><br><code>git diff-tree</code>比较两个树对象，相当于 <code>git diff –raw A B</code><br><code>git difftool–helper</code>由 <code>git difftool</code>命令调用，默认要使用的差异比较工具<br><code>git get-tar-commit-id</code>从 <code>git archive</code>创建的 tar 包中提取提交ID<br><code>git gui–askpass</code>命令 <code>git gui</code>的获取用户口令输入界面<br><code>git notes</code>提交评论管理<br><code>git patch-id</code>补丁过滤行号和空白字符后生成补丁唯一ID<br><code>git quiltimport</code>将Quilt补丁列表应用到当前分支<br><code>git replace</code>提交替换<br><code>git shortlog</code>对 <code>git log</code> 的汇总输出，适合于产品发布说明<br><code>git stripspace</code>删除空行，供其他脚本调用<br><code>git submodule</code>子模组管理<br><code>git tar-tree</code>过时命令，请使用 <code>git archive</code><br><code>git var</code>显示 git 环境变量<br><code>git web–browse</code>启动浏览器以查看目录或文件<br><code>git whatchanged</code>显示提交历史及每次提交的改动<br><code>git-mergetool–lib</code>包含于其他脚本中，提供合并/差异比较工具的选择和执行<br><code>git-parse-remote</code>包含于其他脚本中，提供操作远程版本库的函数<br><code>git-sh-setup</code>包含于其他脚本中，提供 shell 编程的函数库</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 放弃本地修改，强制拉取更新</title>
-    <url>/2020/01/07/git-%E6%94%BE%E5%BC%83%E6%9C%AC%E5%9C%B0%E4%BF%AE%E6%94%B9%EF%BC%8C%E5%BC%BA%E5%88%B6%E6%8B%89%E5%8F%96%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<p>开发时，对于本地的项目中修改不做保存操作，可以用到git pull的强制覆盖，具体代码如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch --all</span><br><span class="line">git reset --hard origin/master</span><br><span class="line">git pull //可以省略</span><br></pre></td></tr></table></figure>
-<p>git fetch 指令是下载远程仓库最新内容，不做合并<br>git reset 指令把HEAD指向master最新版本</p>
 ]]></content>
       <categories>
         <category>技术分享</category>
@@ -2785,6 +2927,83 @@ recv num 1
       <tags>
         <tag>python</tag>
         <tag>numpy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zsh及oh-my-zsh安装使用备忘</title>
+    <url>/2019/11/07/zsh%E5%8F%8Aoh-my-zsh%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%A4%87%E5%BF%98/</url>
+    <content><![CDATA[<blockquote>
+<p>记录下日常使用的zsh配置及插件</p>
+</blockquote>
+<h4 id="安装-zsh"><a href="#安装-zsh" class="headerlink" title="安装 zsh"></a>安装 zsh</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum -y install zsh git</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<h4 id="切换-shell"><a href="#切换-shell" class="headerlink" title="切换 shell"></a>切换 shell</h4><p>chsh 命令如果不存在则需 <code>$ yum install -y util-linux-user</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h4 id="安装-oh-my-zsh"><a href="#安装-oh-my-zsh" class="headerlink" title="安装 oh-my-zsh"></a>安装 oh-my-zsh</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br><span class="line">$ sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sh -c <span class="string">"<span class="variable">$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ curl -Lo install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh</span><br><span class="line">$ sh install.sh</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">$ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装自动补全-incr-两种可以二选一，各有特色"><a href="#安装自动补全-incr-两种可以二选一，各有特色" class="headerlink" title="安装自动补全 incr (两种可以二选一，各有特色)"></a>安装自动补全 incr (两种可以二选一，各有特色)</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ wget -P ~/.oh-my-zsh/plugins/incr/ http://mimosa-pudica.net/src/incr-0.2.zsh </span><br><span class="line">$ chmod 777 ~/.oh-my-zsh/plugins/incr/incr-0.2.zsh  </span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"source ~/.oh-my-zsh/plugins/incr/incr-0.2.zsh"</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h4 id="安装自动补全命令zsh-autosuggestions"><a href="#安装自动补全命令zsh-autosuggestions" class="headerlink" title="安装自动补全命令zsh-autosuggestions"></a>安装自动补全命令zsh-autosuggestions</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure>
+<h4 id="安装自动跳转-autojump"><a href="#安装自动跳转-autojump" class="headerlink" title="安装自动跳转 autojump"></a>安装自动跳转 autojump</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> git://github.com/joelthelion/autojump.git <span class="built_in">cd</span> autojump &amp;&amp; ./install.py   </span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"[[ -s /root/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /root/.autojump/etc/profile.d/autojump.sh"</span> &gt;&gt; ~/.zshrc </span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"autoload -U compinit &amp;&amp; compinit -u"</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h4 id="安装命令行高亮显示-zsh-syntax-highlighting"><a href="#安装命令行高亮显示-zsh-syntax-highlighting" class="headerlink" title="安装命令行高亮显示 zsh-syntax-highlighting"></a>安装命令行高亮显示 zsh-syntax-highlighting</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改主题-theme"><a href="#修改主题-theme" class="headerlink" title="修改主题 theme"></a>修改主题 theme</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/ZSH_THEME="robbyrussell"/ZSH_THEME="ys"/'</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h4 id="添加插件支持-plugins"><a href="#添加插件支持-plugins" class="headerlink" title="添加插件支持 plugins"></a>添加插件支持 plugins</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/(git)$/(git extract zsh-autosuggestions zsh-syntax-highlighting)/'</span> ~/.zshrc </span><br><span class="line">$ sed -i <span class="string">'s/(git)$/(git extract autojump zsh-autosuggestions zsh-syntax-highlighting)/'</span> ~/.zshrc </span><br><span class="line"><span class="comment"># 实际上是修改配置文件plugins字段，添加需要使用的插件</span></span><br><span class="line">plugins=(git wd web-search <span class="built_in">history</span> <span class="built_in">history</span>-substring-search)</span><br></pre></td></tr></table></figure>
+<h4 id="关闭自动更新"><a href="#关闭自动更新" class="headerlink" title="关闭自动更新"></a>关闭自动更新</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/# DISABLE_AUTO_UPDATE="true"/DISABLE_AUTO_UPDATE="true"/g'</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h4 id="加载-zshrc"><a href="#加载-zshrc" class="headerlink" title="加载 zshrc"></a>加载 zshrc</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>shell</tag>
+        <tag>zsh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些需要禁用的PHP危险函数(disable_functions)说明</title>
+    <url>/2019/11/14/%E4%B8%80%E4%BA%9B%E9%9C%80%E8%A6%81%E7%A6%81%E7%94%A8%E7%9A%84PHP%E5%8D%B1%E9%99%A9%E5%87%BD%E6%95%B0-disable-functions-%E8%AF%B4%E6%98%8E/</url>
+    <content><![CDATA[<blockquote>
+<p>禁用方法如下：<br>打开php.ini文件，如：/usr/local/php/etc/php.ini<br>查找到 disable_functions ，添加需禁用的函数名，如下：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">disable_functions &#x3D; exec,scandir,shell_exec,phpinfo,eval,passthru,system,chroot,chgrp,chown,</span><br><span class="line">        proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,</span><br><span class="line">        symlink,popepassthru,stream_socket_server,fsocket</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p><strong>phpinfo()</strong><br>功能描述：输出 PHP 环境信息以及相关的模块、WEB 环境等信息。<br>危险等级：中</p>
+<p><strong>exec()</strong><br>功能描述：允许执行一个外部程序（如 UNIX Shell 或 CMD 命令等）。<br>危险等级：高</p>
+<p><strong>passthru()</strong><br>功能描述：允许执行一个外部程序并回显输出，类似于 exec()。<br>危险等级：高</p>
+<p><strong>system()</strong><br>功能描述：允许执行一个外部程序并回显输出，类似于 passthru()。<br>危险等级：高</p>
+<p><strong>chroot()</strong><br>功能描述：可改变当前 PHP 进程的工作根目录，仅当系统支持 CLI 模式<br>PHP 时才能工作，且该函数不适用于 Windows 系统。<br>危险等级：高</p>
+<p><strong>scandir()</strong><br>功能描述：列出指定路径中的文件和目录。<br>危险等级：中</p>
+<p><strong>chgrp()</strong><br>功能描述：改变文件或目录所属的用户组。<br>危险等级：高</p>
+<p><strong>chown()</strong><br>功能描述：改变文件或目录的所有者。<br>危险等级：高</p>
+<p><strong>shell_exec()</strong><br>功能描述：通过 Shell 执行命令，并将执行结果作为字符串返回。<br>危险等级：高</p>
+<p><strong>proc_open()</strong><br>功能描述：执行一个命令并打开文件指针用于读取以及写入。<br>危险等级：高</p>
+<p><strong>proc_get_status()</strong><br>功能描述：获取使用 proc_open() 所打开进程的信息。<br>危险等级：高</p>
+<p><strong>error_log()</strong><br>功能描述：将错误信息发送到指定位置（文件）。<br>安全备注：在某些版本的 PHP 中，可使用 error_log() 绕过 PHP safe mode，<br>执行任意命令。<br>危险等级：低</p>
+<p><strong>ini_alter()</strong><br>功能描述：是 ini_set() 函数的一个别名函数，功能与 ini_set() 相同。<br>具体参见 ini_set()。<br>危险等级：高</p>
+<p><strong>ini_set()</strong><br>功能描述：可用于修改、设置 PHP 环境配置参数。<br>危险等级：高</p>
+<p><strong>ini_restore()</strong><br>功能描述：可用于恢复 PHP 环境配置参数到其初始值。<br>危险等级：高</p>
+<p><strong>dl()</strong><br>功能描述：在 PHP 进行运行过程当中（而非启动时）加载一个 PHP 外部模块。<br>危险等级：高</p>
+<p><strong>pfsockopen()</strong><br>功能描述：建立一个 Internet 或 UNIX 域的 socket 持久连接。<br>危险等级：高</p>
+<p><strong>syslog()</strong><br>功能描述：可调用 UNIX 系统的系统层 syslog() 函数。<br>危险等级：中</p>
+<p><strong>readlink()</strong><br>功能描述：返回符号连接指向的目标文件内容。<br>危险等级：中</p>
+<p><strong>symlink()</strong><br>功能描述：在 UNIX 系统中建立一个符号链接。<br>危险等级：高</p>
+<p><strong>popen()</strong><br>功能描述：可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。<br>危险等级：高</p>
+<p><strong>stream_socket_server()</strong><br>功能描述：建立一个 Internet 或 UNIX 服务器连接。<br>危险等级：中</p>
+<p><strong>putenv()</strong><br>功能描述：用于在 PHP 运行时改变系统字符集环境。在低于 5.2.6 版本的 PHP 中，可利用该函数<br>修改系统字符集环境后，利用 sendmail 指令发送特殊参数执行系统 SHELL 命令。<br>危险等级：高</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -3148,83 +3367,6 @@ recv num 1
       </tags>
   </entry>
   <entry>
-    <title>zsh及oh-my-zsh安装使用备忘</title>
-    <url>/2019/11/07/zsh%E5%8F%8Aoh-my-zsh%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8%E5%A4%87%E5%BF%98/</url>
-    <content><![CDATA[<blockquote>
-<p>记录下日常使用的zsh配置及插件</p>
-</blockquote>
-<h4 id="安装-zsh"><a href="#安装-zsh" class="headerlink" title="安装 zsh"></a>安装 zsh</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ yum -y install zsh git</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<h4 id="切换-shell"><a href="#切换-shell" class="headerlink" title="切换 shell"></a>切换 shell</h4><p>chsh 命令如果不存在则需 <code>$ yum install -y util-linux-user</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h4 id="安装-oh-my-zsh"><a href="#安装-oh-my-zsh" class="headerlink" title="安装 oh-my-zsh"></a>安装 oh-my-zsh</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br><span class="line">$ sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sh -c <span class="string">"<span class="variable">$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ curl -Lo install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh</span><br><span class="line">$ sh install.sh</span><br></pre></td></tr></table></figure>
-<p>或</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">$ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-
-<h4 id="安装自动补全-incr-两种可以二选一，各有特色"><a href="#安装自动补全-incr-两种可以二选一，各有特色" class="headerlink" title="安装自动补全 incr (两种可以二选一，各有特色)"></a>安装自动补全 incr (两种可以二选一，各有特色)</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ wget -P ~/.oh-my-zsh/plugins/incr/ http://mimosa-pudica.net/src/incr-0.2.zsh </span><br><span class="line">$ chmod 777 ~/.oh-my-zsh/plugins/incr/incr-0.2.zsh  </span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"source ~/.oh-my-zsh/plugins/incr/incr-0.2.zsh"</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h4 id="安装自动补全命令zsh-autosuggestions"><a href="#安装自动补全命令zsh-autosuggestions" class="headerlink" title="安装自动补全命令zsh-autosuggestions"></a>安装自动补全命令zsh-autosuggestions</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure>
-<h4 id="安装自动跳转-autojump"><a href="#安装自动跳转-autojump" class="headerlink" title="安装自动跳转 autojump"></a>安装自动跳转 autojump</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> git://github.com/joelthelion/autojump.git <span class="built_in">cd</span> autojump &amp;&amp; ./install.py   </span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"[[ -s /root/.autojump/etc/profile.d/autojump.sh ]] &amp;&amp; source /root/.autojump/etc/profile.d/autojump.sh"</span> &gt;&gt; ~/.zshrc </span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"autoload -U compinit &amp;&amp; compinit -u"</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h4 id="安装命令行高亮显示-zsh-syntax-highlighting"><a href="#安装命令行高亮显示-zsh-syntax-highlighting" class="headerlink" title="安装命令行高亮显示 zsh-syntax-highlighting"></a>安装命令行高亮显示 zsh-syntax-highlighting</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
-
-<h4 id="修改主题-theme"><a href="#修改主题-theme" class="headerlink" title="修改主题 theme"></a>修改主题 theme</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/ZSH_THEME="robbyrussell"/ZSH_THEME="ys"/'</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h4 id="添加插件支持-plugins"><a href="#添加插件支持-plugins" class="headerlink" title="添加插件支持 plugins"></a>添加插件支持 plugins</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/(git)$/(git extract zsh-autosuggestions zsh-syntax-highlighting)/'</span> ~/.zshrc </span><br><span class="line">$ sed -i <span class="string">'s/(git)$/(git extract autojump zsh-autosuggestions zsh-syntax-highlighting)/'</span> ~/.zshrc </span><br><span class="line"><span class="comment"># 实际上是修改配置文件plugins字段，添加需要使用的插件</span></span><br><span class="line">plugins=(git wd web-search <span class="built_in">history</span> <span class="built_in">history</span>-substring-search)</span><br></pre></td></tr></table></figure>
-<h4 id="关闭自动更新"><a href="#关闭自动更新" class="headerlink" title="关闭自动更新"></a>关闭自动更新</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/# DISABLE_AUTO_UPDATE="true"/DISABLE_AUTO_UPDATE="true"/g'</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h4 id="加载-zshrc"><a href="#加载-zshrc" class="headerlink" title="加载 zshrc"></a>加载 zshrc</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>shell</tag>
-        <tag>zsh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一些需要禁用的PHP危险函数(disable_functions)说明</title>
-    <url>/2019/11/14/%E4%B8%80%E4%BA%9B%E9%9C%80%E8%A6%81%E7%A6%81%E7%94%A8%E7%9A%84PHP%E5%8D%B1%E9%99%A9%E5%87%BD%E6%95%B0-disable-functions-%E8%AF%B4%E6%98%8E/</url>
-    <content><![CDATA[<blockquote>
-<p>禁用方法如下：<br>打开php.ini文件，如：/usr/local/php/etc/php.ini<br>查找到 disable_functions ，添加需禁用的函数名，如下：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">disable_functions &#x3D; exec,scandir,shell_exec,phpinfo,eval,passthru,system,chroot,chgrp,chown,</span><br><span class="line">        proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,</span><br><span class="line">        symlink,popepassthru,stream_socket_server,fsocket</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p><strong>phpinfo()</strong><br>功能描述：输出 PHP 环境信息以及相关的模块、WEB 环境等信息。<br>危险等级：中</p>
-<p><strong>exec()</strong><br>功能描述：允许执行一个外部程序（如 UNIX Shell 或 CMD 命令等）。<br>危险等级：高</p>
-<p><strong>passthru()</strong><br>功能描述：允许执行一个外部程序并回显输出，类似于 exec()。<br>危险等级：高</p>
-<p><strong>system()</strong><br>功能描述：允许执行一个外部程序并回显输出，类似于 passthru()。<br>危险等级：高</p>
-<p><strong>chroot()</strong><br>功能描述：可改变当前 PHP 进程的工作根目录，仅当系统支持 CLI 模式<br>PHP 时才能工作，且该函数不适用于 Windows 系统。<br>危险等级：高</p>
-<p><strong>scandir()</strong><br>功能描述：列出指定路径中的文件和目录。<br>危险等级：中</p>
-<p><strong>chgrp()</strong><br>功能描述：改变文件或目录所属的用户组。<br>危险等级：高</p>
-<p><strong>chown()</strong><br>功能描述：改变文件或目录的所有者。<br>危险等级：高</p>
-<p><strong>shell_exec()</strong><br>功能描述：通过 Shell 执行命令，并将执行结果作为字符串返回。<br>危险等级：高</p>
-<p><strong>proc_open()</strong><br>功能描述：执行一个命令并打开文件指针用于读取以及写入。<br>危险等级：高</p>
-<p><strong>proc_get_status()</strong><br>功能描述：获取使用 proc_open() 所打开进程的信息。<br>危险等级：高</p>
-<p><strong>error_log()</strong><br>功能描述：将错误信息发送到指定位置（文件）。<br>安全备注：在某些版本的 PHP 中，可使用 error_log() 绕过 PHP safe mode，<br>执行任意命令。<br>危险等级：低</p>
-<p><strong>ini_alter()</strong><br>功能描述：是 ini_set() 函数的一个别名函数，功能与 ini_set() 相同。<br>具体参见 ini_set()。<br>危险等级：高</p>
-<p><strong>ini_set()</strong><br>功能描述：可用于修改、设置 PHP 环境配置参数。<br>危险等级：高</p>
-<p><strong>ini_restore()</strong><br>功能描述：可用于恢复 PHP 环境配置参数到其初始值。<br>危险等级：高</p>
-<p><strong>dl()</strong><br>功能描述：在 PHP 进行运行过程当中（而非启动时）加载一个 PHP 外部模块。<br>危险等级：高</p>
-<p><strong>pfsockopen()</strong><br>功能描述：建立一个 Internet 或 UNIX 域的 socket 持久连接。<br>危险等级：高</p>
-<p><strong>syslog()</strong><br>功能描述：可调用 UNIX 系统的系统层 syslog() 函数。<br>危险等级：中</p>
-<p><strong>readlink()</strong><br>功能描述：返回符号连接指向的目标文件内容。<br>危险等级：中</p>
-<p><strong>symlink()</strong><br>功能描述：在 UNIX 系统中建立一个符号链接。<br>危险等级：高</p>
-<p><strong>popen()</strong><br>功能描述：可通过 popen() 的参数传递一条命令，并对 popen() 所打开的文件进行执行。<br>危险等级：高</p>
-<p><strong>stream_socket_server()</strong><br>功能描述：建立一个 Internet 或 UNIX 服务器连接。<br>危险等级：中</p>
-<p><strong>putenv()</strong><br>功能描述：用于在 PHP 运行时改变系统字符集环境。在低于 5.2.6 版本的 PHP 中，可利用该函数<br>修改系统字符集环境后，利用 sendmail 指令发送特殊参数执行系统 SHELL 命令。<br>危险等级：高</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>你需要知道的那些go语言json技巧</title>
     <url>/2021/07/01/%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E9%82%A3%E4%BA%9Bgo%E8%AF%AD%E8%A8%80json%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h3 id="你需要知道的那些go语言json技巧"><a href="#你需要知道的那些go语言json技巧" class="headerlink" title="你需要知道的那些go语言json技巧"></a>你需要知道的那些go语言json技巧</h3><p>本文总结了我平时在项目中遇到的那些关于go语言JSON数据与结构体之间相互转换的问题及解决办法。</p>
@@ -3331,43 +3473,6 @@ recv num 1
       <tags>
         <tag>go</tag>
         <tag>json</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用cython加密python程序</title>
-    <url>/2019/10/28/%E4%BD%BF%E7%94%A8cython%E5%8A%A0%E5%AF%86python%E7%A8%8B%E5%BA%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>Python简单易用，但有时候一些敏感信息不希望用户通过源码查看到，所以需要加密保证安全性。分析了一些加密方式最终决定使用cython加密源码，其实就是把py代码编译成C或者C++代码来执行，在Linux 上会生成.so二进制文件，Windows下为.pyd，所以还有一个作用是加速代码的执行效率。下例在CentOS7.6+Python3.74下测试通过。</p>
-</blockquote>
-<a id="more"></a>
-
-<h4 id="修改原文件"><a href="#修改原文件" class="headerlink" title="修改原文件"></a>修改原文件</h4><p>首先在需要加密的python文件头部添加以下行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cython : language_level&#x3D;3</span><br></pre></td></tr></table></figure>
-
-<h4 id="安装cython"><a href="#安装cython" class="headerlink" title="安装cython"></a>安装cython</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install cython</span><br><span class="line">or</span><br><span class="line">pip3 install cython</span><br></pre></td></tr></table></figure>
-<h4 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h4><p>将cython执行文件目录加入系统环境变量,一般在python安装目录下的bin文件夹</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CYTHON_DIR&#x3D;&#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin</span><br><span class="line">export PATH&#x3D;$PATH:$CYTHON_DIR</span><br></pre></td></tr></table></figure>
-<p>确定python安装库文件目录</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PYTHON_INCLUDE_DIR&#x3D;&#x2F;usr&#x2F;local&#x2F;python3&#x2F;include&#x2F;python3.7m</span><br></pre></td></tr></table></figure>
-
-<h4 id="程序加密"><a href="#程序加密" class="headerlink" title="程序加密"></a>程序加密</h4><p>将文件转换为.c文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cython app.py</span><br></pre></td></tr></table></figure>
-<p>gcc将.c文件编译成o文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gcc -c -fPIC -I$PYTHON_INCLUDE_DIR app.c</span><br></pre></td></tr></table></figure>
-<p>gcc将.o文件编译成so文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gcc -shared app.o -o app.so</span><br></pre></td></tr></table></figure>
-<p>如果不需要原文件了，可以删除（强烈建议备份）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rm app.c app.o app.py</span><br></pre></td></tr></table></figure>
-
-<h4 id="加密后程序的使用"><a href="#加密后程序的使用" class="headerlink" title="加密后程序的使用"></a>加密后程序的使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import app</span><br><span class="line">or</span><br><span class="line">from app import class_name</span><br></pre></td></tr></table></figure>
-
-<p><em>如果需要加密的文件比较多，可以写个简单的脚本批量处理。</em></p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -3481,6 +3586,43 @@ recv num 1
 ]]></content>
   </entry>
   <entry>
+    <title>使用cython加密python程序</title>
+    <url>/2019/10/28/%E4%BD%BF%E7%94%A8cython%E5%8A%A0%E5%AF%86python%E7%A8%8B%E5%BA%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>Python简单易用，但有时候一些敏感信息不希望用户通过源码查看到，所以需要加密保证安全性。分析了一些加密方式最终决定使用cython加密源码，其实就是把py代码编译成C或者C++代码来执行，在Linux 上会生成.so二进制文件，Windows下为.pyd，所以还有一个作用是加速代码的执行效率。下例在CentOS7.6+Python3.74下测试通过。</p>
+</blockquote>
+<a id="more"></a>
+
+<h4 id="修改原文件"><a href="#修改原文件" class="headerlink" title="修改原文件"></a>修改原文件</h4><p>首先在需要加密的python文件头部添加以下行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cython : language_level&#x3D;3</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装cython"><a href="#安装cython" class="headerlink" title="安装cython"></a>安装cython</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install cython</span><br><span class="line">or</span><br><span class="line">pip3 install cython</span><br></pre></td></tr></table></figure>
+<h4 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h4><p>将cython执行文件目录加入系统环境变量,一般在python安装目录下的bin文件夹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CYTHON_DIR&#x3D;&#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin</span><br><span class="line">export PATH&#x3D;$PATH:$CYTHON_DIR</span><br></pre></td></tr></table></figure>
+<p>确定python安装库文件目录</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PYTHON_INCLUDE_DIR&#x3D;&#x2F;usr&#x2F;local&#x2F;python3&#x2F;include&#x2F;python3.7m</span><br></pre></td></tr></table></figure>
+
+<h4 id="程序加密"><a href="#程序加密" class="headerlink" title="程序加密"></a>程序加密</h4><p>将文件转换为.c文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cython app.py</span><br></pre></td></tr></table></figure>
+<p>gcc将.c文件编译成o文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gcc -c -fPIC -I$PYTHON_INCLUDE_DIR app.c</span><br></pre></td></tr></table></figure>
+<p>gcc将.o文件编译成so文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gcc -shared app.o -o app.so</span><br></pre></td></tr></table></figure>
+<p>如果不需要原文件了，可以删除（强烈建议备份）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rm app.c app.o app.py</span><br></pre></td></tr></table></figure>
+
+<h4 id="加密后程序的使用"><a href="#加密后程序的使用" class="headerlink" title="加密后程序的使用"></a>加密后程序的使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import app</span><br><span class="line">or</span><br><span class="line">from app import class_name</span><br></pre></td></tr></table></figure>
+
+<p><em>如果需要加密的文件比较多，可以写个简单的脚本批量处理。</em></p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于RHEL8/CentOS8的nmcli常见命令总结</title>
     <url>/2019/10/29/%E5%9F%BA%E4%BA%8ERHEL8-CentOS8%E7%9A%84nmcli%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<blockquote>
@@ -3527,67 +3669,6 @@ recv num 1
       <tags>
         <tag>centos</tag>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>很多人不知道的Python 炫技操作：海象运算符的三种用法</title>
-    <url>/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%B5%B7%E8%B1%A1%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%B8%89%E7%A7%8D%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<p>Python 版本发展非常快，如今最新的版本已经是 Pyhton 3.9，即便如此，有很多人甚至还停留在 3.6 或者 3.7，连 3.8 还没用上。</p>
-<p>很多 Python 3.8 的特性还没来得及了解，就已经成为旧知识了，比如今天要说的海象运算符。</p>
-<p>海象运算符是在 PEP 572 被提出的，直到 3.8 版本合入发布。</p>
-<p>它的英文原名叫 <code>Assignment Expressions</code>，翻译过来也就是 <code>赋值表达式</code>，不过现在大家更普遍地称之为海象运算符，就是因为它长得真的太像海象了。</p>
-<a id="more"></a>
-
-<h3 id="1-第一个用法：if-else"><a href="#1-第一个用法：if-else" class="headerlink" title="1. 第一个用法：if/else"></a>1. 第一个用法：if/else</h3><p>可能有朋友是第一次接触这个新特性，所以还是简单的介绍一下这个海象运算符有什么用？</p>
-<p>在 Golang 中的条件语句可以直接在 if 中运算变量的获取后直接对这个变量进行判断，可以让你少写一行代码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    <span class="keyword">if</span> age := <span class="number">20</span>;age &gt; <span class="number">18</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"已经成年了"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>若在 Python 3.8 之前，Python 必须得这样子写</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> age &gt; <span class="number">18</span>:</span><br><span class="line">    print(<span class="string">"已经成年了"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>但有了海象运算符之后，你可以和 Golang 一样（如果你没学过 Golang，那这里要注意，Golang 中的 <code>:=</code> 叫短变量声明，意思是声明并初始化，它和 Python 中的 <code>:=</code> 不是一个概念）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (age:= <span class="number">20</span>) &gt; <span class="number">18</span>:</span><br><span class="line">    print(<span class="string">"已经成年了"</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-第二个用法：while"><a href="#2-第二个用法：while" class="headerlink" title="2. 第二个用法：while"></a>2. 第二个用法：while</h3><p>在不使用 海象运算符之前，使用 while 循环来读取文件的时候，你也许会这么写</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">file = open(<span class="string">"demo.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    line = file.readline()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> line:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    print(line.strip())</span><br></pre></td></tr></table></figure>
-
-<p>但有了海象运算符之后，你可以这样</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">file = open(<span class="string">"demo.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line"><span class="keyword">while</span> (line := file.readline()):</span><br><span class="line">    print(line.strip())</span><br></pre></td></tr></table></figure>
-
-<p>使用它替换以往的无限 while 循环写法更为惊艳</p>
-<p>比如，实现一个需要命令行交互输入密码并检验的代码，你也许会这样子写</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">   p = input(<span class="string">"Enter the password: "</span>)</span><br><span class="line">   <span class="keyword">if</span> p == <span class="string">"youpassword"</span>:</span><br><span class="line">      <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
-
-<p>有了海象运算符之后，这样子写更为舒服</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (p := input(<span class="string">"Enter the password: "</span>)) != <span class="string">"youpassword"</span>:</span><br><span class="line">   <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-第三个用法：推导式"><a href="#3-第三个用法：推导式" class="headerlink" title="3. 第三个用法：推导式"></a>3. 第三个用法：推导式</h3><p>这个系列的文章，几乎每篇都能看到推导式的身影，这一篇依旧如此。</p>
-<p>在编码过程中，我很喜欢使用推导式，在简单的应用场景下，它简洁且不失高效。</p>
-<p>如下这段代码中，我会使用列表推导式得出所有会员中过于肥胖的人的 bmi 指数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">members = [</span><br><span class="line">    &#123;<span class="string">"name"</span>: <span class="string">"小五"</span>, <span class="string">"age"</span>: <span class="number">23</span>, <span class="string">"height"</span>: <span class="number">1.75</span>, <span class="string">"weight"</span>: <span class="number">72</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"name"</span>: <span class="string">"小李"</span>, <span class="string">"age"</span>: <span class="number">17</span>, <span class="string">"height"</span>: <span class="number">1.72</span>, <span class="string">"weight"</span>: <span class="number">63</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"name"</span>: <span class="string">"小陈"</span>, <span class="string">"age"</span>: <span class="number">20</span>, <span class="string">"height"</span>: <span class="number">1.78</span>, <span class="string">"weight"</span>: <span class="number">82</span>&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_bmi</span><span class="params">(info)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> count</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">f"执行了 <span class="subst">&#123;count&#125;</span> 次"</span>)</span><br><span class="line"></span><br><span class="line">    height = info[<span class="string">"height"</span>]</span><br><span class="line">    weight = info[<span class="string">"weight"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weight / (height**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查出所有会员中过于肥胖的人的 bmi 指数</span></span><br><span class="line">fat_bmis = [get_bmi(m) <span class="keyword">for</span> m <span class="keyword">in</span> members <span class="keyword">if</span> get_bmi(m) &gt; <span class="number">24</span>]</span><br><span class="line"></span><br><span class="line">print(fat_bmis)</span><br></pre></td></tr></table></figure>
-
-<p>输出如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">执行了 <span class="number">1</span> 次</span><br><span class="line">执行了 <span class="number">2</span> 次</span><br><span class="line">执行了 <span class="number">3</span> 次</span><br><span class="line">执行了 <span class="number">4</span> 次</span><br><span class="line">[<span class="number">25.88057063502083</span>]</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，会员数只有 3 个，但是 get_bmi 函数却执行了 4 次，原因是在判断时执行了 3 次，而在构造新的列表时又重复执行了一遍。</p>
-<p>如果所有会员都是过于肥胖的，那最终将执行 6 次，这种在大量的数据下是比较浪费性能的，因此对于这种结构，我通常会使用传统的for 循环 + if 判断。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fat_bmis = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查出所有会员中过于肥胖的人的 bmi 指数</span></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> members:</span><br><span class="line">    bmi = get_bmi(m)</span><br><span class="line">    <span class="keyword">if</span> bmi &gt; <span class="number">24</span>:</span><br><span class="line">        fat_bmis.append(bmi)</span><br></pre></td></tr></table></figure>
-
-<p>在有了海象运算符之后，你就可以不用在这种场景下做出妥协。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查出所有会员中过于肥胖的人的 bmi 指数</span></span><br><span class="line">fat_bmis = [bmi <span class="keyword">for</span> m <span class="keyword">in</span> members <span class="keyword">if</span> (bmi := get_bmi(m)) &gt; <span class="number">24</span>]</span><br></pre></td></tr></table></figure>
-
-<p>最终从输出结果可以看出，只执行了 3 次</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">执行了 <span class="number">1</span> 次</span><br><span class="line">执行了 <span class="number">2</span> 次</span><br><span class="line">执行了 <span class="number">3</span> 次</span><br><span class="line">[<span class="number">25.88057063502083</span>]</span><br></pre></td></tr></table></figure>
-
-<p>这里仅介绍了列表推导式，但在字典推导式和集合推导式中同样适用。不再演示。</p>
-<p>海象运算符，是一个新奇的特性，有不少人觉得这样这种特性会破坏代码的可读性。确实在一个新鲜事物刚出来时是会这样，但我相信经过时间的沉淀后，越来越多的人使用它并享受它带来的便利时，这种争议也会慢慢消失在历史的长河中。</p>
-<p>作者：王一白<br>链接：<a href="https://juejin.im/post/5e9e78bef265da47d00a6e09" target="_blank" rel="noopener">https://juejin.im/post/5e9e78bef265da47d00a6e09</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -3659,6 +3740,67 @@ recv num 1
       </tags>
   </entry>
   <entry>
+    <title>很多人不知道的Python 炫技操作：海象运算符的三种用法</title>
+    <url>/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python-%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%B5%B7%E8%B1%A1%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%B8%89%E7%A7%8D%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p>Python 版本发展非常快，如今最新的版本已经是 Pyhton 3.9，即便如此，有很多人甚至还停留在 3.6 或者 3.7，连 3.8 还没用上。</p>
+<p>很多 Python 3.8 的特性还没来得及了解，就已经成为旧知识了，比如今天要说的海象运算符。</p>
+<p>海象运算符是在 PEP 572 被提出的，直到 3.8 版本合入发布。</p>
+<p>它的英文原名叫 <code>Assignment Expressions</code>，翻译过来也就是 <code>赋值表达式</code>，不过现在大家更普遍地称之为海象运算符，就是因为它长得真的太像海象了。</p>
+<a id="more"></a>
+
+<h3 id="1-第一个用法：if-else"><a href="#1-第一个用法：if-else" class="headerlink" title="1. 第一个用法：if/else"></a>1. 第一个用法：if/else</h3><p>可能有朋友是第一次接触这个新特性，所以还是简单的介绍一下这个海象运算符有什么用？</p>
+<p>在 Golang 中的条件语句可以直接在 if 中运算变量的获取后直接对这个变量进行判断，可以让你少写一行代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    <span class="keyword">if</span> age := <span class="number">20</span>;age &gt; <span class="number">18</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"已经成年了"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若在 Python 3.8 之前，Python 必须得这样子写</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> age &gt; <span class="number">18</span>:</span><br><span class="line">    print(<span class="string">"已经成年了"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>但有了海象运算符之后，你可以和 Golang 一样（如果你没学过 Golang，那这里要注意，Golang 中的 <code>:=</code> 叫短变量声明，意思是声明并初始化，它和 Python 中的 <code>:=</code> 不是一个概念）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (age:= <span class="number">20</span>) &gt; <span class="number">18</span>:</span><br><span class="line">    print(<span class="string">"已经成年了"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-第二个用法：while"><a href="#2-第二个用法：while" class="headerlink" title="2. 第二个用法：while"></a>2. 第二个用法：while</h3><p>在不使用 海象运算符之前，使用 while 循环来读取文件的时候，你也许会这么写</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">file = open(<span class="string">"demo.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    line = file.readline()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> line:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    print(line.strip())</span><br></pre></td></tr></table></figure>
+
+<p>但有了海象运算符之后，你可以这样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">file = open(<span class="string">"demo.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line"><span class="keyword">while</span> (line := file.readline()):</span><br><span class="line">    print(line.strip())</span><br></pre></td></tr></table></figure>
+
+<p>使用它替换以往的无限 while 循环写法更为惊艳</p>
+<p>比如，实现一个需要命令行交互输入密码并检验的代码，你也许会这样子写</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">   p = input(<span class="string">"Enter the password: "</span>)</span><br><span class="line">   <span class="keyword">if</span> p == <span class="string">"youpassword"</span>:</span><br><span class="line">      <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>有了海象运算符之后，这样子写更为舒服</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (p := input(<span class="string">"Enter the password: "</span>)) != <span class="string">"youpassword"</span>:</span><br><span class="line">   <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-第三个用法：推导式"><a href="#3-第三个用法：推导式" class="headerlink" title="3. 第三个用法：推导式"></a>3. 第三个用法：推导式</h3><p>这个系列的文章，几乎每篇都能看到推导式的身影，这一篇依旧如此。</p>
+<p>在编码过程中，我很喜欢使用推导式，在简单的应用场景下，它简洁且不失高效。</p>
+<p>如下这段代码中，我会使用列表推导式得出所有会员中过于肥胖的人的 bmi 指数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">members = [</span><br><span class="line">    &#123;<span class="string">"name"</span>: <span class="string">"小五"</span>, <span class="string">"age"</span>: <span class="number">23</span>, <span class="string">"height"</span>: <span class="number">1.75</span>, <span class="string">"weight"</span>: <span class="number">72</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"name"</span>: <span class="string">"小李"</span>, <span class="string">"age"</span>: <span class="number">17</span>, <span class="string">"height"</span>: <span class="number">1.72</span>, <span class="string">"weight"</span>: <span class="number">63</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"name"</span>: <span class="string">"小陈"</span>, <span class="string">"age"</span>: <span class="number">20</span>, <span class="string">"height"</span>: <span class="number">1.78</span>, <span class="string">"weight"</span>: <span class="number">82</span>&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_bmi</span><span class="params">(info)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> count</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">f"执行了 <span class="subst">&#123;count&#125;</span> 次"</span>)</span><br><span class="line"></span><br><span class="line">    height = info[<span class="string">"height"</span>]</span><br><span class="line">    weight = info[<span class="string">"weight"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weight / (height**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查出所有会员中过于肥胖的人的 bmi 指数</span></span><br><span class="line">fat_bmis = [get_bmi(m) <span class="keyword">for</span> m <span class="keyword">in</span> members <span class="keyword">if</span> get_bmi(m) &gt; <span class="number">24</span>]</span><br><span class="line"></span><br><span class="line">print(fat_bmis)</span><br></pre></td></tr></table></figure>
+
+<p>输出如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">执行了 <span class="number">1</span> 次</span><br><span class="line">执行了 <span class="number">2</span> 次</span><br><span class="line">执行了 <span class="number">3</span> 次</span><br><span class="line">执行了 <span class="number">4</span> 次</span><br><span class="line">[<span class="number">25.88057063502083</span>]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，会员数只有 3 个，但是 get_bmi 函数却执行了 4 次，原因是在判断时执行了 3 次，而在构造新的列表时又重复执行了一遍。</p>
+<p>如果所有会员都是过于肥胖的，那最终将执行 6 次，这种在大量的数据下是比较浪费性能的，因此对于这种结构，我通常会使用传统的for 循环 + if 判断。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fat_bmis = []</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查出所有会员中过于肥胖的人的 bmi 指数</span></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> members:</span><br><span class="line">    bmi = get_bmi(m)</span><br><span class="line">    <span class="keyword">if</span> bmi &gt; <span class="number">24</span>:</span><br><span class="line">        fat_bmis.append(bmi)</span><br></pre></td></tr></table></figure>
+
+<p>在有了海象运算符之后，你就可以不用在这种场景下做出妥协。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查出所有会员中过于肥胖的人的 bmi 指数</span></span><br><span class="line">fat_bmis = [bmi <span class="keyword">for</span> m <span class="keyword">in</span> members <span class="keyword">if</span> (bmi := get_bmi(m)) &gt; <span class="number">24</span>]</span><br></pre></td></tr></table></figure>
+
+<p>最终从输出结果可以看出，只执行了 3 次</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">执行了 <span class="number">1</span> 次</span><br><span class="line">执行了 <span class="number">2</span> 次</span><br><span class="line">执行了 <span class="number">3</span> 次</span><br><span class="line">[<span class="number">25.88057063502083</span>]</span><br></pre></td></tr></table></figure>
+
+<p>这里仅介绍了列表推导式，但在字典推导式和集合推导式中同样适用。不再演示。</p>
+<p>海象运算符，是一个新奇的特性，有不少人觉得这样这种特性会破坏代码的可读性。确实在一个新鲜事物刚出来时是会这样，但我相信经过时间的沉淀后，越来越多的人使用它并享受它带来的便利时，这种争议也会慢慢消失在历史的长河中。</p>
+<p>作者：王一白<br>链接：<a href="https://juejin.im/post/5e9e78bef265da47d00a6e09" target="_blank" rel="noopener">https://juejin.im/post/5e9e78bef265da47d00a6e09</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>很多人不知道的Python炫技操作：条件语句的七种写法</title>
     <url>/2020/04/22/%E5%BE%88%E5%A4%9A%E4%BA%BA%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84Python%E7%82%AB%E6%8A%80%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E7%9A%84%E4%B8%83%E7%A7%8D%E5%86%99%E6%B3%95/</url>
     <content><![CDATA[<p>有的人说 Python 是一门 入门容易，但是精通难的语言，这一点我非常赞同。</p>
@@ -3721,6 +3863,23 @@ recv num 1
       </categories>
       <tags>
         <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用curl命令计算响应时间(dns解析时间，响应时间，传输时间)</title>
+    <url>/2019/11/02/%E7%94%A8curl%E5%91%BD%E4%BB%A4%E8%AE%A1%E7%AE%97%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4-dns%E8%A7%A3%E6%9E%90%E6%97%B6%E9%97%B4%EF%BC%8C%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4%EF%BC%8C%E4%BC%A0%E8%BE%93%E6%97%B6%E9%97%B4/</url>
+    <content><![CDATA[<h4 id="计算响应时间"><a href="#计算响应时间" class="headerlink" title="计算响应时间"></a>计算响应时间</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -o &#x2F;dev&#x2F;null -s -w &quot; http_code:%&#123;http_code&#125;\n time_namelookup:%&#123;time_namelookup&#125;\n \</span><br><span class="line">    time_redirect:%&#123;time_redirect&#125;\n time_pretransfer:%&#123;time_pretransfer&#125;\n \</span><br><span class="line">    time_connect:%&#123;time_connect&#125;\n time_starttransfer:%&#123;time_starttransfer&#125;\n \</span><br><span class="line">    time_total:%&#123;time_total&#125;\n speed_download:%&#123;speed_download&#125;\n &quot; &quot;https:&#x2F;&#x2F;jiebaiyou.com&quot;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>输出结果：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http_code:000</span><br><span class="line">time_namelookup:0.002986</span><br><span class="line">time_redirect:0.000000</span><br><span class="line">time_pretransfer:0.000000</span><br><span class="line">time_connect:0.137609</span><br><span class="line">time_starttransfer:0.000000</span><br><span class="line">time_total:0.412923</span><br><span class="line">speed_download:0.000</span><br></pre></td></tr></table></figure>
+
+<h4 id="HttpTime-数据说明"><a href="#HttpTime-数据说明" class="headerlink" title="HttpTime 数据说明"></a>HttpTime 数据说明</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">time_total 总时间，按秒计。精确到小数点后三位。</span><br><span class="line">time_namelookup DNS解析时间,从请求开始到DNS解析完毕所用时间。</span><br><span class="line">time_connect 连接时间,从开始到建立TCP连接完成所用时间,包括前边DNS解析时间，如果需要单纯的得到连接时间，用这个time_connect 时间减去前边time_namelookup时间。</span><br><span class="line">time_appconnect 连接建立完成时间，如SSL&#x2F;SSH等建立连接或者完成三次握手时间。</span><br><span class="line">time_pretransfer 从开始到准备传输的时间。</span><br><span class="line">time_redirect 重定向时间，包括到最后一次传输前的几次重定向的DNS解析，连接，预传输，传输时间。</span><br><span class="line">time_starttransfer 开始传输时间。在发出请求之后，Web 服务器返回数据的第一个字节所用的时间</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>curl</tag>
       </tags>
   </entry>
   <entry>
@@ -3882,20 +4041,36 @@ recv num 1
       </tags>
   </entry>
   <entry>
-    <title>用curl命令计算响应时间(dns解析时间，响应时间，传输时间)</title>
-    <url>/2019/11/02/%E7%94%A8curl%E5%91%BD%E4%BB%A4%E8%AE%A1%E7%AE%97%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4-dns%E8%A7%A3%E6%9E%90%E6%97%B6%E9%97%B4%EF%BC%8C%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4%EF%BC%8C%E4%BC%A0%E8%BE%93%E6%97%B6%E9%97%B4/</url>
-    <content><![CDATA[<h4 id="计算响应时间"><a href="#计算响应时间" class="headerlink" title="计算响应时间"></a>计算响应时间</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -o &#x2F;dev&#x2F;null -s -w &quot; http_code:%&#123;http_code&#125;\n time_namelookup:%&#123;time_namelookup&#125;\n \</span><br><span class="line">    time_redirect:%&#123;time_redirect&#125;\n time_pretransfer:%&#123;time_pretransfer&#125;\n \</span><br><span class="line">    time_connect:%&#123;time_connect&#125;\n time_starttransfer:%&#123;time_starttransfer&#125;\n \</span><br><span class="line">    time_total:%&#123;time_total&#125;\n speed_download:%&#123;speed_download&#125;\n &quot; &quot;https:&#x2F;&#x2F;jiebaiyou.com&quot;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><strong>输出结果：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http_code:000</span><br><span class="line">time_namelookup:0.002986</span><br><span class="line">time_redirect:0.000000</span><br><span class="line">time_pretransfer:0.000000</span><br><span class="line">time_connect:0.137609</span><br><span class="line">time_starttransfer:0.000000</span><br><span class="line">time_total:0.412923</span><br><span class="line">speed_download:0.000</span><br></pre></td></tr></table></figure>
+    <title>解决vim粘贴格式混乱(自动缩进问题)</title>
+    <url>/2019/10/31/%E8%A7%A3%E5%86%B3vim%E7%B2%98%E8%B4%B4%E6%A0%BC%E5%BC%8F%E6%B7%B7%E4%B9%B1-%E8%87%AA%E5%8A%A8%E7%BC%A9%E8%BF%9B%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<blockquote>
+<p> 问题如下，复制后因为自动缩进，产生了每行行首的自动缩进累积：</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">#原内容  </span><br><span class="line">  'WeChat' =&gt;</span><br><span class="line">    array (</span><br><span class="line">      'Token' =&gt; '',</span><br><span class="line">      'EncodingAESKey' =&gt; '',</span><br><span class="line">      'AppID' =&gt; '',</span><br><span class="line">    ),</span><br><span class="line">#粘贴后内容             </span><br><span class="line">  'WeChat' =&gt;</span><br><span class="line">    array (</span><br><span class="line">        'Token' =&gt; '',</span><br><span class="line">            'EncodingAESKey' =&gt; '',</span><br><span class="line">                'AppID' =&gt; '',</span><br><span class="line">                    ),</span><br></pre></td></tr></table></figure>
 
-<h4 id="HttpTime-数据说明"><a href="#HttpTime-数据说明" class="headerlink" title="HttpTime 数据说明"></a>HttpTime 数据说明</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">time_total 总时间，按秒计。精确到小数点后三位。</span><br><span class="line">time_namelookup DNS解析时间,从请求开始到DNS解析完毕所用时间。</span><br><span class="line">time_connect 连接时间,从开始到建立TCP连接完成所用时间,包括前边DNS解析时间，如果需要单纯的得到连接时间，用这个time_connect 时间减去前边time_namelookup时间。</span><br><span class="line">time_appconnect 连接建立完成时间，如SSL&#x2F;SSH等建立连接或者完成三次握手时间。</span><br><span class="line">time_pretransfer 从开始到准备传输的时间。</span><br><span class="line">time_redirect 重定向时间，包括到最后一次传输前的几次重定向的DNS解析，连接，预传输，传输时间。</span><br><span class="line">time_starttransfer 开始传输时间。在发出请求之后，Web 服务器返回数据的第一个字节所用的时间</span><br></pre></td></tr></table></figure>]]></content>
+<a id="more"></a>
+
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>在粘贴前，取消缩进</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:set paste</span><br></pre></td></tr></table></figure>
+
+<p>粘贴完后，恢复缩进</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:set nopaste</span><br></pre></td></tr></table></figure>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>推荐的方式，使用<code>+p</code> 或 <code>*p</code> 粘贴缓冲区内容， <code>+p</code>比 <code>ctrl+v</code>命令更好，它可以更快更可靠地处理大块文本的粘贴，也能够避免粘贴大量文本时，发生每行行首的自动缩进累积，因为<code>ctrl+v</code>是通过系统缓存的stream处理，一行一行地处理粘贴的文本。 </p>
+<h4 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h4><p>使用键盘映射，这样在每一次复制前按F11取消缩进，复制后再按一次恢复缩进</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;vimrc </span><br><span class="line">set pastetoggle&#x3D;&lt;F11&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:map &lt;F10&gt; :set paste&lt;CR&gt;</span><br><span class="line">:map &lt;F11&gt; :set nopaste&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法四："><a href="#方法四：" class="headerlink" title="方法四："></a>方法四：</h4><p>在配置文件中增加如下一行，使用鼠标复制内容到选择缓冲区：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;vimrc </span><br><span class="line">set mouse&#x3D;v</span><br></pre></td></tr></table></figure>
+<p>需要带行号时，使用鼠标选择内容区域。<br>不需要行号，使用<code>yny</code>复制n行或可视模式下选择。<br>将选择缓冲区中内容粘贴到vim文件：普通模式下按<code>+p</code> 或 <code>*p</code>粘贴缓冲区内容</p>
+]]></content>
       <categories>
         <category>技术分享</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>curl</tag>
+        <tag>vim</tag>
       </tags>
   </entry>
   <entry>
@@ -3947,39 +4122,6 @@ recv num 1
       <tags>
         <tag>go</tag>
         <tag>json</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决vim粘贴格式混乱(自动缩进问题)</title>
-    <url>/2019/10/31/%E8%A7%A3%E5%86%B3vim%E7%B2%98%E8%B4%B4%E6%A0%BC%E5%BC%8F%E6%B7%B7%E4%B9%B1-%E8%87%AA%E5%8A%A8%E7%BC%A9%E8%BF%9B%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<blockquote>
-<p> 问题如下，复制后因为自动缩进，产生了每行行首的自动缩进累积：</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">#原内容  </span><br><span class="line">  'WeChat' =&gt;</span><br><span class="line">    array (</span><br><span class="line">      'Token' =&gt; '',</span><br><span class="line">      'EncodingAESKey' =&gt; '',</span><br><span class="line">      'AppID' =&gt; '',</span><br><span class="line">    ),</span><br><span class="line">#粘贴后内容             </span><br><span class="line">  'WeChat' =&gt;</span><br><span class="line">    array (</span><br><span class="line">        'Token' =&gt; '',</span><br><span class="line">            'EncodingAESKey' =&gt; '',</span><br><span class="line">                'AppID' =&gt; '',</span><br><span class="line">                    ),</span><br></pre></td></tr></table></figure>
-
-<a id="more"></a>
-
-<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>在粘贴前，取消缩进</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:set paste</span><br></pre></td></tr></table></figure>
-
-<p>粘贴完后，恢复缩进</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:set nopaste</span><br></pre></td></tr></table></figure>
-<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>推荐的方式，使用<code>+p</code> 或 <code>*p</code> 粘贴缓冲区内容， <code>+p</code>比 <code>ctrl+v</code>命令更好，它可以更快更可靠地处理大块文本的粘贴，也能够避免粘贴大量文本时，发生每行行首的自动缩进累积，因为<code>ctrl+v</code>是通过系统缓存的stream处理，一行一行地处理粘贴的文本。 </p>
-<h4 id="方法三："><a href="#方法三：" class="headerlink" title="方法三："></a>方法三：</h4><p>使用键盘映射，这样在每一次复制前按F11取消缩进，复制后再按一次恢复缩进</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;vimrc </span><br><span class="line">set pastetoggle&#x3D;&lt;F11&gt;</span><br></pre></td></tr></table></figure>
-
-<p>当然也可以</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">:map &lt;F10&gt; :set paste&lt;CR&gt;</span><br><span class="line">:map &lt;F11&gt; :set nopaste&lt;CR&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="方法四："><a href="#方法四：" class="headerlink" title="方法四："></a>方法四：</h4><p>在配置文件中增加如下一行，使用鼠标复制内容到选择缓冲区：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;vimrc </span><br><span class="line">set mouse&#x3D;v</span><br></pre></td></tr></table></figure>
-<p>需要带行号时，使用鼠标选择内容区域。<br>不需要行号，使用<code>yny</code>复制n行或可视模式下选择。<br>将选择缓冲区中内容粘贴到vim文件：普通模式下按<code>+p</code> 或 <code>*p</code>粘贴缓冲区内容</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>vim</tag>
       </tags>
   </entry>
   <entry>
@@ -4044,148 +4186,6 @@ recv num 1
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux下使用convert批量压缩图片</title>
-    <url>/2019/10/27/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8convert%E6%89%B9%E9%87%8F%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/</url>
-    <content><![CDATA[<blockquote>
-<p>convert的功能相当强大，先来个示例，再慢慢研究其它的功能</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">find &#x2F;www&#x2F;images  -regex &#39;.*\(jpg\|JPG\|png\|PNG\|jpeg\)&#39; -size +1000k -mtime -1 \</span><br><span class="line">    -exec convert -quality 75 &#123;&#125; &#123;&#125; \; </span><br><span class="line"># 参数解释    </span><br><span class="line">&#x2F;www&#x2F;images            # 要压缩图片的目录</span><br><span class="line">-regex &#39;.*\(jpg...|jpeg\)&#39;  # 正则匹配需要压缩的文件扩展名</span><br><span class="line">-size +1000k                # 要压缩图片的最小尺寸</span><br><span class="line">-mtime -1                   # -mtime -n +n (按文件更改时间来查找文件，-n指n天以内，+n指n天以前)</span><br><span class="line">-quality 75         # 压缩后的图片质量</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p><strong>安装</strong><br>如果系统中没有convert命令，就需要先安装了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CentOS:yum install ImageMagick #注意包名大小写</span><br><span class="line">Ubuntu:apt install imagemagick</span><br></pre></td></tr></table></figure>
-
-<p><strong>转换图像格式</strong><br>支持JPG, BMP, PCX, GIF, PNG, TIFF, XPM和XWD等类型，下面举几个例子: </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert xxx.jpg xxx.png  #将jpeg转成png文件 </span><br><span class="line">convert xxx.gif xxx.bmp  #将gif转换成bmp图像 </span><br><span class="line">convert xxx.tiff xxx.pcx #将tiff转换成pcx图像</span><br></pre></td></tr></table></figure>
-
-<p><strong>改变图像的大小</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -resize 1024x768 xxx.jpg xxx1.jpg #将图像的像素改为1024*768，注意1024与768之间是小写字母x </span><br><span class="line">convert -sample 50%x50% xxx.jpg xxx1.jpg  #将图像的缩减为原来的50%*50%</span><br></pre></td></tr></table></figure>
-
-<p><strong>旋转图像</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -rotate 270 sky.jpg sky-final.jpg #将图像顺时针旋转270度</span><br></pre></td></tr></table></figure>
-
-<p><strong>加边框</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -raise 5x5 input.jpg output.jpg</span><br><span class="line">convert +raise 5x5 input.jpg output.jpg</span><br></pre></td></tr></table></figure>
-
-<p><strong>添加文字水印</strong><br>使用-draw选项还可以在图像里面添加文字：<br>在图像的10,80 位置采用60磅的全黑Helvetica字体写上 Hello, World!<br>convert还有其他很多有趣和强大的功能，大家不妨可以试试。  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">convert -fill black -pointsize 60 -font helvetica -draw &#39;text 10,80 &quot;Hello, World!&quot; hello.jpg helloworld.jpg</span><br></pre></td></tr></table></figure>
-<p><strong>批量图像格式转换</strong><br>如果想将某目录下的所有jpg文件转换为png文件，在命令行模式下输入: </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for x in *.JPG; do</span><br><span class="line">    convert -sample 25% &quot;$x&quot; &quot;$&#123;x%.JPG&#125;_converted.jpg&quot;</span><br><span class="line">    rm &quot;$x&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux Shell取之前的日期及时间</title>
-    <url>/2019/11/13/Linux-Shell%E5%8F%96%E4%B9%8B%E5%89%8D%E7%9A%84%E6%97%A5%E6%9C%9F%E5%8F%8A%E6%97%B6%E9%97%B4/</url>
-    <content><![CDATA[<blockquote>
-<p> 写脚本时经常用到取之前日期的情况，解决方法总结如下：</p>
-</blockquote>
-<a id="more"></a>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash </span><br><span class="line">#一月前  </span><br><span class="line">historyTime&#x3D;$(date &quot;+%Y-%m-%d %H&quot; -d &#39;1 month ago&#39;)  </span><br><span class="line">echo $&#123;historyTime&#125;  </span><br><span class="line"></span><br><span class="line">#一个月前时间戳</span><br><span class="line">historyTimeStamp&#x3D;$(date -d &quot;$historyTime&quot; +%s)  </span><br><span class="line">echo $&#123;historyTimeStamp&#125;  </span><br><span class="line"></span><br><span class="line">#一周前  </span><br><span class="line">historyWeek&#x3D;$(date &quot;+%Y-%m-%d %H&quot; -d &#39;7 day ago&#39;) </span><br><span class="line">echo $&#123;historyWeek&#125; </span><br><span class="line"></span><br><span class="line">#本月一月一日  </span><br><span class="line">date_this_month&#x3D;&#96;date +%Y%m01&#96;  </span><br><span class="line">echo $data_this_month </span><br><span class="line"></span><br><span class="line">#一天前  </span><br><span class="line">date_today&#x3D;&#96;date -d &#39;1 day ago&#39; +%Y%m%d&#96;  </span><br><span class="line">echo $date_today </span><br><span class="line"></span><br><span class="line">#一小时前  </span><br><span class="line">one_Hour&#x3D;$(date &quot;+%Y-%m-%d %H&quot; -d &#39;-1 hours&#39;) </span><br><span class="line">echo $one_Hour</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OAuth 2.0 的四种方式</title>
-    <url>/2021/07/01/OAuth-2-0-%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<p><strong>OAuth 2.0 的四种方式</strong></p>
-<p><a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html" target="_blank" rel="noopener">上一篇文章</a>介绍了 OAuth 2.0 是一种授权机制，主要用来颁发令牌（token）。本文接着介绍颁发令牌的实务操作。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C892a10c9886346128386c51a6a75d377%5Cg2019040901.jpeg" alt="img"></p>
-<p>下面我假定，你已经理解了 OAuth 2.0 的含义和设计思想，否则请先阅读这个系列的<a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html" target="_blank" rel="noopener">上一篇文章</a>。</p>
-<a id="more"></a>
-
-<p><strong>RFC 6749</strong></p>
-<p>OAuth 2.0 的标准是 <a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">RFC 6749</a> 文件。该文件先解释了 OAuth 是什么。</p>
-<p>OAuth 引入了一个授权层，用来分离两种不同的角色：客户端和资源所有者。……资源所有者同意以后，资源服务器可以向客户端颁发令牌。客户端通过令牌，去请求数据。</p>
-<p>这段话的意思就是，<strong>OAuth 的核心就是向第三方应用颁发令牌。</strong>然后，RFC 6749 接着写道：</p>
-<p>（由于互联网有多种场景，）本标准定义了获得令牌的四种授权方式（authorization grant ）。</p>
-<p>也就是说，<strong>OAuth 2.0 规定了四种获得令牌的流程。你可以选择最适合自己的那一种，向第三方应用颁发令牌。</strong>下面就是这四种授权方式。</p>
-<ul>
-<li>授权码（authorization-code）</li>
-<li>隐藏式（implicit）</li>
-<li>密码式（password）：</li>
-<li>客户端凭证（client credentials）</li>
-</ul>
-<p>注意，不管哪一种授权方式，第三方应用申请令牌之前，都必须先到系统备案，说明自己的身份，然后会拿到两个身份识别码：客户端 ID（client ID）和客户端密钥（client secret）。这是为了防止令牌被滥用，没有备案过的第三方应用，是不会拿到令牌的。</p>
-<p><strong>第一种授权方式：授权码</strong></p>
-<p><strong>授权码（authorization code）方式，指的是第三方应用先申请一个授权码，然后再用该码获取令牌。</strong></p>
-<p>这种方式是最常用的流程，安全性也最高，它适用于那些有后端的 Web 应用。授权码通过前端传送，令牌则是储存在后端，而且所有与资源服务器的通信都在后端完成。这样的前后端分离，可以避免令牌泄漏。</p>
-<p>第一步，A 网站提供一个链接，用户点击后就会跳转到 B 网站，授权用户数据给 A 网站使用。下面就是 A 网站跳转 B 网站的一个示意链接。</p>
-<p><a href="https://b.com/oauth/authorize" target="_blank" rel="noopener">https://b.com/oauth/authorize</a>?  response_type=code&amp;  client_id=CLIENT_ID&amp;  redirect_uri=CALLBACK_URL&amp;  scope=read</p>
-<p>上面 URL 中，response_type参数表示要求返回授权码（code），client_id参数让 B 知道是谁在请求，redirect_uri参数是 B 接受或拒绝请求后的跳转网址，scope参数表示要求的授权范围（这里是只读）。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C500c00e1e4e84bbda154e4a36d23db07%5Cg2019040902.jpeg" alt="img"></p>
-<p>第二步，用户跳转后，B 网站会要求用户登录，然后询问是否同意给予 A 网站授权。用户表示同意，这时 B 网站就会跳回redirect_uri参数指定的网址。跳转时，会传回一个授权码，就像下面这样。</p>
-<p><a href="https://a.com/callback?code=AUTHORIZATION_CODE" target="_blank" rel="noopener">https://a.com/callback?code=AUTHORIZATION_CODE</a></p>
-<p>上面 URL 中，code参数就是授权码。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cc3213a63478649b68a0257d85a9216f9%5Cg2019040907.jpeg" alt="img"></p>
-<p>第三步，A 网站拿到授权码以后，就可以在后端，向 B 网站请求令牌。</p>
-<p><a href="https://b.com/oauth/token" target="_blank" rel="noopener">https://b.com/oauth/token</a>? client_id=CLIENT_ID&amp; client_secret=CLIENT_SECRET&amp; grant_type=authorization_code&amp; code=AUTHORIZATION_CODE&amp; redirect_uri=CALLBACK_URL</p>
-<p>上面 URL 中，client_id参数和client_secret参数用来让 B 确认 A 的身份（client_secret参数是保密的，因此只能在后端发请求），grant_type参数的值是AUTHORIZATION_CODE，表示采用的授权方式是授权码，code参数是上一步拿到的授权码，redirect_uri参数是令牌颁发后的回调网址。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C533bf0085b40433a9bb26ca5c71255a9%5Cg2019040904.jpeg" alt="img"></p>
-<p>第四步，B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
-<p>{      “access_token”:”ACCESS_TOKEN”,  “token_type”:”bearer”,  “expires_in”:2592000,  “refresh_token”:”REFRESH_TOKEN”,  “scope”:”read”,  “uid”:100101,  “info”:{…} }</p>
-<p>上面 JSON 数据中，access_token字段就是令牌，A 网站在后端拿到了。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cba2144d76e8541428697c84dfc941588%5Cg2019040905.jpeg" alt="img"></p>
-<p><strong>第二种方式：隐藏式</strong></p>
-<p>有些 Web 应用是纯前端应用，没有后端。这时就不能用上面的方式了，必须将令牌储存在前端。<strong>RFC 6749 就规定了第二种方式，允许直接向前端颁发令牌。这种方式没有授权码这个中间步骤，所以称为（授权码）”隐藏式”（implicit）。</strong></p>
-<p>第一步，A 网站提供一个链接，要求用户跳转到 B 网站，授权用户数据给 A 网站使用。</p>
-<p><a href="https://b.com/oauth/authorize" target="_blank" rel="noopener">https://b.com/oauth/authorize</a>?  response_type=token&amp;  client_id=CLIENT_ID&amp;  redirect_uri=CALLBACK_URL&amp;  scope=read</p>
-<p>上面 URL 中，response_type参数为token，表示要求直接返回令牌。</p>
-<p>第二步，用户跳转到 B 网站，登录后同意给予 A 网站授权。这时，B 网站就会跳回redirect_uri参数指定的跳转网址，并且把令牌作为 URL 参数，传给 A 网站。</p>
-<p><a href="https://a.com/callback#token=ACCESS_TOKEN" target="_blank" rel="noopener">https://a.com/callback#token=ACCESS_TOKEN</a></p>
-<p>上面 URL 中，token参数就是令牌，A 网站因此直接在前端拿到令牌。</p>
-<p>注意，令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cb2c75dc3bcc64ee38ac2e2aa3d913e85%5Cg2019040906.jpeg" alt="img"></p>
-<p>这种方式把令牌直接传给前端，是很不安全的。因此，只能用于一些安全要求不高的场景，并且令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</p>
-<p><strong>第三种方式：密码式</strong></p>
-<p><strong>如果你高度信任某个应用，RFC 6749 也允许用户把用户名和密码，直接告诉该应用。该应用就使用你的密码，申请令牌，这种方式称为”密码式”（password）。</strong></p>
-<p>第一步，A 网站要求用户提供 B 网站的用户名和密码。拿到以后，A 就直接向 B 请求令牌。</p>
-<p><a href="https://oauth.b.com/token" target="_blank" rel="noopener">https://oauth.b.com/token</a>?  grant_type=password&amp;  username=USERNAME&amp;  password=PASSWORD&amp;  client_id=CLIENT_ID</p>
-<p>上面 URL 中，grant_type参数是授权方式，这里的password表示”密码式”，username和password是 B 的用户名和密码。</p>
-<p>第二步，B 网站验证身份通过后，直接给出令牌。注意，这时不需要跳转，而是把令牌放在 JSON 数据里面，作为 HTTP 回应，A 因此拿到令牌。</p>
-<p>这种方式需要用户给出自己的用户名/密码，显然风险很大，因此只适用于其他授权方式都无法采用的情况，而且必须是用户高度信任的应用。</p>
-<p><strong>第四种方式：凭证式</strong></p>
-<p><strong>最后一种方式是凭证式（client credentials），适用于没有前端的命令行应用，即在命令行下请求令牌。</strong></p>
-<p>第一步，A 应用在命令行向 B 发出请求。</p>
-<p><a href="https://oauth.b.com/token" target="_blank" rel="noopener">https://oauth.b.com/token</a>?  grant_type=client_credentials&amp;  client_id=CLIENT_ID&amp;  client_secret=CLIENT_SECRET</p>
-<p>上面 URL 中，grant_type参数等于client_credentials表示采用凭证式，client_id和client_secret用来让 B 确认 A 的身份。</p>
-<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
-<p>这种方式给出的令牌，是针对第三方应用的，而不是针对用户的，即有可能多个用户共享同一个令牌。</p>
-<p><strong>令牌的使用</strong></p>
-<p>A 网站拿到令牌以后，就可以向 B 网站的 API 请求数据了。</p>
-<p>此时，每个发到 API 的请求，都必须带有令牌。具体做法是在请求的头信息，加上一个Authorization字段，令牌就放在这个字段里面。</p>
-<p>curl -H “Authorization: Bearer ACCESS_TOKEN” \ “<a href="https://api.b.com&quot;" target="_blank" rel="noopener">https://api.b.com&quot;</a></p>
-<p>上面命令中，ACCESS_TOKEN就是拿到的令牌。</p>
-<p><strong>更新令牌</strong></p>
-<p>令牌的有效期到了，如果让用户重新走一遍上面的流程，再申请一个新的令牌，很可能体验不好，而且也没有必要。OAuth 2.0 允许用户自动更新令牌。</p>
-<p>具体方法是，B 网站颁发令牌的时候，一次性颁发两个令牌，一个用于获取数据，另一个用于获取新的令牌（refresh token 字段）。令牌到期前，用户使用 refresh token 发一个请求，去更新令牌。</p>
-<p><a href="https://b.com/oauth/token" target="_blank" rel="noopener">https://b.com/oauth/token</a>?  grant_type=refresh_token&amp;  client_id=CLIENT_ID&amp;  client_secret=CLIENT_SECRET&amp;  refresh_token=REFRESH_TOKEN</p>
-<p>上面 URL 中，grant_type参数为refresh_token表示要求更新令牌，client_id参数和client_secret参数用于确认身份，refresh_token参数就是用于更新令牌的令牌。</p>
-<p>B 网站验证通过以后，就会颁发新的令牌。</p>
-<p>写到这里，颁发令牌的四种方式就介绍完了。<a href="http://www.ruanyifeng.com/blog/2019/04/github-oauth.html" target="_blank" rel="noopener">下一篇文章</a>会编写一个真实的 Demo，演示如何通过 OAuth 2.0 向 GitHub 的 API 申请令牌，然后再用令牌获取数据。</p>
-<p>作者： <a href="http://www.ruanyifeng.com" target="_blank" rel="noopener">阮一峰</a></p>
-<p>（正文完）</p>
-]]></content>
-      <categories>
-        <category>技术分享</category>
-      </categories>
-      <tags>
-        <tag>oauth</tag>
       </tags>
   </entry>
 </search>
