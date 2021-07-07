@@ -57,18 +57,18 @@
 <meta property="og:site_name" content="解百忧 · 随记">
 <meta property="og:description" content="OAuth 2.0 的四种方式 上一篇文章介绍了 OAuth 2.0 是一种授权机制，主要用来颁发令牌（token）。本文接着介绍颁发令牌的实务操作。  下面我假定，你已经理解了 OAuth 2.0 的含义和设计思想，否则请先阅读这个系列的上一篇文章。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C892a10c9886346128386c51a6a75d377%5Cg2019040901.jpeg">
-<meta property="og:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C500c00e1e4e84bbda154e4a36d23db07%5Cg2019040902.jpeg">
-<meta property="og:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cc3213a63478649b68a0257d85a9216f9%5Cg2019040907.jpeg">
-<meta property="og:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C533bf0085b40433a9bb26ca5c71255a9%5Cg2019040904.jpeg">
-<meta property="og:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cba2144d76e8541428697c84dfc941588%5Cg2019040905.jpeg">
-<meta property="og:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cb2c75dc3bcc64ee38ac2e2aa3d913e85%5Cg2019040906.jpeg">
+<meta property="og:image" content="https://images.codeflag.cn/g2019040901.jpeg">
+<meta property="og:image" content="https://images.codeflag.cn/g2019040902.jpeg">
+<meta property="og:image" content="https://images.codeflag.cn/g2019040907.jpeg">
+<meta property="og:image" content="https://images.codeflag.cn/g2019040904.jpeg">
+<meta property="og:image" content="https://images.codeflag.cn/g2019040905.jpeg">
+<meta property="og:image" content="https://images.codeflag.cn/g2019040906.jpeg">
 <meta property="article:published_time" content="2021-07-01T02:16:29.000Z">
-<meta property="article:modified_time" content="2021-07-01T02:19:32.231Z">
+<meta property="article:modified_time" content="2021-07-07T03:22:58.522Z">
 <meta property="article:author" content="解百忧">
 <meta property="article:tag" content="oauth">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C892a10c9886346128386c51a6a75d377%5Cg2019040901.jpeg">
+<meta name="twitter:image" content="https://images.codeflag.cn/g2019040901.jpeg">
 
 <link rel="canonical" href="https://www.jiebaiyou.com/2021/07/01/OAuth-2-0-%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/">
 
@@ -246,10 +246,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-07-01 10:16:29 / 修改时间：10:19:32" itemprop="dateCreated datePublished" datetime="2021-07-01T10:16:29+08:00">2021-07-01</time>
+              <time title="创建时间：2021-07-01 10:16:29" itemprop="dateCreated datePublished" datetime="2021-07-01T10:16:29+08:00">2021-07-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-07 11:22:58" itemprop="dateModified" datetime="2021-07-07T11:22:58+08:00">2021-07-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -282,7 +288,7 @@
       
         <p><strong>OAuth 2.0 的四种方式</strong></p>
 <p><a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html" target="_blank" rel="noopener">上一篇文章</a>介绍了 OAuth 2.0 是一种授权机制，主要用来颁发令牌（token）。本文接着介绍颁发令牌的实务操作。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C892a10c9886346128386c51a6a75d377%5Cg2019040901.jpeg" alt="img"></p>
+<p><img src="https://images.codeflag.cn/g2019040901.jpeg" alt="img"></p>
 <p>下面我假定，你已经理解了 OAuth 2.0 的含义和设计思想，否则请先阅读这个系列的<a href="http://www.ruanyifeng.com/blog/2019/04/oauth_design.html" target="_blank" rel="noopener">上一篇文章</a>。</p>
 <a id="more"></a>
 
@@ -305,19 +311,19 @@
 <p>第一步，A 网站提供一个链接，用户点击后就会跳转到 B 网站，授权用户数据给 A 网站使用。下面就是 A 网站跳转 B 网站的一个示意链接。</p>
 <p><a href="https://b.com/oauth/authorize" target="_blank" rel="noopener">https://b.com/oauth/authorize</a>?  response_type=code&amp;  client_id=CLIENT_ID&amp;  redirect_uri=CALLBACK_URL&amp;  scope=read</p>
 <p>上面 URL 中，response_type参数表示要求返回授权码（code），client_id参数让 B 知道是谁在请求，redirect_uri参数是 B 接受或拒绝请求后的跳转网址，scope参数表示要求的授权范围（这里是只读）。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C500c00e1e4e84bbda154e4a36d23db07%5Cg2019040902.jpeg" alt="img"></p>
+<p><img src="https://images.codeflag.cn/g2019040902.jpeg" alt="img"></p>
 <p>第二步，用户跳转后，B 网站会要求用户登录，然后询问是否同意给予 A 网站授权。用户表示同意，这时 B 网站就会跳回redirect_uri参数指定的网址。跳转时，会传回一个授权码，就像下面这样。</p>
 <p><a href="https://a.com/callback?code=AUTHORIZATION_CODE" target="_blank" rel="noopener">https://a.com/callback?code=AUTHORIZATION_CODE</a></p>
 <p>上面 URL 中，code参数就是授权码。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cc3213a63478649b68a0257d85a9216f9%5Cg2019040907.jpeg" alt="img"></p>
+<p><img src="https://images.codeflag.cn/g2019040907.jpeg" alt="img"></p>
 <p>第三步，A 网站拿到授权码以后，就可以在后端，向 B 网站请求令牌。</p>
 <p><a href="https://b.com/oauth/token" target="_blank" rel="noopener">https://b.com/oauth/token</a>? client_id=CLIENT_ID&amp; client_secret=CLIENT_SECRET&amp; grant_type=authorization_code&amp; code=AUTHORIZATION_CODE&amp; redirect_uri=CALLBACK_URL</p>
 <p>上面 URL 中，client_id参数和client_secret参数用来让 B 确认 A 的身份（client_secret参数是保密的，因此只能在后端发请求），grant_type参数的值是AUTHORIZATION_CODE，表示采用的授权方式是授权码，code参数是上一步拿到的授权码，redirect_uri参数是令牌颁发后的回调网址。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5C533bf0085b40433a9bb26ca5c71255a9%5Cg2019040904.jpeg" alt="img"></p>
+<p><img src="https://images.codeflag.cn/g2019040904.jpeg" alt="img"></p>
 <p>第四步，B 网站收到请求以后，就会颁发令牌。具体做法是向redirect_uri指定的网址，发送一段 JSON 数据。</p>
 <p>{      “access_token”:”ACCESS_TOKEN”,  “token_type”:”bearer”,  “expires_in”:2592000,  “refresh_token”:”REFRESH_TOKEN”,  “scope”:”read”,  “uid”:100101,  “info”:{…} }</p>
 <p>上面 JSON 数据中，access_token字段就是令牌，A 网站在后端拿到了。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cba2144d76e8541428697c84dfc941588%5Cg2019040905.jpeg" alt="img"></p>
+<p><img src="https://images.codeflag.cn/g2019040905.jpeg" alt="img"></p>
 <p><strong>第二种方式：隐藏式</strong></p>
 <p>有些 Web 应用是纯前端应用，没有后端。这时就不能用上面的方式了，必须将令牌储存在前端。<strong>RFC 6749 就规定了第二种方式，允许直接向前端颁发令牌。这种方式没有授权码这个中间步骤，所以称为（授权码）”隐藏式”（implicit）。</strong></p>
 <p>第一步，A 网站提供一个链接，要求用户跳转到 B 网站，授权用户数据给 A 网站使用。</p>
@@ -327,7 +333,7 @@
 <p><a href="https://a.com/callback#token=ACCESS_TOKEN" target="_blank" rel="noopener">https://a.com/callback#token=ACCESS_TOKEN</a></p>
 <p>上面 URL 中，token参数就是令牌，A 网站因此直接在前端拿到令牌。</p>
 <p>注意，令牌的位置是 URL 锚点（fragment），而不是查询字符串（querystring），这是因为 OAuth 2.0 允许跳转网址是 HTTP 协议，因此存在”中间人攻击”的风险，而浏览器跳转时，锚点不会发到服务器，就减少了泄漏令牌的风险。</p>
-<p><img src="C:%5CUsers%5Choush%5CAppData%5CLocal%5CYNote%5Cdata%5Choushuang@126.com%5Cb2c75dc3bcc64ee38ac2e2aa3d913e85%5Cg2019040906.jpeg" alt="img"></p>
+<p><img src="https://images.codeflag.cn/g2019040906.jpeg" alt="img"></p>
 <p>这种方式把令牌直接传给前端，是很不安全的。因此，只能用于一些安全要求不高的场景，并且令牌的有效期必须非常短，通常就是会话期间（session）有效，浏览器关掉，令牌就失效了。</p>
 <p><strong>第三种方式：密码式</strong></p>
 <p><strong>如果你高度信任某个应用，RFC 6749 也允许用户把用户名和密码，直接告诉该应用。该应用就使用你的密码，申请令牌，这种方式称为”密码式”（password）。</strong></p>
