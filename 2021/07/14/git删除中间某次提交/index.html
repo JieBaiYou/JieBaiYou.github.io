@@ -50,24 +50,20 @@
   };
 </script>
 
-  <meta name="description" content="分享学习记录">
-<meta property="og:type" content="website">
-<meta property="og:title" content="解百忧 · 随记">
-<meta property="og:url" content="https://www.jiebaiyou.com/tags/iptables/index.html">
+  <meta name="description" content="首先使用 git log 获取commit信息, 如: 1234567891011121314151617commit 58211e7a5da5e74171e90d8b90b2f00881a48d3aAuthor: test &lt;test@36nu.com&gt;Date:   Fri Sep 22 20:55:38 2017 +0800    add d.txtcommit 0fb295fe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git删除中间某次提交">
+<meta property="og:url" content="https://www.jiebaiyou.com/2021/07/14/git%E5%88%A0%E9%99%A4%E4%B8%AD%E9%97%B4%E6%9F%90%E6%AC%A1%E6%8F%90%E4%BA%A4/index.html">
 <meta property="og:site_name" content="解百忧 · 随记">
-<meta property="og:description" content="分享学习记录">
+<meta property="og:description" content="首先使用 git log 获取commit信息, 如: 1234567891011121314151617commit 58211e7a5da5e74171e90d8b90b2f00881a48d3aAuthor: test &lt;test@36nu.com&gt;Date:   Fri Sep 22 20:55:38 2017 +0800    add d.txtcommit 0fb295fe">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-14T07:47:42.000Z">
+<meta property="article:modified_time" content="2021-07-14T07:52:46.699Z">
 <meta property="article:author" content="解百忧">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content=" docker">
-<meta property="article:tag" content=" nginx">
-<meta property="article:tag" content=" mysql">
-<meta property="article:tag" content=" shell">
-<meta property="article:tag" content=" python">
-<meta property="article:tag" content=" OpsDev">
+<meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://www.jiebaiyou.com/tags/iptables/">
+<link rel="canonical" href="https://www.jiebaiyou.com/2021/07/14/git%E5%88%A0%E9%99%A4%E4%B8%AD%E9%97%B4%E6%9F%90%E6%AC%A1%E6%8F%90%E4%BA%A4/">
 
 
 <script id="page-configurations">
@@ -75,13 +71,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>标签: iptables | 解百忧 · 随记</title>
+  <title>git删除中间某次提交 | 解百忧 · 随记</title>
   
 
 
@@ -216,73 +212,117 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">iptables
-          <small>标签</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2021/07/14/git%E5%88%A0%E9%99%A4%E4%B8%AD%E9%97%B4%E6%9F%90%E6%AC%A1%E6%8F%90%E4%BA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          git删除中间某次提交
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-14 15:47:42 / 修改时间：15:52:46" itemprop="dateCreated datePublished" datetime="2021-07-14T15:47:42+08:00">2021-07-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2021</h1>
+        <p>首先使用 <code>git log</code> 获取commit信息, 如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">commit 58211e7a5da5e74171e90d8b90b2f00881a48d3a</span><br><span class="line">Author: test &lt;test@36nu.com&gt;</span><br><span class="line">Date:   Fri Sep 22 20:55:38 2017 +0800</span><br><span class="line"></span><br><span class="line">    add d.txt</span><br><span class="line"></span><br><span class="line">commit 0fb295fe0e0276f0c81df61c4fd853b7a000bb5c</span><br><span class="line">Author: test &lt;test@36nu.com&gt;</span><br><span class="line">Date:   Fri Sep 22 20:32:45 2017 +0800</span><br><span class="line"></span><br><span class="line">    add c.txt</span><br><span class="line"></span><br><span class="line">commit 7753f40d892a8e0d14176a42f6e12ae0179a3210</span><br><span class="line">Author: test &lt;test@36nu.com&gt;</span><br><span class="line">Date:   Fri Sep 22 20:31:39 2017 +0800</span><br><span class="line"></span><br><span class="line">    init</span><br></pre></td></tr></table></figure>
+
+<p>假如要删除备注为add c.txt commit为0fb295fe0e0276f0c81df61c4fd853b7a000bb5c的这次提交, 按以下步骤操作:</p>
+<a id="more"></a>
+
+<p>1、首先找到此次提交之前的一次提交的commit 7753f40d892a8e0d14176a42f6e12ae0179a3210<br>2、执行如下命令<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i (commit-id)</span><br></pre></td></tr></table></figure><br> commit-id 为要删除的commit的下一个commit号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i 7753f40</span><br></pre></td></tr></table></figure>
+
+<p>弹出如下界面</p>
+<p>3、编辑文件，将要删除的commit之前的单词改为<code>drop</code> ，然后按照提示保存退出</p>
+<p>4、此已经删除了指定的commit，可以使用<code>git log</code>查看<br>然后推送到远程仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin HEAD –-force</span><br></pre></td></tr></table></figure>
+
+
+<p>此时 add c.txt commit 就被干掉了，没有影响后面的提交</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-06-30T17:59:40+08:00"
-              content="2021-06-30">
-          06-30
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+          </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/06/30/25%E6%9D%A1%E6%9C%89%E7%94%A8%E7%9A%84iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/" itemprop="url">
-            <span itemprop="name">25条有用的iptables常用示例</span>
-          </a>
-      </h2>
+        
 
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/01/OAuth-2-0-%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F/" rel="next" title="OAuth 2.0 的四种方式">
+                  <i class="fa fa-chevron-left"></i> OAuth 2.0 的四种方式
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
   </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
-    </div>
+  
+  
+  
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-07T12:47:25+08:00"
-              content="2020-01-07">
-          01-07
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/07/CentOS-6-7-firewall-cmd%E4%B8%8Eiptables%E4%BD%BF%E7%94%A8/" itemprop="url">
-            <span itemprop="name">CentOS 6/7 firewall-cmd与iptables使用</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
