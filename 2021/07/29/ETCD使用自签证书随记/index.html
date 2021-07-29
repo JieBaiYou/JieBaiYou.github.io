@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="ETCD使用自签证书汇总证书类型介绍 client certificate 用于通过服务器验证客户端。例如etcdctl，etcd proxy，fleetctl或docker客户端。 server certificate 由服务器使用，并由客户端验证服务器身份。例如docker服务器或kube-apiserver。 peer certificate 由 etcd 集群成员使用，供它们彼此之间通信使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ETCD使用自签证书随记">
+<meta property="og:url" content="https://www.jiebaiyou.com/2021/07/29/ETCD%E4%BD%BF%E7%94%A8%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6%E9%9A%8F%E8%AE%B0/index.html">
+<meta property="og:site_name" content="解百忧 · 随记">
+<meta property="og:description" content="ETCD使用自签证书汇总证书类型介绍 client certificate 用于通过服务器验证客户端。例如etcdctl，etcd proxy，fleetctl或docker客户端。 server certificate 由服务器使用，并由客户端验证服务器身份。例如docker服务器或kube-apiserver。 peer certificate 由 etcd 集群成员使用，供它们彼此之间通信使">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-29T07:18:21.000Z">
+<meta property="article:modified_time" content="2021-07-29T07:19:27.210Z">
+<meta property="article:author" content="解百忧">
+<meta property="article:tag" content="etcd">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.jiebaiyou.com/2021/07/29/ETCD%E4%BD%BF%E7%94%A8%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6%E9%9A%8F%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>ETCD使用自签证书随记 | 解百忧 · 随记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解百忧 · 随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">那些比你走得远的人，并不比你聪慧，只是每天多走了一点。坚持，是最强大的力量。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/jiebaiyou" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.jiebaiyou.com/2021/07/29/ETCD%E4%BD%BF%E7%94%A8%E8%87%AA%E7%AD%BE%E8%AF%81%E4%B9%A6%E9%9A%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="解百忧">
+      <meta itemprop="description" content="分享学习记录">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解百忧 · 随记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ETCD使用自签证书随记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-29 15:18:21 / 修改时间：15:19:27" itemprop="dateCreated datePublished" datetime="2021-07-29T15:18:21+08:00">2021-07-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index">
+                    <span itemprop="name">技术分享</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ETCD使用自签证书汇总"><a href="#ETCD使用自签证书汇总" class="headerlink" title="ETCD使用自签证书汇总"></a>ETCD使用自签证书汇总</h1><h3 id="证书类型介绍"><a href="#证书类型介绍" class="headerlink" title="证书类型介绍"></a>证书类型介绍</h3><ul>
+<li>client certificate 用于通过服务器验证客户端。例如etcdctl，etcd proxy，fleetctl或docker客户端。</li>
+<li>server certificate 由服务器使用，并由客户端验证服务器身份。例如docker服务器或kube-apiserver。</li>
+<li>peer certificate 由 etcd 集群成员使用，供它们彼此之间通信使用。</li>
+</ul>
+<h3 id="下载工具"><a href="#下载工具" class="headerlink" title="下载工具"></a>下载工具</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -s -L -o /usr/bin/cfssl https://github.com/cloudflare/cfssl/releases/download/v1.6.0/cfssl_1.6.0_linux_amd64</span><br><span class="line">curl -s -L -o /usr/bin/cfssljson https://github.com/cloudflare/cfssl/releases/download/v1.6.0/cfssljson_1.6.0_linux_amd64</span><br><span class="line">chmod +x /usr/bin/&#123;cfssl,cfssljson&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h3><p>配置CA选项：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/ds/data/etcd-data/cfssl</span><br><span class="line">etcd-data/cfssl</span><br><span class="line"></span><br><span class="line">cat &gt; ca-config.json &lt;&lt; EOF</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"signing"</span>: &#123;</span><br><span class="line">    <span class="attr">"default"</span>: &#123;</span><br><span class="line">      <span class="attr">"expiry"</span>: <span class="string">"43800h"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"profiles"</span>: &#123;</span><br><span class="line">      <span class="attr">"server"</span>: &#123;</span><br><span class="line">        <span class="attr">"expiry"</span>: <span class="string">"43800h"</span>,</span><br><span class="line">        <span class="attr">"usages"</span>: [</span><br><span class="line">          <span class="string">"signing"</span>,</span><br><span class="line">          <span class="string">"key encipherment"</span>,</span><br><span class="line">          <span class="string">"server auth"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"client"</span>: &#123;</span><br><span class="line">        <span class="attr">"expiry"</span>: <span class="string">"43800h"</span>,</span><br><span class="line">        <span class="attr">"usages"</span>: [</span><br><span class="line">          <span class="string">"signing"</span>,</span><br><span class="line">          <span class="string">"key encipherment"</span>,</span><br><span class="line">          <span class="string">"client auth"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"peer"</span>: &#123;</span><br><span class="line">        <span class="attr">"expiry"</span>: <span class="string">"43800h"</span>,</span><br><span class="line">        <span class="attr">"usages"</span>: [</span><br><span class="line">          <span class="string">"signing"</span>,</span><br><span class="line">          <span class="string">"key encipherment"</span>,</span><br><span class="line">          <span class="string">"server auth"</span>,</span><br><span class="line">          <span class="string">"client auth"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">cat &gt; ca-csr.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"CN"</span>: <span class="string">"Etcd CA"</span>,</span><br><span class="line">  <span class="attr">"key"</span>: &#123;</span><br><span class="line">    <span class="attr">"algo"</span>: <span class="string">"rsa"</span>,</span><br><span class="line">    <span class="attr">"size"</span>: <span class="number">2048</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"names"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"C"</span>: <span class="string">"CN"</span>,</span><br><span class="line">      <span class="attr">"L"</span>: <span class="string">"LN"</span>,</span><br><span class="line">      <span class="attr">"ST"</span>: <span class="string">"DA LIAN"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">cfssl gencert -initca ca-csr.json | cfssljson -bare ca -</span><br></pre></td></tr></table></figure>
+
+<p>生成server证书：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; server.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  "CN": "Etcd Server",</span><br><span class="line">  "hosts": [</span><br><span class="line">    "127.0.0.1",</span><br><span class="line">    "etcd1.codeflag.cn",</span><br><span class="line">    "etcd2.codeflag.cn",</span><br><span class="line">    "etcd3.codeflag.cn"</span><br><span class="line">  ],</span><br><span class="line">  "key": &#123;</span><br><span class="line">    "algo": "rsa",</span><br><span class="line">    "size": 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  "names": [</span><br><span class="line">    &#123;</span><br><span class="line">      "C": "CN",</span><br><span class="line">      "L": "LN",</span><br><span class="line">      "ST": "DA LIAN"</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server server.json | cfssljson -bare server</span><br></pre></td></tr></table></figure>
+
+<p>生成peer证书：需要修改hosts为主机的IP或域名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; member.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  "CN": "Etcd Server",</span><br><span class="line">  "hosts": [</span><br><span class="line">	"192.168.1.111",</span><br><span class="line">    "etcd1.codeflag.cn"</span><br><span class="line">  ],</span><br><span class="line">  "key": &#123;</span><br><span class="line">    "algo": "rsa",</span><br><span class="line">    "size": 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  "names": [</span><br><span class="line">    &#123;</span><br><span class="line">      "C": "CN",</span><br><span class="line">      "L": "LN",</span><br><span class="line">      "ST": "DA LIAN"</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=peer member.json | cfssljson -bare member</span><br></pre></td></tr></table></figure>
+
+<p>生成client证书：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; client.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  "CN": "Etcd Client",</span><br><span class="line">  "hosts": [</span><br><span class="line">    ""</span><br><span class="line">  ],</span><br><span class="line">  "key": &#123;</span><br><span class="line">    "algo": "rsa",</span><br><span class="line">    "size": 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  "names": [</span><br><span class="line">    &#123;</span><br><span class="line">      "C": "CN",</span><br><span class="line">      "L": "LN",</span><br><span class="line">      "ST": "DA LIAN"</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client client.json | cfssljson -bare client</span><br></pre></td></tr></table></figure>
+
+<p>将所有pem文件复制到/etc/etcd/etcd-ca/目录下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /etc/etcd/etcd-ca/</span><br><span class="line">cp *.pem /etc/etcd/etcd-ca/</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置Etcd变量"><a href="#配置Etcd变量" class="headerlink" title="配置Etcd变量"></a>配置Etcd变量</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/etcd/etcd.conf </span><br><span class="line"><span class="meta">#</span><span class="bash"> [member]</span></span><br><span class="line">ETCD_NAME=etcd1</span><br><span class="line">ETCD_DATA_DIR="/var/lib/etcd/data"</span><br><span class="line">ETCD_LISTEN_PEER_URLS="https://0.0.0.0:2380"</span><br><span class="line">ETCD_LISTEN_CLIENT_URLS="https://0.0.0.0:2379"</span><br><span class="line"><span class="meta">#</span><span class="bash">[cluster]</span></span><br><span class="line">ETCD_INITIAL_ADVERTISE_PEER_URLS="https://etcd1-codeflag.cn:2380"</span><br><span class="line">ETCD_INITIAL_CLUSTER="etcd1=https://etcd1-codeflag.cn:2380,etcd2=https://etcd2-codeflag.cn:2380,etcd3=https://etcd3-codeflag.cn:2380,etcd4=https://etcd4-codeflag.cn:2380,etcd5=https://etcd5-codeflag.cn:2380"</span><br><span class="line">ETCD_INITIAL_CLUSTER_STATE="new"</span><br><span class="line">ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"</span><br><span class="line">ETCD_ADVERTISE_CLIENT_URLS="https://etcd1-codeflag.cn:2379"</span><br><span class="line"><span class="meta">#</span><span class="bash">[security]</span></span><br><span class="line">ETCD_CERT_FILE="/etc/etcd/etcd-ca/server.pem"</span><br><span class="line">ETCD_KEY_FILE="/etc/etcd/etcd-ca/server-key.pem"</span><br><span class="line">ETCD_CLIENT_CERT_AUTH="true"</span><br><span class="line">ETCD_TRUSTED_CA_FILE="/etc/etcd/etcd-ca/ca.pem"</span><br><span class="line">ETCD_AUTO_TLS="true"</span><br><span class="line">ETCD_PEER_CERT_FILE="/etc/etcd/etcd-ca/member.pem"</span><br><span class="line">ETCD_PEER_KEY_FILE="/etc/etcd/etcd-ca/member-key.pem"</span><br><span class="line">ETCD_PEER_CLIENT_CERT_AUTH="true"</span><br><span class="line">ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/etcd-ca/ca.pem"</span><br><span class="line">ETCD_PEER_AUTO_TLS="true"</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置Etcd启动脚本"><a href="#配置Etcd启动脚本" class="headerlink" title="配置Etcd启动脚本"></a>配置Etcd启动脚本</h3><p>安装好后，系统会自动生成etcd.service文件（路径为/usr/lib/systemd/system/），修改对应的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Etcd Server</span><br><span class="line">After&#x3D;network.target</span><br><span class="line">After&#x3D;network-online.target</span><br><span class="line">Wants&#x3D;network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;notify</span><br><span class="line">WorkingDirectory&#x3D;&#x2F;var&#x2F;lib&#x2F;etcd&#x2F;</span><br><span class="line">EnvironmentFile&#x3D;-&#x2F;etc&#x2F;etcd&#x2F;etcd.conf</span><br><span class="line">User&#x3D;etcd</span><br><span class="line"># set GOMAXPROCS to number of processors</span><br><span class="line">ExecStart&#x3D;&#x2F;bin&#x2F;bash -c &quot;GOMAXPROCS&#x3D;$(nproc) &#x2F;usr&#x2F;bin&#x2F;etcd \</span><br><span class="line">--name&#x3D;\&quot;$&#123;ETCD_NAME&#125;\&quot; \</span><br><span class="line">--data-dir&#x3D;\&quot;$&#123;ETCD_DATA_DIR&#125;\&quot; \</span><br><span class="line">--listen-peer-urls&#x3D;\&quot;$&#123;ETCD_LISTEN_PEER_URLS&#125;\&quot; \</span><br><span class="line">--advertise-client-urls&#x3D;\&quot;$&#123;ETCD_ADVERTISE_CLIENT_URLS&#125;\&quot; \</span><br><span class="line">--initial-cluster-token&#x3D;\&quot;$&#123;ETCD_INITIAL_CLUSTER_TOKEN&#125;\&quot; \</span><br><span class="line">--initial-cluster&#x3D;\&quot;$&#123;ETCD_INITIAL_CLUSTER&#125;\&quot;  \</span><br><span class="line">--initial-cluster-state&#x3D;\&quot;$&#123;ETCD_INITIAL_CLUSTER_STATE&#125;\&quot; \</span><br><span class="line">--listen-client-urls&#x3D;\&quot;$&#123;ETCD_LISTEN_CLIENT_URLS&#125;\&quot;&quot;</span><br><span class="line"></span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">LimitNOFILE&#x3D;65536</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="增加etcdctl环境变量"><a href="#增加etcdctl环境变量" class="headerlink" title="增加etcdctl环境变量"></a>增加etcdctl环境变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; &#x2F;etc&#x2F;profile.d&#x2F;etcd.sh &lt;&lt;EOF</span><br><span class="line">export ETCDCTL_CA_FILE&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;ca.pem</span><br><span class="line">export ETCDCTL_KEY_FILE&#x3D;&#96;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;client-key.pem</span><br><span class="line">export ETCDCTL_CERT_FILE&#x3D;&#96;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;client.pem&#x2F;EOF</span><br><span class="line">EOF</span><br><span class="line">. &#x2F;etc&#x2F;profile.d&#x2F;etcd.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果使用域名访问, 添加hosts, 集群中每台主机均要添加:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.111 etcd1.codeflag.cn</span><br><span class="line">192.168.1.112 etcd2.codeflag.cn</span><br><span class="line">192.168.1.113 etcd3.codeflag.cn</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="命令行启动etcd"><a href="#命令行启动etcd" class="headerlink" title="命令行启动etcd"></a>命令行启动etcd</h3><figure class="highlight plain"><figcaption><span>--name etcd-server-01 \</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;单机</span><br><span class="line">etcd --name etcd-server-01 \</span><br><span class="line">  --data-dir &#x2F;var&#x2F;lib&#x2F;etcd \</span><br><span class="line">  --listen-client-urls http:&#x2F;&#x2F;0.0.0.0:2379 \</span><br><span class="line">  --advertise-client-urls http:&#x2F;&#x2F;0.0.0.0:2379 \</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;集群1</span><br><span class="line">etcd --name etcd1 \</span><br><span class="line">  --data-dir &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F; \</span><br><span class="line">  --listen-client-urls https:&#x2F;&#x2F;192.168.1.111:2379,https:&#x2F;&#x2F;127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls https:&#x2F;&#x2F;192.168.1.111:2379 \</span><br><span class="line">  --listen-peer-urls https:&#x2F;&#x2F;192.168.1.111:2380 \</span><br><span class="line">  --initial-advertise-peer-urls https:&#x2F;&#x2F;192.168.1.111:2380 \</span><br><span class="line">  --initial-cluster-state new \</span><br><span class="line">  --initial-cluster etcd1&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380,etcd2&#x3D;https:&#x2F;&#x2F;192.168.1.112:2380,etcd3&#x3D;https:&#x2F;&#x2F;192.168.1.113:2380 \</span><br><span class="line">  --initial-cluster-token etcd-cluster \</span><br><span class="line">  --cert-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;server.pem \</span><br><span class="line">  --key-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;server-key.pem \</span><br><span class="line">  --client-cert-auth \</span><br><span class="line">  --trusted-ca-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">  --auto-tls \</span><br><span class="line">  --peer-cert-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;member.pem \</span><br><span class="line">  --peer-key-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;member-key.pem \</span><br><span class="line">  --peer-client-cert-auth \</span><br><span class="line">  --peer-trusted-ca-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">  --peer-auto-tls \</span><br><span class="line">  --auto-compaction-mode periodic \</span><br><span class="line">  --auto-compaction-retention 24 \</span><br><span class="line">  --max-request-bytes 33554432 \</span><br><span class="line">  --quota-backend-bytes 6442450944 \</span><br><span class="line">  --heartbeat-interval 250 \</span><br><span class="line">  --election-timeout 2000 \</span><br><span class="line">  --log-level info \</span><br><span class="line">  --logger zap \</span><br><span class="line">  --log-outputs stderr </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;集群2</span><br><span class="line">etcd --name etcd2 \</span><br><span class="line">  --data-dir &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F; \</span><br><span class="line">  --listen-client-urls https:&#x2F;&#x2F;192.168.1.112:2379,https:&#x2F;&#x2F;127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls https:&#x2F;&#x2F;192.168.1.112:2379 \</span><br><span class="line">  --listen-peer-urls https:&#x2F;&#x2F;192.168.1.112:2380 \</span><br><span class="line">  --initial-advertise-peer-urls https:&#x2F;&#x2F;192.168.1.112:2380 \</span><br><span class="line">  --initial-cluster-state new \</span><br><span class="line">  --initial-cluster etcd1&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380,etcd2&#x3D;https:&#x2F;&#x2F;192.168.1.112:2380,etcd3&#x3D;https:&#x2F;&#x2F;192.168.1.113:2380 \</span><br><span class="line">  --initial-cluster-token etcd-cluster \</span><br><span class="line">  --cert-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;server.pem \</span><br><span class="line">  --key-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;server-key.pem \</span><br><span class="line">  --client-cert-auth \</span><br><span class="line">  --trusted-ca-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">  --auto-tls \</span><br><span class="line">  --peer-cert-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;member.pem \</span><br><span class="line">  --peer-key-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;member-key.pem \</span><br><span class="line">  --peer-client-cert-auth \</span><br><span class="line">  --peer-trusted-ca-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">  --peer-auto-tls \</span><br><span class="line">  --auto-compaction-mode periodic \</span><br><span class="line">  --auto-compaction-retention 24 \</span><br><span class="line">  --max-request-bytes 33554432 \</span><br><span class="line">  --quota-backend-bytes 6442450944 \</span><br><span class="line">  --heartbeat-interval 250 \</span><br><span class="line">  --election-timeout 2000 \</span><br><span class="line">  --log-level info \</span><br><span class="line">  --logger zap \</span><br><span class="line">  --log-outputs stderr </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;集群3</span><br><span class="line">etcd --name etcd3 \</span><br><span class="line">  --data-dir &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F; \</span><br><span class="line">  --listen-client-urls https:&#x2F;&#x2F;192.168.1.113:2379,https:&#x2F;&#x2F;127.0.0.1:2379 \</span><br><span class="line">  --advertise-client-urls https:&#x2F;&#x2F;192.168.1.113:2379 \</span><br><span class="line">  --listen-peer-urls https:&#x2F;&#x2F;192.168.1.113:2380 \</span><br><span class="line">  --initial-advertise-peer-urls https:&#x2F;&#x2F;192.168.1.113:2380 \</span><br><span class="line">  --initial-cluster-state new \</span><br><span class="line">  --initial-cluster etcd1&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380,etcd2&#x3D;https:&#x2F;&#x2F;192.168.1.112:2380,etcd3&#x3D;https:&#x2F;&#x2F;192.168.1.113:2380 \</span><br><span class="line">  --initial-cluster-token etcd-cluster \</span><br><span class="line">  --cert-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;server.pem \</span><br><span class="line">  --key-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;server-key.pem \</span><br><span class="line">  --client-cert-auth \</span><br><span class="line">  --trusted-ca-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">  --auto-tls \</span><br><span class="line">  --peer-cert-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;member.pem \</span><br><span class="line">  --peer-key-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;member-key.pem \</span><br><span class="line">  --peer-client-cert-auth \</span><br><span class="line">  --peer-trusted-ca-file &#x2F;data&#x2F;ds&#x2F;data&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">  --peer-auto-tls \</span><br><span class="line">  --auto-compaction-mode periodic \</span><br><span class="line">  --auto-compaction-retention 24 \</span><br><span class="line">  --max-request-bytes 33554432 \</span><br><span class="line">  --quota-backend-bytes 6442450944 \</span><br><span class="line">  --heartbeat-interval 250 \</span><br><span class="line">  --election-timeout 2000 \</span><br><span class="line">  --log-level info \</span><br><span class="line">  --logger zap \</span><br><span class="line">  --log-outputs stderr</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="一些参数的说明"><a href="#一些参数的说明" class="headerlink" title="一些参数的说明"></a>一些参数的说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--listen-client-urls</span><br><span class="line">用于监听客户端消息,必须设置为真实ip地址，如果机器为云主机，可以设置为云主机的私有ip地址或0.0.0.0(代表监听所有地址),不能设	置为公网ip地址，因为云主机的公网ip是虚拟的，如果设置为公网ip会报“bind: cannot assign requested address”的错</span><br><span class="line">--listen-peer-urls</span><br><span class="line">用于监听其他member发送过来的消息，跟listen-client-urls一样，必须设置为真实ip地址,如果机器为云主机,不能设置为公网ip</span><br><span class="line">--initial-advertise-peer-urls</span><br><span class="line">用于监听其他member同步信号，该地址其他member必须能直接访问，所以如果是云主机该地址必须设置为云主机的公网ip地址</span><br><span class="line">--initial-cluster</span><br><span class="line">群集列表，该列表中的值必须跟各个member的initial-advertise-peer-urls值一样</span><br><span class="line">--advertise-client-urls</span><br><span class="line">建议使用的客户端通信url,该值用于etcd代理或etcd成员与etcd节点通信。</span><br><span class="line">--initial-cluster-token</span><br><span class="line">节点的token值，设置该值后集群将生成唯一id,并为每个节点也生成唯一id,当使用相同配置文件再启动一个集群时，只要该token值不一样，etcd集群就不会相互影响。</span><br><span class="line">--initial-cluster</span><br><span class="line">也就是集群中所有的initial-advertise-peer-urls 的合集</span><br><span class="line">--initial-cluster-state new</span><br><span class="line">新建集群的标志，初始化状态使用 new，建立之后改此值为 existing</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">etcdctl \</span><br><span class="line">  --write-out&#x3D;table \</span><br><span class="line">  --cacert&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;ca.pem \</span><br><span class="line">  --endpoints&#x3D;https:&#x2F;&#x2F;192.168.1.111:2379,https:&#x2F;&#x2F;192.168.1.112:2379,https:&#x2F;&#x2F;192.168.1.113:2379 \</span><br><span class="line">  --cert&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;server.pem \</span><br><span class="line">  --key&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;server-key.pem \</span><br><span class="line">  endpoint status     </span><br><span class="line"># endpoint health status</span><br><span class="line"></span><br><span class="line">etcdctl \</span><br><span class="line">  --write-out&#x3D;table \</span><br><span class="line">  --cacert&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;ca.pem \</span><br><span class="line">  --cert&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;server.pem \</span><br><span class="line">  --key&#x3D;&#x2F;etc&#x2F;etcd&#x2F;etcd-ca&#x2F;server-key.pem \</span><br><span class="line">  member list</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="docker-命令部署"><a href="#docker-命令部署" class="headerlink" title="docker 命令部署"></a>docker 命令部署</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">docker rm -f etcd &amp;&amp; docker run \</span><br><span class="line">    -p 2379:2379 \</span><br><span class="line">    -p 2380:2380 \</span><br><span class="line">    --mount type&#x3D;bind,source&#x3D;&#x2F;tmp&#x2F;etcd-data,destination&#x3D;&#x2F;etcd-data \</span><br><span class="line">    --name etcd \</span><br><span class="line">    gcr.io&#x2F;etcd-development&#x2F;etcd:v3.5.0 \</span><br><span class="line">    &#x2F;usr&#x2F;local&#x2F;bin&#x2F;etcd \</span><br><span class="line">        --name etcd1 \</span><br><span class="line">        --data-dir &#x2F;etcd-data \</span><br><span class="line">      	--listen-client-urls https:&#x2F;&#x2F;192.168.1.111:2379</span><br><span class="line">      	--advertise-client-urls https:&#x2F;&#x2F;192.168.1.111:2379</span><br><span class="line">      	--listen-peer-urls https:&#x2F;&#x2F;192.168.1.111:2380&quot;</span><br><span class="line">      	--initial-advertise-peer-urls https:&#x2F;&#x2F;192.168.1.111:2380&quot;</span><br><span class="line">      	--initial-cluster etcd1&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380,etcd2&#x3D;https:&#x2F;&#x2F;192.168.1.112:2380,etcd3&#x3D;https:&#x2F;&#x2F;192.168.1.113:2380</span><br><span class="line">        --initial-cluster-token token \</span><br><span class="line">        --initial-cluster-state new \</span><br><span class="line">        --cert-file &#x2F;etcd-data&#x2F;cfssl&#x2F;server.pem \</span><br><span class="line">        --key-file &#x2F;etcd-data&#x2F;cfssl&#x2F;server-key.pem \</span><br><span class="line">        --peer-cert-file &#x2F;etcd-data&#x2F;cfssl&#x2F;member.pem \</span><br><span class="line">        --peer-key-file &#x2F;etcd-data&#x2F;cfssl&#x2F;member-key.pem \</span><br><span class="line">        --peer-client-cert-auth \</span><br><span class="line">        --client-cert-auth \</span><br><span class="line">        --trusted-ca-file &#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem \</span><br><span class="line">        --auto-tls \</span><br><span class="line">        --auto-compaction-mode periodic \</span><br><span class="line">        --auto-compaction-retention 24 \</span><br><span class="line">        --max-request-bytes 33554432 \</span><br><span class="line">        --quota-backend-bytes 6442450944 \</span><br><span class="line">        --heartbeat-interval 250 \</span><br><span class="line">        --election-timeout 2000 \</span><br><span class="line">        --log-level info \</span><br><span class="line">        --logger zap \</span><br><span class="line">        --log-outputs stderr</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="docker-compose-部署"><a href="#docker-compose-部署" class="headerlink" title="docker-compose 部署"></a>docker-compose 部署</h3><p>集群内每台主机要修改 –name –urls</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">etcd:</span><br><span class="line">  container_name: etcd</span><br><span class="line">  image: ccr.ccs.tencentyun.com&#x2F;kuaixue&#x2F;etcd:3.5.0</span><br><span class="line">  network_mode: host</span><br><span class="line">  volumes:</span><br><span class="line">    - .&#x2F;data&#x2F;etcd-data:&#x2F;etcd-data:rw</span><br><span class="line">  restart: always</span><br><span class="line">  environment:</span><br><span class="line">    ETCDCTL_API: 3</span><br><span class="line">    TZ: Asia&#x2F;Shanghai</span><br><span class="line">  entrypoint: &#x2F;usr&#x2F;local&#x2F;bin&#x2F;etcd</span><br><span class="line">  command:</span><br><span class="line">    - &quot;--name&#x3D;etcd1&quot;</span><br><span class="line">    - &quot;--data-dir&#x3D;&#x2F;etcd-data&quot;</span><br><span class="line">    - &quot;--listen-client-urls&#x3D;https:&#x2F;&#x2F;192.168.1.111:2379&quot;</span><br><span class="line">    - &quot;--advertise-client-urls&#x3D;https:&#x2F;&#x2F;192.168.1.111:2379&quot;</span><br><span class="line">    - &quot;--listen-peer-urls&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380&quot;</span><br><span class="line">    - &quot;--initial-advertise-peer-urls&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380&quot;</span><br><span class="line">    - &quot;--initial-cluster&#x3D;etcd1&#x3D;https:&#x2F;&#x2F;192.168.1.111:2380,etcd2&#x3D;https:&#x2F;&#x2F;192.168.1.112:2380,etcd3&#x3D;https:&#x2F;&#x2F;192.168.1.113:2380&quot;</span><br><span class="line">    - &quot;--initial-cluster-token&#x3D;token&quot;</span><br><span class="line">    - &quot;--initial-cluster-state&#x3D;new&quot;</span><br><span class="line">    - &quot;--cert-file&#x3D;&#x2F;etcd-data&#x2F;cfssl&#x2F;server.pem&quot;</span><br><span class="line">    - &quot;--key-file&#x3D;&#x2F;etcd-data&#x2F;cfssl&#x2F;server-key.pem&quot;</span><br><span class="line">    - &quot;--peer-trusted-ca-file&#x3D;&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem&quot;</span><br><span class="line">    - &quot;--peer-client-cert-auth&quot;</span><br><span class="line">    - &quot;--peer-cert-file&#x3D;&#x2F;etcd-data&#x2F;cfssl&#x2F;member.pem&quot;</span><br><span class="line">    - &quot;--peer-key-file&#x3D;&#x2F;etcd-data&#x2F;cfssl&#x2F;member-key.pem&quot;</span><br><span class="line">    - &quot;--client-cert-auth&quot;</span><br><span class="line">    - &quot;--trusted-ca-file&#x3D;&#x2F;etcd-data&#x2F;cfssl&#x2F;ca.pem&quot;</span><br><span class="line">    - &quot;--auto-tls&quot;</span><br><span class="line">    - &quot;--auto-compaction-mode&#x3D;periodic&quot;</span><br><span class="line">    - &quot;--auto-compaction-retention&#x3D;24&quot;</span><br><span class="line">    - &quot;--max-request-bytes&#x3D;33554432&quot;</span><br><span class="line">    - &quot;--quota-backend-bytes&#x3D;6442450944&quot;</span><br><span class="line">    - &quot;--heartbeat-interval&#x3D;250&quot;</span><br><span class="line">    - &quot;--election-timeout&#x3D;2000&quot;</span><br><span class="line">    - &quot;--log-level&#x3D;info&quot;</span><br><span class="line">    - &quot;--logger&#x3D;zap&quot;</span><br><span class="line">    - &quot;--log-outputs&#x3D;stderr&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="从网络加载配置"><a href="#从网络加载配置" class="headerlink" title="从网络加载配置"></a>从网络加载配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--discovery&#x3D;https:&#x2F;&#x2F;discovery.etcd.io&#x2F;2b3b04efc64b19323ba8f60dd62680a0</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RESTFUL-API-V3"><a href="#RESTFUL-API-V3" class="headerlink" title="RESTFUL API V3"></a>RESTFUL API V3</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.113:2379&#x2F;v3&#x2F;kv&#x2F;txn \</span><br><span class="line">  -X POST \</span><br><span class="line">  -d &#39;&#123;&quot;compare&quot;:[&#123;&quot;target&quot;:&quot;CREATE&quot;,&quot;key&quot;:&quot;Zm9v&quot;,&quot;createRevision&quot;:&quot;2&quot;&#125;],&quot;success&quot;:[&#123;&quot;requestPut&quot;:&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;value&quot;:&quot;YmFy&quot;&#125;&#125;]&#125;&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.113:2379&#x2F;v3&#x2F;kv&#x2F;watch \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;create_request&quot;: &#123;&quot;key&quot;:&quot;Zm9v&quot;&#125; &#125;&#39; &amp;</span><br><span class="line"></span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.113:2379&#x2F;v3&#x2F;kv&#x2F;put \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;value&quot;: &quot;YmFy&quot;&#125;&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">curl --cacert .&#x2F;ca.pem --cert .&#x2F;client.pem --key .&#x2F;client-key.pem https:&#x2F;&#x2F;172.12.0.16:2379&#x2F;version</span><br><span class="line">curl --cacert .&#x2F;ca.pem --cert .&#x2F;client.pem --key .&#x2F;client-key.pem https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;version</span><br><span class="line"></span><br><span class="line"># Put and get keys</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.111:2379&#x2F;v3&#x2F;kv&#x2F;range \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;value&quot;: &quot;YmFy&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;11748455551159483977&quot;,&quot;member_id&quot;:&quot;397314234392206164&quot;,&quot;revision&quot;:&quot;51&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;,&quot;kvs&quot;:[&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;create_revision&quot;:&quot;48&quot;,&quot;mod_revision&quot;:&quot;51&quot;,&quot;version&quot;:&quot;4&quot;,&quot;value&quot;:&quot;YmFy&quot;&#125;],&quot;count&quot;:&quot;1&quot;&#125;#                             </span><br><span class="line"></span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;put \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;value&quot;: &quot;YmFy&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;12585971608760269493&quot;,&quot;member_id&quot;:&quot;13847567121247652255&quot;,&quot;revision&quot;:&quot;2&quot;,&quot;raft_term&quot;:&quot;3&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;range \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;12585971608760269493&quot;,&quot;member_id&quot;:&quot;13847567121247652255&quot;,&quot;revision&quot;:&quot;2&quot;,&quot;raft_term&quot;:&quot;3&quot;&#125;,&quot;kvs&quot;:[&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;create_revision&quot;:&quot;2&quot;,&quot;mod_revision&quot;:&quot;2&quot;,&quot;version&quot;:&quot;1&quot;,&quot;value&quot;:&quot;YmFy&quot;&#125;],&quot;count&quot;:&quot;1&quot;&#125;</span><br><span class="line"></span><br><span class="line"># get all keys prefixed with &quot;foo&quot;</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;range \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;range_end&quot;: &quot;Zm9w&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;12585971608760269493&quot;,&quot;member_id&quot;:&quot;13847567121247652255&quot;,&quot;revision&quot;:&quot;2&quot;,&quot;raft_term&quot;:&quot;3&quot;&#125;,&quot;kvs&quot;:[&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;create_revision&quot;:&quot;2&quot;,&quot;mod_revision&quot;:&quot;2&quot;,&quot;version&quot;:&quot;1&quot;,&quot;value&quot;:&quot;YmFy&quot;&#125;],&quot;count&quot;:&quot;1&quot;&#125;</span><br><span class="line"></span><br><span class="line"># get the auth token for the root user</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;auth&#x2F;authenticate \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;name&quot;: &quot;root&quot;, &quot;password&quot;: &quot;pass&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;,&quot;token&quot;:&quot;sssvIpwfnLAcWAQH.9&quot;&#125;</span><br><span class="line"></span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;put \</span><br><span class="line">  -H &#39;Authorization : sssvIpwfnLAcWAQH.9&#39; \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;value&quot;: &quot;YmFy&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;2&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line"># Watch keys</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -N https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;watch \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;create_request&quot;: &#123;&quot;key&quot;:&quot;Zm9v&quot;&#125; &#125;&#39; &amp;</span><br><span class="line"># &#123;&quot;result&quot;:&#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;12585971608760269493&quot;,&quot;member_id&quot;:&quot;13847567121247652255&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;,&quot;created&quot;:true&#125;&#125;</span><br><span class="line"></span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;put \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;value&quot;: &quot;YmFy&quot;&#125;&#39; </span><br><span class="line"># &#123;&quot;result&quot;:&#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;12585971608760269493&quot;,&quot;member_id&quot;:&quot;13847567121247652255&quot;,&quot;revision&quot;:&quot;2&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;,&quot;events&quot;:[&#123;&quot;kv&quot;:&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;create_revision&quot;:&quot;2&quot;,&quot;mod_revision&quot;:&quot;2&quot;,&quot;version&quot;:&quot;1&quot;,&quot;value&quot;:&quot;YmFy&quot;&#125;&#125;]&#125;&#125;</span><br><span class="line"></span><br><span class="line"># Transactions</span><br><span class="line"># target CREATE</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;txn \</span><br><span class="line">  -X POST \</span><br><span class="line">  -d &#39;&#123;&quot;compare&quot;:[&#123;&quot;target&quot;:&quot;CREATE&quot;,&quot;key&quot;:&quot;Zm9v&quot;,&quot;createRevision&quot;:&quot;2&quot;&#125;],&quot;success&quot;:[&#123;&quot;requestPut&quot;:&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;value&quot;:&quot;YmFy&quot;&#125;&#125;]&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;12585971608760269493&quot;,&quot;member_id&quot;:&quot;13847567121247652255&quot;,&quot;revision&quot;:&quot;3&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;,&quot;succeeded&quot;:true,&quot;responses&quot;:[&#123;&quot;response_put&quot;:&#123;&quot;header&quot;:&#123;&quot;revision&quot;:&quot;3&quot;&#125;&#125;&#125;]&#125;</span><br><span class="line"></span><br><span class="line"># target VERSION</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;txn \</span><br><span class="line">  -X POST \</span><br><span class="line">  -d &#39;&#123;&quot;compare&quot;:[&#123;&quot;version&quot;:&quot;4&quot;,&quot;result&quot;:&quot;EQUAL&quot;,&quot;target&quot;:&quot;VERSION&quot;,&quot;key&quot;:&quot;Zm9v&quot;&#125;],&quot;success&quot;:[&#123;&quot;requestRange&quot;:&#123;&quot;key&quot;:&quot;Zm9v&quot;&#125;&#125;]&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;6&quot;,&quot;raft_term&quot;:&quot;3&quot;&#125;,&quot;succeeded&quot;:true,&quot;responses&quot;:[&#123;&quot;response_range&quot;:&#123;&quot;header&quot;:&#123;&quot;revision&quot;:&quot;6&quot;&#125;,&quot;kvs&quot;:[&#123;&quot;key&quot;:&quot;Zm9v&quot;,&quot;create_revision&quot;:&quot;2&quot;,&quot;mod_revision&quot;:&quot;6&quot;,&quot;version&quot;:&quot;4&quot;,&quot;value&quot;:&quot;YmF6&quot;&#125;],&quot;count&quot;:&quot;1&quot;&#125;&#125;]&#125;</span><br><span class="line"></span><br><span class="line"># Authentication</span><br><span class="line"># create root user</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;auth&#x2F;user&#x2F;add \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;name&quot;: &quot;root&quot;, &quot;password&quot;: &quot;pass&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line"># create root role</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;auth&#x2F;role&#x2F;add \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;name&quot;: &quot;root&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line"># grant root role</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;auth&#x2F;user&#x2F;grant \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;user&quot;: &quot;root&quot;, &quot;role&quot;: &quot;root&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line"># enable auth</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;auth&#x2F;enable -X POST -d &#39;&#123;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;&#125;</span><br><span class="line"></span><br><span class="line"># Authenticate with etcd for an authentication token using &#x2F;v3&#x2F;auth&#x2F;authenticate:</span><br><span class="line"># get the auth token for the root user</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;auth&#x2F;authenticate \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;name&quot;: &quot;root&quot;, &quot;password&quot;: &quot;pass&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;1&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;,&quot;token&quot;:&quot;sssvIpwfnLAcWAQH.9&quot;&#125;</span><br><span class="line">curl --cacert ca.pem --cert client.pem --key client-key.pem -L https:&#x2F;&#x2F;192.168.1.112:2379&#x2F;v3&#x2F;kv&#x2F;put \</span><br><span class="line">  -H &#39;Authorization : sssvIpwfnLAcWAQH.9&#39; \</span><br><span class="line">  -X POST -d &#39;&#123;&quot;key&quot;: &quot;Zm9v&quot;, &quot;value&quot;: &quot;YmFy&quot;&#125;&#39;</span><br><span class="line"># &#123;&quot;header&quot;:&#123;&quot;cluster_id&quot;:&quot;14841639068965178418&quot;,&quot;member_id&quot;:&quot;10276657743932975437&quot;,&quot;revision&quot;:&quot;2&quot;,&quot;raft_term&quot;:&quot;2&quot;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
+<li>服务发现之 Etcd VS Consul 对比<br><a href="https://www.jianshu.com/p/6160d414dd5e" target="_blank" rel="noopener">https://www.jianshu.com/p/6160d414dd5e</a></li>
+<li>ETCD证书<br><a href="https://www.cnblogs.com/cxbhakim/p/8980489.html" target="_blank" rel="noopener">https://www.cnblogs.com/cxbhakim/p/8980489.html</a></li>
+<li>自签证书<br><a href="https://blog.csdn.net/eyeofeagle/article/details/101676526" target="_blank" rel="noopener">https://blog.csdn.net/eyeofeagle/article/details/101676526</a></li>
+<li>etcd 开启auth认证<br><a href="https://www.cnblogs.com/cuishuai/p/12024841.html" target="_blank" rel="noopener">https://www.cnblogs.com/cuishuai/p/12024841.html</a></li>
+<li>etcd入门系列三：身份验证访问控制<br><a href="https://blog.csdn.net/ucmir183/article/details/84454506" target="_blank" rel="noopener">https://blog.csdn.net/ucmir183/article/details/84454506</a></li>
+<li>Go 第三方库之 etcd/clientv3<br><a href="https://blog.csdn.net/wohu1104/article/details/108552649?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&amp;spm=1001.2101.3001.4242" target="_blank" rel="noopener">https://blog.csdn.net/wohu1104/article/details/108552649?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&amp;spm=1001.2101.3001.4242</a></li>
+<li>etcd集群搭建<br><a href="http://www.361way.com/etcd-cluster/5468.html" target="_blank" rel="noopener">http://www.361way.com/etcd-cluster/5468.html</a></li>
+<li>etcd v2 v3 api http协议调用 curl版本问题 postman的使用总结<br><a href="https://blog.csdn.net/wangsenling/article/details/113615204?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.control" target="_blank" rel="noopener">https://blog.csdn.net/wangsenling/article/details/113615204?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.control</a></li>
+<li>图形化的后台管理工具<br>ETCD Keeper v3: <a href="https://github.com/ivanabc/etcdkeeper" target="_blank" rel="noopener">https://github.com/ivanabc/etcdkeeper</a><br>启动命令: etcdkeeper.exe -usetls -cacert ca.pem -cert client.pem -key client-key.pem -h 0.0.0.0 -p 8080</li>
+<li>ETCD api定义<br><a href="https://github.com/etcd-io/etcd/blob/main/Documentation/dev-guide/apispec/swagger/rpc.swagger.json" target="_blank" rel="noopener">https://github.com/etcd-io/etcd/blob/main/Documentation/dev-guide/apispec/swagger/rpc.swagger.json</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/etcd/" rel="tag"># etcd</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/14/git%E5%88%A0%E9%99%A4%E4%B8%AD%E9%97%B4%E6%9F%90%E6%AC%A1%E6%8F%90%E4%BA%A4/" rel="next" title="git删除中间某次提交">
+                  <i class="fa fa-chevron-left"></i> git删除中间某次提交
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ETCD使用自签证书汇总"><span class="nav-number">1.</span> <span class="nav-text">ETCD使用自签证书汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#证书类型介绍"><span class="nav-number">1.0.1.</span> <span class="nav-text">证书类型介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载工具"><span class="nav-number">1.0.2.</span> <span class="nav-text">下载工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成证书"><span class="nav-number">1.0.3.</span> <span class="nav-text">生成证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Etcd变量"><span class="nav-number">1.0.4.</span> <span class="nav-text">配置Etcd变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Etcd启动脚本"><span class="nav-number">1.0.5.</span> <span class="nav-text">配置Etcd启动脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加etcdctl环境变量"><span class="nav-number">1.0.6.</span> <span class="nav-text">增加etcdctl环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行启动etcd"><span class="nav-number">1.0.7.</span> <span class="nav-text">命令行启动etcd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些参数的说明"><span class="nav-number">1.0.8.</span> <span class="nav-text">一些参数的说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看集群状态"><span class="nav-number">1.0.9.</span> <span class="nav-text">查看集群状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-命令部署"><span class="nav-number">1.0.10.</span> <span class="nav-text">docker 命令部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-compose-部署"><span class="nav-number">1.0.11.</span> <span class="nav-text">docker-compose 部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从网络加载配置"><span class="nav-number">1.0.12.</span> <span class="nav-text">从网络加载配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RESTFUL-API-V3"><span class="nav-number">1.0.13.</span> <span class="nav-text">RESTFUL API V3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文档"><span class="nav-number">1.0.14.</span> <span class="nav-text">参考文档</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="解百忧"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">解百忧</p>
+  <div class="site-description" itemprop="description">分享学习记录</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiebaiyou" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;jiebaiyou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jiebaiyou@gmail.com" title="E-Mail &amp;rarr; mailto:jiebaiyou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.ikuaixue.cn/" title="http:&#x2F;&#x2F;www.ikuaixue.cn" rel="noopener" target="_blank">快学</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">解百忧</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
